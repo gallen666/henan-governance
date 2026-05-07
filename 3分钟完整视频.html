@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>河南省高效能治理 · 3 分钟央视级视频</title>
+<style>
+:root {
+  --primary: #B8232F;
+  --primary-dark: #8B0000;
+  --gold: #C9A063;
+  --gold-light: #F4E8D0;
+  --navy: #0F2942;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #fff;
+}
+
+.video-stage { position: fixed; inset: 0; background: #000; overflow: hidden; }
+
+/* 进度条 */
+.top-bar { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: rgba(255,255,255,0.08); z-index: 100; }
+.top-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--gold)); width: 0%; transition: width 0.1s linear; box-shadow: 0 0 20px var(--gold); }
+
+.timecode { position: absolute; top: 18px; left: 24px; font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: rgba(255,255,255,0.5); letter-spacing: 1px; z-index: 100; }
+.scene-label { position: absolute; top: 18px; right: 24px; font-size: 11px; letter-spacing: 3px; color: var(--gold); font-weight: 700; z-index: 100; }
+
+.scene { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; padding: 60px; opacity: 0; transition: opacity 0.6s ease; }
+.scene.active { display: flex; opacity: 1; }
+
+/* 字幕 */
+.subtitle {
+  position: absolute;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 80%;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.95);
+  z-index: 50;
+  display: none;
+  padding: 14px 28px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.75));
+  border-radius: 10px;
+  border-left: 3px solid var(--gold);
+  border-right: 3px solid var(--gold);
+}
+.subtitle.show { display: block; animation: subIn 0.4s ease; }
+@keyframes subIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* 场景样式 */
+.s1 {
+  background:
+    radial-gradient(circle at 30% 40%, rgba(184,35,47,0.4) 0%, transparent 60%),
+    radial-gradient(circle at 70% 60%, rgba(201,160,99,0.3) 0%, transparent 60%),
+    linear-gradient(135deg, #1A0000 0%, #2A0500 50%, #1A0000 100%);
+}
+.s1-inner { text-align: center; position: relative; }
+.s1-emblem { font-size: 90px; font-weight: 900; color: var(--gold); font-family: Georgia, serif; margin-bottom: 20px; text-shadow: 0 4px 30px rgba(201,160,99,0.6); animation: scaleIn 1.5s ease; }
+.s1-tag { display: inline-block; padding: 8px 24px; border: 1px solid rgba(201,160,99,0.5); border-radius: 30px; font-size: 13px; letter-spacing: 5px; color: var(--gold); margin-bottom: 28px; background: rgba(0,0,0,0.3); animation: fadeUp 1.2s 0.5s both; }
+.s1-title { font-size: 72px; font-weight: 900; line-height: 1.1; letter-spacing: -2px; margin-bottom: 24px; color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,0.6); animation: fadeUp 1.4s 1s both; }
+.s1-title .em { background: linear-gradient(135deg, var(--gold), #F8E5C4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.s1-sub { font-size: 22px; color: rgba(255,255,255,0.85); font-weight: 300; letter-spacing: 2px; animation: fadeUp 1.4s 1.6s both; }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.s2 { background: linear-gradient(135deg, #0A0E1A 0%, #1A2030 100%); }
+.s2-inner { width: 100%; max-width: 1200px; text-align: center; }
+.s2-headline { font-size: 44px; font-weight: 900; margin-bottom: 16px; line-height: 1.2; animation: fadeUp 1s ease; }
+.s2-headline .em { color: var(--primary); font-size: 56px; }
+.s2-sub { font-size: 18px; color: rgba(255,255,255,0.65); margin-bottom: 50px; letter-spacing: 1px; }
+.s2-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+.s2-card { padding: 24px 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(184,35,47,0.3); border-radius: 12px; opacity: 0; animation: cardPop 0.6s ease forwards; }
+.s2-card:nth-child(1) { animation-delay: 0.6s; }
+.s2-card:nth-child(2) { animation-delay: 0.8s; }
+.s2-card:nth-child(3) { animation-delay: 1.0s; }
+.s2-card:nth-child(4) { animation-delay: 1.2s; }
+.s2-card:nth-child(5) { animation-delay: 1.4s; }
+.s2-card .ico { font-size: 32px; margin-bottom: 12px; }
+.s2-card .lbl { font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+.s2-card .desc { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.5; }
+@keyframes cardPop { from { opacity: 0; transform: translateY(30px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.s3 { background: linear-gradient(135deg, #0F2942 0%, #1F3A5C 100%); }
+.s3-inner { width: 100%; max-width: 1200px; text-align: center; }
+.s3-headline { font-size: 48px; font-weight: 900; margin-bottom: 14px; animation: fadeUp 1s ease; }
+.s3-headline .em { color: var(--gold); }
+.s3-sub { font-size: 17px; color: rgba(255,255,255,0.7); margin-bottom: 50px; letter-spacing: 1px; }
+.s3-engines { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 900px; margin: 0 auto; }
+.s3-engine { position: relative; padding: 32px 24px; background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border: 2px solid rgba(201,160,99,0.3); border-radius: 16px; opacity: 0; animation: engineRise 0.8s ease forwards; }
+.s3-engine:nth-child(1) { animation-delay: 0.6s; border-color: rgba(184,35,47,0.5); }
+.s3-engine:nth-child(2) { animation-delay: 1.0s; border-color: rgba(201,160,99,0.5); }
+.s3-engine:nth-child(3) { animation-delay: 1.4s; border-color: rgba(96,165,250,0.5); }
+.s3-engine .ico { font-size: 60px; margin-bottom: 16px; }
+.s3-engine .name { font-size: 22px; font-weight: 800; margin-bottom: 8px; color: #fff; }
+.s3-engine .role { font-size: 13px; color: var(--gold); letter-spacing: 1px; margin-bottom: 14px; font-weight: 700; }
+.s3-engine .desc { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; }
+@keyframes engineRise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+.s3-synergy { margin-top: 36px; padding: 16px 32px; background: linear-gradient(135deg, rgba(201,160,99,0.18), rgba(184,35,47,0.18)); border: 1px solid rgba(201,160,99,0.4); border-radius: 30px; display: inline-block; opacity: 0; animation: fadeUp 1s 2s forwards; }
+.s3-synergy strong { color: var(--gold); font-size: 18px; }
+
+.s4 { background: linear-gradient(135deg, #0A0E1A 0%, #1A1F2E 100%); }
+.s4-inner { width: 100%; max-width: 1200px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.s4-left { animation: fadeUp 1s ease; }
+.s4-headline { font-size: 38px; font-weight: 900; margin-bottom: 14px; line-height: 1.2; }
+.s4-headline .em { color: var(--gold); }
+.s4-sub { font-size: 16px; color: rgba(255,255,255,0.75); line-height: 1.8; margin-bottom: 28px; }
+.s4-quote { padding: 14px 18px; border-left: 3px solid var(--gold); background: rgba(201,160,99,0.05); font-size: 14px; font-style: italic; color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 20px; }
+.s4-features { display: flex; flex-wrap: wrap; gap: 8px; }
+.s4-features span { font-size: 12px; padding: 6px 14px; background: rgba(184,35,47,0.2); border: 1px solid rgba(184,35,47,0.4); border-radius: 14px; color: var(--gold-light); font-weight: 600; }
+.s4-right { position: relative; background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); border: 1px solid rgba(201,160,99,0.25); border-radius: 16px; padding: 28px; animation: fadeUp 1.2s 0.4s both; }
+.s4-mock-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.s4-mock-title { font-size: 13px; letter-spacing: 2px; color: var(--gold); font-weight: 700; }
+.s4-live-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #86EFAC; }
+.s4-live-dot::before { content: ""; width: 8px; height: 8px; background: #86EFAC; border-radius: 50%; animation: pulse 1s infinite; box-shadow: 0 0 8px #86EFAC; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.s4-score { text-align: center; margin-bottom: 24px; }
+.s4-score .num { font-size: 88px; font-weight: 900; font-family: Georgia, serif; background: linear-gradient(135deg, var(--gold), #F8E5C4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+.s4-score .lbl { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 6px; letter-spacing: 1px; }
+.s4-score .delta { display: inline-block; margin-top: 10px; font-size: 13px; padding: 4px 14px; background: rgba(134,239,172,0.18); color: #86EFAC; border-radius: 14px; font-weight: 700; }
+.s4-sliders { display: flex; flex-direction: column; gap: 14px; }
+.s4-slider { background: rgba(255,255,255,0.04); padding: 12px 14px; border-radius: 8px; }
+.s4-slider .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; }
+.s4-slider .name { color: rgba(255,255,255,0.85); font-weight: 600; }
+.s4-slider .val { font-weight: 800; color: var(--gold); background: rgba(201,160,99,0.15); padding: 1px 10px; border-radius: 10px; }
+.s4-slider .track { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+.s4-slider .fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--gold)); border-radius: 3px; width: 0%; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+
+.s5 {
+  background:
+    radial-gradient(circle at 80% 30%, rgba(184,35,47,0.25) 0%, transparent 60%),
+    linear-gradient(135deg, #1A0000 0%, #0A0E1A 100%);
+}
+.s5-inner { width: 100%; max-width: 1200px; }
+.s5-tag { display: inline-block; padding: 4px 16px; background: var(--primary); color: #fff; font-size: 11px; letter-spacing: 3px; font-weight: 800; border-radius: 4px; margin-bottom: 14px; animation: fadeUp 0.8s ease; }
+.s5-headline { font-size: 46px; font-weight: 900; margin-bottom: 14px; animation: fadeUp 0.8s 0.2s both; }
+.s5-headline .em { color: var(--gold); }
+.s5-quote { font-size: 18px; color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 30px; max-width: 900px; animation: fadeUp 0.8s 0.4s both; }
+.s5-quote strong { color: var(--gold); }
+.s5-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.s5-stat { background: linear-gradient(135deg, rgba(201,160,99,0.15), rgba(184,35,47,0.15)); border: 1px solid rgba(201,160,99,0.35); border-radius: 12px; padding: 22px 18px; text-align: center; opacity: 0; animation: cardPop 0.6s ease forwards; }
+.s5-stat:nth-child(1) { animation-delay: 0.7s; }
+.s5-stat:nth-child(2) { animation-delay: 0.9s; }
+.s5-stat:nth-child(3) { animation-delay: 1.1s; }
+.s5-stat:nth-child(4) { animation-delay: 1.3s; }
+.s5-stat .num { font-size: 32px; font-weight: 900; font-family: Georgia, serif; color: var(--gold); line-height: 1; }
+.s5-stat .lbl { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 8px; letter-spacing: 1px; }
+
+.s6 { background: linear-gradient(135deg, #0A1B30 0%, #122A47 100%); }
+.s6-inner { width: 100%; max-width: 1200px; text-align: center; }
+.s6-headline { font-size: 44px; font-weight: 900; margin-bottom: 12px; animation: fadeUp 0.8s ease; }
+.s6-headline .em { color: var(--gold); }
+.s6-sub { font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 36px; animation: fadeUp 0.8s 0.2s both; }
+.s6-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 900px; margin: 0 auto; }
+.s6-mod { background: rgba(255,255,255,0.06); border: 1px solid rgba(201,160,99,0.25); border-radius: 12px; padding: 18px 14px; text-align: center; opacity: 0; animation: cardPop 0.5s ease forwards; }
+.s6-mod:nth-child(1) { animation-delay: 0.4s; }
+.s6-mod:nth-child(2) { animation-delay: 0.5s; }
+.s6-mod:nth-child(3) { animation-delay: 0.6s; }
+.s6-mod:nth-child(4) { animation-delay: 0.7s; }
+.s6-mod:nth-child(5) { animation-delay: 0.8s; }
+.s6-mod:nth-child(6) { animation-delay: 0.9s; }
+.s6-mod:nth-child(7) { animation-delay: 1.0s; }
+.s6-mod:nth-child(8) { animation-delay: 1.1s; }
+.s6-mod:nth-child(9) { animation-delay: 1.2s; }
+.s6-mod .ico { font-size: 28px; margin-bottom: 6px; }
+.s6-mod .name { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.s6-mod .desc { font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+.s6-mod.featured { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-color: var(--gold); }
+.s6-mod.featured .name { color: var(--gold); }
+
+.s7 {
+  background:
+    radial-gradient(circle at center, rgba(201,160,99,0.25) 0%, transparent 70%),
+    linear-gradient(135deg, #8B0000 0%, #B8232F 50%, #8B0000 100%);
+}
+.s7-inner { text-align: center; }
+.s7-quote-mark { font-size: 80px; color: rgba(201,160,99,0.4); font-family: Georgia, serif; line-height: 0.5; margin-bottom: 20px; animation: scaleIn 1s ease; }
+.s7-quote { font-size: 36px; font-weight: 700; color: #fff; line-height: 1.4; margin-bottom: 30px; letter-spacing: 1px; animation: fadeUp 1s 0.3s both; text-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+.s7-quote .em { background: linear-gradient(135deg, var(--gold), #F8E5C4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.s7-attr { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 40px; letter-spacing: 2px; animation: fadeUp 1s 0.6s both; }
+.s7-cta { display: inline-block; padding: 16px 40px; background: var(--gold); color: #8B0000; font-size: 18px; font-weight: 800; letter-spacing: 2px; border-radius: 30px; animation: ctaPulse 2s ease infinite, fadeUp 1s 1s both; box-shadow: 0 10px 40px rgba(201,160,99,0.5); }
+@keyframes ctaPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.s7-foot { margin-top: 40px; font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 4px; animation: fadeUp 1s 1.4s both; }
+
+/* 控制条 */
+.controls {
+  position: absolute;
+  bottom: 20px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  background: rgba(0,0,0,0.7);
+  padding: 8px 14px;
+  border-radius: 30px;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.ctrl-btn { background: transparent; border: none; color: rgba(255,255,255,0.85); font-size: 12px; cursor: pointer; padding: 6px 12px; border-radius: 20px; transition: all 0.2s; font-family: inherit; display: inline-flex; align-items: center; gap: 4px; }
+.ctrl-btn:hover { background: rgba(201,160,99,0.2); color: var(--gold); }
+.ctrl-btn.primary { background: var(--gold); color: #8B0000; font-weight: 700; }
+.ctrl-btn.primary:hover { background: #fff; }
+.ctrl-btn.toggle.on { background: var(--primary); color: #fff; }
+.scene-dots { display: inline-flex; gap: 6px; align-items: center; margin: 0 6px; }
+.scene-dot { width: 8px; height: 8px; background: rgba(255,255,255,0.25); border-radius: 50%; cursor: pointer; transition: all 0.2s; }
+.scene-dot.active { background: var(--gold); box-shadow: 0 0 8px var(--gold); width: 24px; border-radius: 4px; }
+
+/* 开场封面 */
+.intro-cover {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(184,35,47,0.4), transparent 60%),
+    linear-gradient(135deg, #0A0000 0%, #1A0500 50%, #0A0000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  flex-direction: column;
+  gap: 16px;
+  padding: 30px;
+  overflow-y: auto;
+}
+.intro-cover.hidden { display: none; }
+.intro-emblem { font-size: 70px; font-weight: 900; color: var(--gold); font-family: Georgia, serif; text-shadow: 0 4px 30px rgba(201,160,99,0.6); }
+.intro-title { font-size: 32px; font-weight: 900; color: #fff; text-align: center; }
+.intro-meta { font-size: 13px; color: rgba(255,255,255,0.6); letter-spacing: 4px; }
+
+/* 配音设置面板 */
+.voice-panel {
+  width: 100%;
+  max-width: 640px;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(201,160,99,0.3);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-top: 8px;
+}
+.voice-panel-title {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+.voice-quality {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.voice-quality-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.voice-quality-row .lbl { color: rgba(255,255,255,0.6); }
+.vq-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.vq-rating.cctv { background: linear-gradient(135deg, var(--gold), #DDB87A); color: #8B0000; }
+.vq-rating.excellent { background: rgba(134,239,172,0.2); color: #86EFAC; border: 1px solid rgba(134,239,172,0.4); }
+.vq-rating.good { background: rgba(252,211,77,0.2); color: #FCD34D; border: 1px solid rgba(252,211,77,0.4); }
+.vq-rating.poor { background: rgba(252,165,165,0.2); color: #FCA5A5; border: 1px solid rgba(252,165,165,0.4); }
+
+.voice-current {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 600;
+}
+.voice-picker {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,160,99,0.3);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.voice-picker option { background: #1a1a1a; color: #fff; }
+
+.voice-tip {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(184,35,47,0.12);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.7;
+}
+.voice-tip.success {
+  background: rgba(134,239,172,0.12);
+  border-left-color: #86EFAC;
+}
+.voice-tip strong { color: var(--gold); }
+.voice-tip a { color: #FCD34D; text-decoration: underline; }
+
+.upload-section {
+  margin-top: 14px;
+  padding: 14px;
+  background: rgba(201,160,99,0.06);
+  border: 1px dashed rgba(201,160,99,0.4);
+  border-radius: 10px;
+}
+.upload-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.upload-title button {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(201,160,99,0.3);
+  color: var(--gold);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.upload-title button:hover { background: rgba(201,160,99,0.15); }
+.upload-desc {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.upload-zone {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.upload-btn {
+  flex: 1;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,160,99,0.3);
+  color: #fff;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.upload-btn:hover { background: rgba(201,160,99,0.15); border-color: var(--gold); }
+.upload-status {
+  font-size: 11px;
+  color: #86EFAC;
+  margin-top: 8px;
+}
+.upload-status.empty { color: rgba(255,255,255,0.4); }
+
+/* 测试按钮 */
+.voice-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.voice-action-btn {
+  flex: 1;
+  padding: 9px 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.85);
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.voice-action-btn:hover { background: rgba(201,160,99,0.15); border-color: var(--gold); color: var(--gold); }
+
+/* 主播稿生成器弹窗 */
+.script-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 30px;
+  backdrop-filter: blur(8px);
+}
+.script-modal.show { display: flex; }
+.script-box {
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  background: #1a1f2e;
+  border: 1px solid var(--gold);
+  border-radius: 14px;
+  padding: 24px;
+  overflow-y: auto;
+  color: #fff;
+}
+.script-box h3 {
+  font-size: 18px;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.script-box .step {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed rgba(201,160,99,0.2);
+}
+.script-box .step:last-child { border-bottom: none; }
+.script-box .step-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.script-box .step-content {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.85;
+}
+.script-box code {
+  background: rgba(255,255,255,0.08);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+}
+.script-box .text-block {
+  background: rgba(0,0,0,0.4);
+  border-left: 3px solid var(--gold);
+  padding: 10px 14px;
+  margin: 8px 0;
+  font-size: 12px;
+  font-family: monospace;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.7;
+  border-radius: 0 6px 6px 0;
+  position: relative;
+}
+.copy-btn {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: rgba(201,160,99,0.2);
+  border: 1px solid rgba(201,160,99,0.4);
+  color: var(--gold);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.copy-btn:hover { background: var(--gold); color: #8B0000; }
+.modal-close {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  top: 16px; right: 16px;
+}
+
+.intro-play {
+  margin-top: 18px;
+  width: 96px; height: 96px;
+  background: linear-gradient(135deg, var(--gold), #DDB87A);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: #8B0000;
+  box-shadow: 0 0 60px rgba(201,160,99,0.6);
+  animation: pulseRing 2s ease infinite;
+  cursor: pointer;
+  border: none;
+}
+@keyframes pulseRing { 0%, 100% { box-shadow: 0 0 60px rgba(201,160,99,0.6); } 50% { box-shadow: 0 0 90px rgba(201,160,99,0.9); } }
+.intro-mode {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.intro-mode-btn {
+  padding: 8px 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,160,99,0.3);
+  border-radius: 18px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.intro-mode-btn.selected { background: var(--gold); color: #8B0000; border-color: var(--gold); }
+
+/* 录制提示 */
+.rec-tip {
+  position: absolute;
+  top: 50%; left: 24px;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.85);
+  border: 1px solid rgba(201,160,99,0.4);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.7;
+  max-width: 280px;
+  z-index: 99;
+  display: none;
+}
+.rec-tip.show { display: block; animation: fadeUp 0.4s ease; }
+.rec-tip strong { color: var(--gold); display: block; margin-bottom: 8px; font-size: 13px; }
+.rec-tip code { background: rgba(255,255,255,0.1); padding: 1px 6px; border-radius: 4px; font-family: monospace; }
+
+/* 倒计时 */
+.countdown {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.9);
+  z-index: 199;
+  font-size: 200px;
+  color: var(--gold);
+  font-weight: 900;
+  font-family: Georgia, serif;
+}
+.countdown.show { display: flex; animation: countPulse 1s ease; }
+@keyframes countPulse {
+  0% { opacity: 0; transform: scale(0.5); }
+  20% { opacity: 1; transform: scale(1); }
+  80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
+@media (max-width: 1100px) {
+  .s1-title { font-size: 44px; }
+  .s2-grid { grid-template-columns: repeat(2,1fr); }
+  .s3-engines { grid-template-columns: 1fr; }
+  .s4-inner { grid-template-columns: 1fr; gap: 20px; }
+  .s5-stats { grid-template-columns: repeat(2,1fr); }
+  .s6-grid { grid-template-columns: repeat(2,1fr); }
+  .s7-quote { font-size: 24px; }
+  .subtitle { font-size: 16px; max-width: 90%; }
+  .voice-panel { padding: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="video-stage">
+
+  <!-- 开场封面（含配音设置） -->
+  <div class="intro-cover" id="introCover">
+    <div class="intro-emblem">豫</div>
+    <div class="intro-title">河南省高效能治理交互模拟系统</div>
+    <div class="intro-meta">3 分钟央视级视频汇报 · v7.0</div>
+
+    <!-- 配音设置面板 -->
+    <div class="voice-panel">
+      <div class="voice-panel-title">🎙️ 配音设置 · 央视新闻联播男声标准</div>
+
+      <!-- 当前语音质量 -->
+      <div class="voice-quality">
+        <div class="voice-quality-row">
+          <span class="lbl">当前语音质量</span>
+          <span class="vq-rating" id="vqRating">检测中...</span>
+        </div>
+        <div class="voice-quality-row">
+          <span class="lbl">当前选用</span>
+          <span class="voice-current" id="voiceCurrent">加载中...</span>
+        </div>
+        <select class="voice-picker" id="voicePicker"></select>
+        <div class="voice-actions">
+          <button class="voice-action-btn" onclick="testVoice()">🔊 试听一段</button>
+          <button class="voice-action-btn" onclick="document.getElementById('scriptModal').classList.add('show')">📋 升级到央视级</button>
+        </div>
+      </div>
+
+      <!-- 引导提示 -->
+      <div class="voice-tip" id="voiceTip">
+        正在分析您的浏览器语音库…
+      </div>
+
+      <!-- MP3 上传区 -->
+      <div class="upload-section">
+        <div class="upload-title">
+          <span>🎵 自定义高质量配音（央视主播级）</span>
+          <button onclick="document.getElementById('scriptModal').classList.add('show')">如何生成？→</button>
+        </div>
+        <div class="upload-desc">
+          上传 7 个 MP3 文件（按场景命名 1.mp3 ~ 7.mp3），即可替换默认 TTS。<br>
+          推荐用 <strong style="color:var(--gold)">剪映 / 讯飞智作 / 微软 Edge 朗读</strong> 一键生成。
+        </div>
+        <div class="upload-zone">
+          <label class="upload-btn">
+            📁 选择 MP3 文件（可多选）
+            <input type="file" id="audioUpload" accept="audio/*" multiple style="display:none">
+          </label>
+        </div>
+        <div class="upload-status empty" id="uploadStatus">尚未上传任何文件 · 将使用浏览器内置 TTS</div>
+      </div>
+    </div>
+
+    <!-- 模式选择 -->
+    <div class="intro-mode">
+      <button class="intro-mode-btn selected" data-mode="auto" onclick="selectMode(this, 'auto')">🔊 自动播报</button>
+      <button class="intro-mode-btn" data-mode="silent" onclick="selectMode(this, 'silent')">🔇 静音模式</button>
+    </div>
+
+    <button class="intro-play" onclick="startVideo()">▶</button>
+
+    <div style="font-size:11px;color:rgba(255,255,255,0.5);text-align:center">
+      点击播放 · 按 <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px">F11</code> 全屏 · 按 <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px">⌘+Shift+5</code> 录屏
+    </div>
+  </div>
+
+  <!-- 主播稿生成指南弹窗 -->
+  <div class="script-modal" id="scriptModal">
+    <div class="script-box">
+      <button class="modal-close" onclick="document.getElementById('scriptModal').classList.remove('show')">×</button>
+      <h3>🎙️ 升级到央视主播级配音 · 三种方法</h3>
+
+      <div class="step">
+        <div class="step-title">方法 ① · 剪映 / CapCut（最简单，推荐）</div>
+        <div class="step-content">
+          1. 下载安装 <strong>剪映专业版</strong>（免费）<br>
+          2. 新建项目 → 文本 → 添加文字 → 粘贴下方"主播稿"<br>
+          3. 点击文本 → 右侧"朗读" → 选择"<strong>新闻联播</strong>"或"<strong>四川重音</strong>男声"<br>
+          4. 生成后右键导出音频 → MP3 格式<br>
+          5. 重复 7 次（每场景一段），命名 <code>1.mp3</code> ~ <code>7.mp3</code><br>
+          6. 回到本页面 → 点击"📁 选择 MP3 文件" → 全选 7 个文件
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-title">方法 ② · 讯飞智作（专业级）</div>
+        <div class="step-content">
+          1. 访问 <strong>peiyin.xfyun.cn</strong><br>
+          2. 选择主播 →"<strong>新闻男声</strong>"或"<strong>讯飞磁性男声</strong>"（接近央视水准）<br>
+          3. 粘贴主播稿 → 调节语速 0.9 倍 → 试听 → 生成<br>
+          4. 下载 MP3 → 命名 <code>1.mp3</code>～<code>7.mp3</code> → 上传至本页面
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-title">方法 ③ · Microsoft Edge 浏览器（免费即用）</div>
+        <div class="step-content">
+          1. 用 Edge 浏览器打开本页面<br>
+          2. 在"语音选择"下拉中选 "<strong>Microsoft Yunjian Online</strong>" 或 "<strong>Yunyang Online</strong>"<br>
+          3. 这两个是微软神经网络男声，音质接近央视主播水准<br>
+          4. 选好后直接播放视频，无需上传 MP3
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-title">📋 主播稿（7 段，复制粘贴用）</div>
+        <div class="step-content">
+          以下 7 段文字，分别对应视频 7 个场景。复制到剪映/讯飞智作/Word 朗读：
+        </div>
+        <div class="text-block">
+          <button class="copy-btn" onclick="copyText(this, 'narr1')">复制</button>
+          <strong style="color:var(--gold)">第一段（20 秒）：</strong><br>
+          <span id="narr1">各位领导。今天，郑重向您汇报一项研究成果——河南省高效能治理交互模拟系统。这是一项基于麻省理工系统动力学方法、深度扎根河南治理实证的研究突破。让政策决策，从经验判断走向数据支撑。</span>
+        </div>
+        <div class="text-block">
+          <button class="copy-btn" onclick="copyText(this, 'narr2')">复制</button>
+          <strong style="color:var(--gold)">第二段（25 秒）：</strong><br>
+          <span id="narr2">当前，基层治理面临"最后一公里"难题。决策脱节、部门壁垒、服务僵化、反馈不畅、评价偏差。这五大结构性问题，长期困扰治理现代化。如何让九千九百万河南人民真正满意？这是治理能力现代化的根本命题。</span>
+        </div>
+        <div class="text-block">
+          <button class="copy-btn" onclick="copyText(this, 'narr3')">复制</button>
+          <strong style="color:var(--gold)">第三段（30 秒）：</strong><br>
+          <span id="narr3">本研究提炼出河南治理的"铁三角"。一、思想党建引领，作为方向"主心骨"。二、全域网格化管理，作为治理"执行力"。三、城市大脑，作为智慧"底座"。关键创新在于，三大引擎同步推进，可触发"一加一加一大于三"的非线性协同效应。这一规律，在郑州市的实证经验中，已得到充分验证。</span>
+        </div>
+        <div class="text-block">
+          <button class="copy-btn" onclick="copyText(this, 'narr4')">复制</button>
+          <strong style="color:var(--gold)">第四段（40 秒）：</strong><br>
+          <span id="narr4">请看这项核心创新。本研究借鉴麻省理工恩-罗兹气候模拟器方法论，把十八项政策杠杆，建成可视、可调、可推演的数字孪生。请看右侧仪表盘——党建加网格融合度，从六十拉到九十；数据共享，从五十二拉到八十五；人工智能决策，从五十拉到八十。综合群众满意度，从六十二分跃升到八十八分。这就是郑州模式的数字化呈现。这是国内首次，将麻省理工系统动力学方法，移植到基层治理研究。</span>
+        </div>
+        <div class="text-block">
+          <button class="copy-btn" onclick="copyText(this, 'narr5')">复制</button>
+          <strong style="color:var(--gold)">第五段（25 秒）：</strong><br>
+          <span id="narr5">模型不是空中楼阁。所有参数，都对接郑州市"党建加网格加大数据"的实证经验。郑州，已经建立"一格管全面、一屏观全域、一网统全局"的数智治理格局。三百到五百户标准网格、两小时入户响应、一加十六加二百一十五三级运行体系、十四类智慧应用全场景上线。这是河南治理现代化，真实可见的标杆。</span>
+        </div>
+        <div class="text-block">
+          <button class="copy-btn" onclick="copyText(this, 'narr6')">复制</button>
+          <strong style="color:var(--gold)">第六段（25 秒）：</strong><br>
+          <span id="narr6">整个系统，集成九大功能模块，构成一站式治理研究平台。政策沙盘、方法论、论文拆解、案例库；调查问卷、人工智能诊断、工作坊指南、首页与关于。既能服务领导决策推演，也能用于干部培训、智库研究、公众参与。一个平台，多元场景，立等可用。</span>
+        </div>
+        <div class="text-block">
+          <button class="copy-btn" onclick="copyText(this, 'narr7')">复制</button>
+          <strong style="color:var(--gold)">第七段（15 秒）：</strong><br>
+          <span id="narr7">习近平总书记指出。人民对美好生活的向往，就是我们的奋斗目标。让群众满意度，真正成为河南治理现代化的金标准。恭请领导，审阅本系统。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 倒计时 -->
+  <div class="countdown" id="countdown">3</div>
+
+  <div class="top-bar"><div class="top-bar-fill" id="topBarFill"></div></div>
+  <div class="timecode" id="timecode">00:00 / 03:00</div>
+  <div class="scene-label" id="sceneLabel">SCENE 1 / 7</div>
+
+  <div class="rec-tip" id="recTip">
+    <strong>📹 录制为 MP4 视频</strong>
+    <strong style="color:#86EFAC">Mac：</strong>
+    按 <code>⌘+Shift+5</code> → 选择"录屏" → 全屏录制 → 同步捕获系统声音<br><br>
+    <strong style="color:#86EFAC">Windows：</strong>
+    按 <code>Win+G</code> 调出 Game Bar → 录制按钮<br><br>
+    <strong style="color:#86EFAC">专业工具：</strong>
+    OBS Studio 或 Loom，全屏录制本页 + 系统声音<br><br>
+    <em style="color:rgba(255,255,255,0.5);font-size:10px">8 秒后自动消失</em>
+  </div>
+
+  <!-- 7 个场景 -->
+  <section class="scene s1" data-scene="1" data-duration="20">
+    <div class="s1-inner">
+      <div class="s1-emblem">豫</div>
+      <div class="s1-tag">DOCTORAL RESEARCH × INTERACTIVE SIMULATION · 2026</div>
+      <h1 class="s1-title">河南省<br><span class="em">高效能治理</span><br>交互模拟系统</h1>
+      <p class="s1-sub">让政策决策从"经验判断"到"数据支撑"</p>
+    </div>
+    <div class="subtitle"></div>
+  </section>
+
+  <section class="scene s2" data-scene="2" data-duration="25">
+    <div class="s2-inner">
+      <h2 class="s2-headline">基层治理 <span class="em">"最后一公里"</span></h2>
+      <p class="s2-sub">五大结构性难题，长期困扰治理现代化进程</p>
+      <div class="s2-grid">
+        <div class="s2-card"><div class="ico">🔀</div><div class="lbl">决策脱节</div><div class="desc">"经验判断"式决策与基层实际错配</div></div>
+        <div class="s2-card"><div class="ico">🧱</div><div class="lbl">部门壁垒</div><div class="desc">"九龙治水" 数据孤岛 协同失灵</div></div>
+        <div class="s2-card"><div class="ico">📏</div><div class="lbl">服务僵化</div><div class="desc">"一刀切" 难以满足多元化需求</div></div>
+        <div class="s2-card"><div class="ico">📡</div><div class="lbl">反馈不畅</div><div class="desc">群众诉求难达决策层 响应滞后</div></div>
+        <div class="s2-card"><div class="ico">📊</div><div class="lbl">评价偏差</div><div class="desc">重 GDP 轻满意度 重短期轻长效</div></div>
+      </div>
+    </div>
+    <div class="subtitle"></div>
+  </section>
+
+  <section class="scene s3" data-scene="3" data-duration="30">
+    <div class="s3-inner">
+      <h2 class="s3-headline">三大治理引擎 · <span class="em">铁三角</span></h2>
+      <p class="s3-sub">党建为魂 · 网格为体 · 大数据为脑</p>
+      <div class="s3-engines">
+        <div class="s3-engine"><div class="ico">🚩</div><div class="name">思想党建引领</div><div class="role">ENGINE 01 · 主心骨</div><div class="desc">党组织全覆盖 + 党员先锋模范 + "党建+网格"深度融合</div></div>
+        <div class="s3-engine"><div class="ico">🔲</div><div class="name">全域网格化管理</div><div class="role">ENGINE 02 · 执行力</div><div class="desc">300-500 户标准网格 + 50-70 户微网格 + 高铁/商超专属网格</div></div>
+        <div class="s3-engine"><div class="ico">🧠</div><div class="name">城市大脑</div><div class="role">ENGINE 03 · 智慧底座</div><div class="desc">业务+数据双中台 + 1+16+215 三级运行体系</div></div>
+      </div>
+      <div class="s3-synergy">🔗 三引擎同步推进，触发 <strong>1 + 1 + 1 > 3</strong> 的非线性协同奖励</div>
+    </div>
+    <div class="subtitle"></div>
+  </section>
+
+  <section class="scene s4" data-scene="4" data-duration="40">
+    <div class="s4-inner">
+      <div class="s4-left">
+        <h2 class="s4-headline">借鉴 MIT En-ROADS<br>把治理变成 <span class="em">可调可推演</span></h2>
+        <p class="s4-sub">18 项政策杠杆 → 5 维满意度产出 → 实时图表 → AI 洞察。<br>拖动一个滑块，整个治理体系毫秒级响应。</p>
+        <div class="s4-quote">"这是国内首次将 MIT Sloan 系统动力学方法移植到基层治理研究——让政策从抽象的报告，变成可视、可调、可推演的数字孪生。"</div>
+        <div class="s4-features">
+          <span>18 项政策杠杆</span><span>5 维满意度</span><span>5+15+225 指标</span>
+          <span>5 套情景预设</span><span>5 年趋势预测</span><span>AI 实时诊断</span>
+        </div>
+      </div>
+      <div class="s4-right">
+        <div class="s4-mock-header"><div class="s4-mock-title">实时治理仪表盘 · LIVE DEMO</div><div class="s4-live-dot">LIVE</div></div>
+        <div class="s4-score">
+          <div class="num" id="demoScore">62.0</div>
+          <div class="lbl">综合群众满意度 / 100 分</div>
+          <div class="delta" id="demoDelta">基线情景</div>
+        </div>
+        <div class="s4-sliders">
+          <div class="s4-slider"><div class="row"><span class="name">🚩 党建+网格融合度</span><span class="val" id="dV1">60</span></div><div class="track"><div class="fill" id="dF1" style="width:60%"></div></div></div>
+          <div class="s4-slider"><div class="row"><span class="name">🔄 跨部门数据共享</span><span class="val" id="dV2">52</span></div><div class="track"><div class="fill" id="dF2" style="width:52%"></div></div></div>
+          <div class="s4-slider"><div class="row"><span class="name">🧠 AI 智能决策应用</span><span class="val" id="dV3">50</span></div><div class="track"><div class="fill" id="dF3" style="width:50%"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="subtitle"></div>
+  </section>
+
+  <section class="scene s5" data-scene="5" data-duration="25">
+    <div class="s5-inner">
+      <div class="s5-tag">EVIDENCE-BASED · 实证锚点</div>
+      <h2 class="s5-headline">郑州 <span class="em">"党建+网格+大数据"</span> 模式</h2>
+      <p class="s5-quote">本研究紧扣<strong>河南实际</strong>。以郑州市为样本，建立"<strong>一格管全面、一屏观全域、一网统全局</strong>"的数智治理格局，所有模型参数都基于公开实证数据校准——这不是空中楼阁，是河南治理现代化的真实推演。</p>
+      <div class="s5-stats">
+        <div class="s5-stat"><div class="num">300-500</div><div class="lbl">户/标准网格</div></div>
+        <div class="s5-stat"><div class="num">2 小时</div><div class="lbl">入户响应</div></div>
+        <div class="s5-stat"><div class="num">1+16+215</div><div class="lbl">三级运行体系</div></div>
+        <div class="s5-stat"><div class="num">14 类</div><div class="lbl">智慧应用</div></div>
+      </div>
+    </div>
+    <div class="subtitle"></div>
+  </section>
+
+  <section class="scene s6" data-scene="6" data-duration="25">
+    <div class="s6-inner">
+      <h2 class="s6-headline">9 大模块 · <span class="em">一站式平台</span></h2>
+      <p class="s6-sub">从政策实验到学术研究，从案例剖析到工作坊实操</p>
+      <div class="s6-grid">
+        <div class="s6-mod featured"><div class="ico">🎛️</div><div class="name">政策沙盘</div><div class="desc">18 杠杆实时推演</div></div>
+        <div class="s6-mod"><div class="ico">📐</div><div class="name">方法论</div><div class="desc">系统动力学建模</div></div>
+        <div class="s6-mod"><div class="ico">📚</div><div class="name">论文拆解</div><div class="desc">11 章学术呈现</div></div>
+        <div class="s6-mod"><div class="ico">🗂️</div><div class="name">案例库</div><div class="desc">郑州模式深度剖析</div></div>
+        <div class="s6-mod"><div class="ico">📋</div><div class="name">调查问卷</div><div class="desc">15 题实测雷达</div></div>
+        <div class="s6-mod"><div class="ico">🩺</div><div class="name">AI 诊断</div><div class="desc">4 维智能分析</div></div>
+        <div class="s6-mod"><div class="ico">🎯</div><div class="name">工作坊指南</div><div class="desc">4 套主持模板</div></div>
+        <div class="s6-mod"><div class="ico">ℹ️</div><div class="name">关于</div><div class="desc">数据来源与致谢</div></div>
+        <div class="s6-mod"><div class="ico">🏠</div><div class="name">首页</div><div class="desc">总览快速入口</div></div>
+      </div>
+    </div>
+    <div class="subtitle"></div>
+  </section>
+
+  <section class="scene s7" data-scene="7" data-duration="15">
+    <div class="s7-inner">
+      <div class="s7-quote-mark">"</div>
+      <p class="s7-quote">人民对美好生活的向往，<br>就是我们的<span class="em">奋斗目标</span></p>
+      <p class="s7-attr">让群众满意度 真正成为治理金标准</p>
+      <div class="s7-cta">恭请领导审阅 → 立即体验完整系统</div>
+      <p class="s7-foot">河南省高效能治理交互模拟系统 · v5.0 · 2026</p>
+    </div>
+    <div class="subtitle"></div>
+  </section>
+
+  <div class="controls">
+    <button class="ctrl-btn" id="btnPlay" onclick="togglePlay()">⏸ 暂停</button>
+    <button class="ctrl-btn" onclick="restart()">⟲ 重播</button>
+    <div class="scene-dots" id="sceneDots"></div>
+    <button class="ctrl-btn toggle on" id="btnTTS" onclick="toggleTTS()">🔊 语音 ON</button>
+    <button class="ctrl-btn toggle on" onclick="toggleSubtitle()" id="btnSub">字幕 ON</button>
+    <button class="ctrl-btn" onclick="toggleRec()">📹 录制</button>
+    <button class="ctrl-btn primary" onclick="document.documentElement.requestFullscreen()">⛶ 全屏</button>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+ * 央视主播级朗读：分句 + 停顿 + 男声优先 + 数字汉化
+ * ============================================================ */
+
+// 央视主播节奏：每句一个 utterance + 句末停顿，模拟真实播音员断句
+// 数字全部汉化：18 → 十八；MIT → 麻省理工；En-ROADS → 恩-罗兹
+const NARRATIONS = [
+  // 场景 1（20 秒）
+  {
+    duration: 20,
+    delay: 1.0,
+    chunks: [
+      { text: '各位领导。', pause: 800 },
+      { text: '今天，郑重向您汇报一项研究成果——', pause: 400 },
+      { text: '河南省高效能治理交互模拟系统。', pause: 600 },
+      { text: '这是一项基于麻省理工系统动力学方法、', pause: 250 },
+      { text: '深度扎根河南治理实证的研究突破。', pause: 500 },
+      { text: '让政策决策，从经验判断走向数据支撑。', pause: 0 }
+    ],
+    subtitleSegments: [
+      { t: 0,  text: '各位领导' },
+      { t: 2,  text: '郑重向您汇报一项研究成果' },
+      { t: 5,  text: '河南省高效能治理交互模拟系统' },
+      { t: 9,  text: '基于麻省理工系统动力学方法' },
+      { t: 13, text: '深度扎根河南治理实证的研究突破' },
+      { t: 16, text: '让政策决策，从"经验判断"走向"数据支撑"' }
+    ]
+  },
+  // 场景 2（25 秒）
+  {
+    duration: 25,
+    delay: 0.6,
+    chunks: [
+      { text: '当前，基层治理面临"最后一公里"难题。', pause: 700 },
+      { text: '决策脱节、', pause: 350 },
+      { text: '部门壁垒、', pause: 350 },
+      { text: '服务僵化、', pause: 350 },
+      { text: '反馈不畅、', pause: 350 },
+      { text: '评价偏差。', pause: 700 },
+      { text: '这五大结构性问题，长期困扰治理现代化。', pause: 700 },
+      { text: '如何让九千九百万河南人民真正满意？', pause: 700 },
+      { text: '这是治理能力现代化的根本命题。', pause: 0 }
+    ],
+    subtitleSegments: [
+      { t: 0,  text: '当前基层治理面临"最后一公里"难题' },
+      { t: 4,  text: '决策脱节 · 部门壁垒 · 服务僵化' },
+      { t: 9,  text: '反馈不畅 · 评价偏差' },
+      { t: 13, text: '五大结构性问题，长期困扰治理现代化' },
+      { t: 17, text: '如何让 9900 万河南人民真正满意？' },
+      { t: 21, text: '这是治理能力现代化的根本命题' }
+    ]
+  },
+  // 场景 3（30 秒）
+  {
+    duration: 30,
+    delay: 0.5,
+    chunks: [
+      { text: '本研究提炼出河南治理的"铁三角"。', pause: 700 },
+      { text: '一、思想党建引领，作为方向"主心骨"。', pause: 600 },
+      { text: '二、全域网格化管理，作为治理"执行力"。', pause: 600 },
+      { text: '三、城市大脑，作为智慧"底座"。', pause: 700 },
+      { text: '关键创新在于：', pause: 350 },
+      { text: '三大引擎同步推进，', pause: 300 },
+      { text: '可触发"一加一加一大于三"的非线性协同效应。', pause: 700 },
+      { text: '这一规律，在郑州市的实证经验中——已得到充分验证。', pause: 0 }
+    ],
+    subtitleSegments: [
+      { t: 0,  text: '本研究提炼出河南治理的"铁三角"' },
+      { t: 4,  text: '一、思想党建引领 —— 方向"主心骨"' },
+      { t: 9,  text: '二、全域网格化管理 —— 治理"执行力"' },
+      { t: 14, text: '三、城市大脑 —— 智慧"底座"' },
+      { t: 19, text: '三引擎同步推进，触发 1+1+1>3 协同效应' },
+      { t: 25, text: '这一规律在郑州市实证中已得到充分验证' }
+    ]
+  },
+  // 场景 4（40 秒）
+  {
+    duration: 40,
+    delay: 0.4,
+    chunks: [
+      { text: '请看这项核心创新。', pause: 600 },
+      { text: '本研究借鉴麻省理工恩-罗兹气候模拟器方法论，', pause: 350 },
+      { text: '把十八项政策杠杆，', pause: 250 },
+      { text: '建成可视、可调、可推演的数字孪生。', pause: 700 },
+      { text: '请看右侧仪表盘——', pause: 500 },
+      { text: '党建加网格融合度，从六十拉到九十；', pause: 400 },
+      { text: '数据共享，从五十二拉到八十五；', pause: 400 },
+      { text: '人工智能决策，从五十拉到八十。', pause: 700 },
+      { text: '综合群众满意度，从六十二分跃升到八十八分。', pause: 700 },
+      { text: '这就是郑州模式的数字化呈现。', pause: 600 },
+      { text: '这是国内首次，', pause: 250 },
+      { text: '将麻省理工系统动力学方法，', pause: 250 },
+      { text: '移植到基层治理研究。', pause: 0 }
+    ],
+    subtitleSegments: [
+      { t: 0,  text: '请看这项核心创新' },
+      { t: 2,  text: '借鉴麻省理工恩-罗兹气候模拟器方法论' },
+      { t: 7,  text: '把 18 项政策杠杆建成可调可推演的数字孪生' },
+      { t: 13, text: '请看右侧仪表盘' },
+      { t: 16, text: '党建+网格融合度：60 → 90' },
+      { t: 21, text: '跨部门数据共享：52 → 85' },
+      { t: 25, text: 'AI 智能决策应用：50 → 80' },
+      { t: 29, text: '综合满意度从 62 跃升到 88 分' },
+      { t: 34, text: '国内首次将 MIT 系统动力学方法移植到基层治理' }
+    ]
+  },
+  // 场景 5（25 秒）
+  {
+    duration: 25,
+    delay: 0.4,
+    chunks: [
+      { text: '模型不是空中楼阁。', pause: 600 },
+      { text: '所有参数，都对接郑州市"党建加网格加大数据"的实证经验。', pause: 700 },
+      { text: '郑州，已经建立——', pause: 350 },
+      { text: '"一格管全面、一屏观全域、一网统全局"的数智治理格局。', pause: 700 },
+      { text: '三百到五百户标准网格、', pause: 350 },
+      { text: '两小时入户响应、', pause: 350 },
+      { text: '一加十六加二百一十五三级运行体系、', pause: 350 },
+      { text: '十四类智慧应用，全场景上线。', pause: 600 },
+      { text: '这是河南治理现代化，真实可见的标杆。', pause: 0 }
+    ],
+    subtitleSegments: [
+      { t: 0,  text: '模型不是空中楼阁' },
+      { t: 3,  text: '所有参数对接郑州"党建+网格+大数据"实证经验' },
+      { t: 9,  text: '一格管全面 · 一屏观全域 · 一网统全局' },
+      { t: 15, text: '300-500 户网格 · 2 小时入户 · 1+16+215 体系' },
+      { t: 20, text: '河南治理现代化，真实可见的标杆' }
+    ]
+  },
+  // 场景 6（25 秒）
+  {
+    duration: 25,
+    delay: 0.4,
+    chunks: [
+      { text: '整个系统，集成九大功能模块，', pause: 350 },
+      { text: '构成一站式治理研究平台。', pause: 700 },
+      { text: '政策沙盘、', pause: 200 },
+      { text: '方法论、', pause: 200 },
+      { text: '论文拆解、', pause: 200 },
+      { text: '案例库、', pause: 350 },
+      { text: '调查问卷、', pause: 200 },
+      { text: '人工智能诊断、', pause: 200 },
+      { text: '工作坊指南、', pause: 200 },
+      { text: '首页与关于。', pause: 700 },
+      { text: '既能服务领导决策推演，', pause: 350 },
+      { text: '也能用于干部培训、智库研究、公众参与。', pause: 700 },
+      { text: '一个平台，多元场景，立等可用。', pause: 0 }
+    ],
+    subtitleSegments: [
+      { t: 0,  text: '整个系统集成 9 大功能模块' },
+      { t: 4,  text: '政策沙盘 · 方法论 · 论文拆解 · 案例库' },
+      { t: 9,  text: '调查问卷 · AI 诊断 · 工作坊指南' },
+      { t: 14, text: '服务领导决策、干部培训、智库研究、公众参与' },
+      { t: 20, text: '一个平台 · 多元场景 · 立等可用' }
+    ]
+  },
+  // 场景 7（15 秒）
+  {
+    duration: 15,
+    delay: 0.4,
+    chunks: [
+      { text: '习近平总书记指出：', pause: 700 },
+      { text: '"人民对美好生活的向往，', pause: 400 },
+      { text: '就是我们的奋斗目标。"', pause: 800 },
+      { text: '让群众满意度，', pause: 350 },
+      { text: '真正成为河南治理现代化的金标准。', pause: 700 },
+      { text: '恭请领导，审阅本系统。', pause: 0 }
+    ],
+    subtitleSegments: [
+      { t: 0,  text: '习近平总书记指出' },
+      { t: 2,  text: '"人民对美好生活的向往' },
+      { t: 4,  text: '就是我们的奋斗目标"' },
+      { t: 9,  text: '让群众满意度成为治理现代化的金标准' },
+      { t: 12, text: '恭请领导审阅本系统' }
+    ]
+  }
+];
+
+/* ============================================================
+ * 状态
+ * ============================================================ */
+const scenes = document.querySelectorAll('.scene');
+const totalDuration = 180;
+let currentScene = 0;
+let elapsed = 0;
+let isPlaying = false;
+let ttsEnabled = true;
+let subtitleOn = true;
+let timer = null;
+let subtitleTimer = null;
+let mode = 'auto';
+let bestVoice = null;
+let allVoices = [];
+let chunkSpeakingTimer = null;
+let uploadedAudio = {}; // sceneIdx → audio URL
+let currentAudio = null; // 当前播放的 Audio 对象
+
+const cumulative = [];
+let acc = 0;
+scenes.forEach(s => {
+  acc += parseInt(s.dataset.duration);
+  cumulative.push(acc);
+});
+
+const dotsWrap = document.getElementById('sceneDots');
+scenes.forEach((s, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'scene-dot';
+  dot.onclick = () => jumpToScene(i);
+  dotsWrap.appendChild(dot);
+});
+
+/* ============================================================
+ * 语音质量评分与挑选
+ * ============================================================ */
+
+// 央视主播级（5 星）
+const CCTV_GRADE_PATTERNS = [
+  /Yunjian/i,           // 微软云健 - 神经男声，音质最接近央视
+  /Yunyang/i,           // 微软云扬 - 神经男声，新闻播报风格
+  /Yunxi/i,             // 微软云希 - 神经男声，清亮温暖
+  /Yunxia/i,            // 微软云夏 - 神经男声
+];
+
+// 优秀级（4 星）：神经网络但非男声 / 其他高质量男声
+const EXCELLENT_PATTERNS = [
+  /Online \(Natural\)/i,  // 微软神经网络
+  /Online$/i,             // 在线版
+  /Neural/i,              // 神经网络
+  /Kangkang/i,            // 微软康康（offline 男声）
+  /Wenlin/i,              // 微软温琳
+  /Hanhan/i,              // 微软汉汉
+];
+
+// 良好（3 星）：本地中文男声
+const GOOD_MALE_PATTERNS = [
+  /男/,
+  /Male/i,
+];
+
+// 一般（2 星）：女声但中文（默认 macOS）
+const FAIR_PATTERNS = [
+  /Tingting/i, /婷婷/i, /Sin-ji/i, /Mei-Jia/i,
+  /Huihui/i, /Yaoyao/i,
+];
+
+function rateVoice(voice) {
+  const name = voice.name || '';
+  if (CCTV_GRADE_PATTERNS.some(p => p.test(name))) return { score: 5, label: '央视级', cls: 'cctv' };
+  if (EXCELLENT_PATTERNS.some(p => p.test(name))) return { score: 4, label: '优秀', cls: 'excellent' };
+  if (GOOD_MALE_PATTERNS.some(p => p.test(name)) && voice.lang.startsWith('zh')) return { score: 3, label: '良好', cls: 'good' };
+  if (FAIR_PATTERNS.some(p => p.test(name)) && voice.lang.startsWith('zh')) return { score: 2, label: '一般（女声）', cls: 'poor' };
+  if (voice.lang && voice.lang.startsWith('zh')) return { score: 2, label: '一般', cls: 'poor' };
+  return { score: 1, label: '较差（非中文）', cls: 'poor' };
+}
+
+function findBestChineseVoice() {
+  const voices = speechSynthesis.getVoices();
+  if (voices.length === 0) return null;
+  // 按评分降序
+  const zhVoices = voices.filter(v => v.lang && v.lang.startsWith('zh'));
+  if (zhVoices.length === 0) return null;
+  zhVoices.sort((a, b) => rateVoice(b).score - rateVoice(a).score);
+  return zhVoices[0];
+}
+
+function loadVoices(callback) {
+  const voices = speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    callback(voices);
+    return;
+  }
+  speechSynthesis.addEventListener('voiceschanged', () => {
+    callback(speechSynthesis.getVoices());
+  }, { once: true });
+}
+
+function refreshVoiceUI() {
+  const picker = document.getElementById('voicePicker');
+  const ratingEl = document.getElementById('vqRating');
+  const currentEl = document.getElementById('voiceCurrent');
+  const tipEl = document.getElementById('voiceTip');
+
+  // 填充选项（按评分排序）
+  const zhVoices = allVoices.filter(v => v.lang && v.lang.startsWith('zh'));
+  const otherVoices = allVoices.filter(v => v.lang && !v.lang.startsWith('zh'));
+  zhVoices.sort((a, b) => rateVoice(b).score - rateVoice(a).score);
+
+  picker.innerHTML = '';
+  zhVoices.forEach((v, i) => {
+    const r = rateVoice(v);
+    const opt = document.createElement('option');
+    opt.value = v.name;
+    const stars = '★'.repeat(r.score) + '☆'.repeat(5-r.score);
+    opt.textContent = `${stars} ${v.name}（${v.lang}）`;
+    if (v === bestVoice) opt.selected = true;
+    picker.appendChild(opt);
+  });
+  if (otherVoices.length > 0) {
+    const sep = document.createElement('option');
+    sep.disabled = true;
+    sep.textContent = '── 非中文语音（不推荐）──';
+    picker.appendChild(sep);
+    otherVoices.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v.name;
+      opt.textContent = `${v.name}（${v.lang}）`;
+      picker.appendChild(opt);
+    });
+  }
+
+  picker.onchange = () => {
+    const sel = allVoices.find(v => v.name === picker.value);
+    if (sel) {
+      bestVoice = sel;
+      updateVoiceQualityUI();
+    }
+  };
+
+  updateVoiceQualityUI();
+}
+
+function updateVoiceQualityUI() {
+  const ratingEl = document.getElementById('vqRating');
+  const currentEl = document.getElementById('voiceCurrent');
+  const tipEl = document.getElementById('voiceTip');
+
+  if (!bestVoice) {
+    ratingEl.textContent = '⚠️ 未检测到中文语音';
+    ratingEl.className = 'vq-rating poor';
+    currentEl.textContent = '无可用中文语音';
+    tipEl.className = 'voice-tip';
+    tipEl.innerHTML = `<strong>⚠️ 当前浏览器不支持中文 TTS</strong><br>请使用 Microsoft Edge 浏览器，或上传 MP3 配音文件。`;
+    return;
+  }
+  const r = rateVoice(bestVoice);
+  ratingEl.innerHTML = `${'★'.repeat(r.score)}${'☆'.repeat(5-r.score)} ${r.label}`;
+  ratingEl.className = `vq-rating ${r.cls}`;
+  currentEl.textContent = `${bestVoice.name}（${bestVoice.lang}）`;
+
+  if (r.score >= 5) {
+    tipEl.className = 'voice-tip success';
+    tipEl.innerHTML = `<strong>🌟 已选用央视级神经男声</strong><br>这是浏览器中最接近新闻联播主播的语音，可直接播放。`;
+  } else if (r.score >= 4) {
+    tipEl.className = 'voice-tip success';
+    tipEl.innerHTML = `<strong>✅ 神经网络中文语音</strong><br>音质优秀。如需更接近"新闻联播男声"水准，建议使用 <strong>Microsoft Edge</strong> 浏览器，可获得"<strong>Yunjian / Yunyang / Yunxi</strong>"专业男声。`;
+  } else if (r.score >= 3) {
+    tipEl.className = 'voice-tip';
+    tipEl.innerHTML = `<strong>👍 本地中文男声</strong><br>可用，但与央视主播仍有差距。强烈建议：<br>① 改用 <strong>Microsoft Edge</strong> 浏览器（免费即用神经男声）<br>② 或 <a onclick="document.getElementById('scriptModal').classList.add('show')">用剪映/讯飞智作生成 MP3</a> 上传`;
+  } else {
+    tipEl.className = 'voice-tip';
+    tipEl.innerHTML = `<strong>⚠️ 当前为女声/低质量语音，远未达到央视主播水准</strong><br>
+    <strong style="color:#FCD34D">3 个升级方案（任选其一）：</strong><br>
+    ① <strong>改用 Microsoft Edge 浏览器</strong>（免费即用神经男声）<br>
+    ② <strong>用剪映 App 生成 MP3</strong>（"新闻联播"音色）→ <a onclick="document.getElementById('scriptModal').classList.add('show')">查看详细步骤</a><br>
+    ③ <strong>用讯飞智作生成 MP3</strong>（"讯飞磁性男声"接近央视）→ <a onclick="document.getElementById('scriptModal').classList.add('show')">查看详细步骤</a>`;
+  }
+}
+
+loadVoices(voices => {
+  allVoices = voices;
+  bestVoice = findBestChineseVoice();
+  refreshVoiceUI();
+});
+
+/* ============================================================
+ * 主播级朗读：分句 chunk + 句末停顿
+ * ============================================================ */
+
+function speakChunks(chunks, sceneIdx, onAllDone) {
+  if (chunkSpeakingTimer) {
+    clearTimeout(chunkSpeakingTimer);
+    chunkSpeakingTimer = null;
+  }
+  speechSynthesis.cancel();
+
+  let queue = [...chunks];
+
+  function speakNext() {
+    if (currentScene !== sceneIdx || !ttsEnabled || !isPlaying) return;
+    if (queue.length === 0) {
+      if (onAllDone) onAllDone();
+      return;
+    }
+    const chunk = queue.shift();
+    const utt = new SpeechSynthesisUtterance(chunk.text);
+    utt.lang = 'zh-CN';
+    utt.rate = 0.9;     // 主播节奏：略慢于正常
+    utt.pitch = 0.95;   // 略低，更像男声
+    utt.volume = 1.0;
+    if (bestVoice) utt.voice = bestVoice;
+
+    utt.onend = () => {
+      // 句末停顿
+      const pauseMs = chunk.pause || 200;
+      chunkSpeakingTimer = setTimeout(() => {
+        if (currentScene === sceneIdx && ttsEnabled && isPlaying) speakNext();
+      }, pauseMs);
+    };
+    utt.onerror = () => {
+      // 出错也尝试下一个
+      chunkSpeakingTimer = setTimeout(() => {
+        if (currentScene === sceneIdx && ttsEnabled && isPlaying) speakNext();
+      }, 200);
+    };
+
+    speechSynthesis.speak(utt);
+  }
+
+  speakNext();
+}
+
+function speakScene(idx) {
+  if (!ttsEnabled || mode === 'silent') return;
+  stopAllAudio();
+
+  // 优先使用上传的 MP3
+  if (uploadedAudio[idx]) {
+    setTimeout(() => {
+      if (currentScene !== idx || !isPlaying) return;
+      currentAudio = new Audio(uploadedAudio[idx]);
+      currentAudio.play().catch(e => console.error('音频播放失败:', e));
+    }, 300);
+    return;
+  }
+
+  // 否则使用 TTS 分句朗读
+  const data = NARRATIONS[idx];
+  if (!data) return;
+  setTimeout(() => {
+    if (currentScene === idx && ttsEnabled && isPlaying) {
+      speakChunks(data.chunks, idx);
+    }
+  }, data.delay * 1000);
+}
+
+function stopAllAudio() {
+  speechSynthesis.cancel();
+  if (chunkSpeakingTimer) {
+    clearTimeout(chunkSpeakingTimer);
+    chunkSpeakingTimer = null;
+  }
+  if (currentAudio) {
+    try { currentAudio.pause(); currentAudio.currentTime = 0; } catch(e){}
+    currentAudio = null;
+  }
+}
+
+function pauseAllAudio() {
+  if (speechSynthesis.speaking) speechSynthesis.pause();
+  if (currentAudio && !currentAudio.paused) currentAudio.pause();
+}
+
+function resumeAllAudio() {
+  if (speechSynthesis.paused) speechSynthesis.resume();
+  if (currentAudio && currentAudio.paused) currentAudio.play().catch(e=>{});
+}
+
+/* ============================================================
+ * 字幕分段
+ * ============================================================ */
+function showSubtitleSegments(idx) {
+  if (!subtitleOn) return;
+  const data = NARRATIONS[idx];
+  if (!data || !data.subtitleSegments) return;
+
+  const sub = scenes[idx].querySelector('.subtitle');
+  if (!sub) return;
+  sub.classList.remove('show');
+  sub.textContent = '';
+
+  if (subtitleTimer) clearInterval(subtitleTimer);
+
+  const showSeg = (text) => {
+    sub.textContent = text;
+    sub.classList.remove('show');
+    void sub.offsetHeight;
+    sub.classList.add('show');
+  };
+
+  setTimeout(() => {
+    if (currentScene !== idx) return;
+    const segs = data.subtitleSegments;
+    let nextSegIdx = 0;
+    showSeg(segs[0].text);
+    nextSegIdx = 1;
+    const startTime = Date.now();
+
+    subtitleTimer = setInterval(() => {
+      if (currentScene !== idx) {
+        clearInterval(subtitleTimer);
+        return;
+      }
+      const elapsedSec = (Date.now() - startTime) / 1000;
+      while (nextSegIdx < segs.length && elapsedSec >= segs[nextSegIdx].t - data.delay) {
+        showSeg(segs[nextSegIdx].text);
+        nextSegIdx++;
+      }
+      if (nextSegIdx >= segs.length) clearInterval(subtitleTimer);
+    }, 200);
+  }, data.delay * 1000);
+}
+
+/* ============================================================
+ * 视频流程
+ * ============================================================ */
+function selectMode(btn, m) {
+  document.querySelectorAll('.intro-mode-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  mode = m;
+  if (m === 'silent') {
+    ttsEnabled = false;
+    document.getElementById('btnTTS').classList.remove('on');
+    document.getElementById('btnTTS').textContent = '🔇 语音 OFF';
+  } else {
+    ttsEnabled = true;
+    document.getElementById('btnTTS').classList.add('on');
+    document.getElementById('btnTTS').textContent = '🔊 语音 ON';
+  }
+}
+
+function startVideo() {
+  document.getElementById('introCover').classList.add('hidden');
+  const cd = document.getElementById('countdown');
+  let n = 3;
+  cd.textContent = n;
+  cd.classList.add('show');
+  const cdInt = setInterval(() => {
+    n--;
+    if (n > 0) {
+      cd.textContent = n;
+      cd.classList.remove('show');
+      void cd.offsetHeight;
+      cd.classList.add('show');
+    } else {
+      clearInterval(cdInt);
+      cd.classList.remove('show');
+      isPlaying = true;
+      showScene(0);
+      startTimer();
+    }
+  }, 1000);
+}
+
+function showScene(idx) {
+  currentScene = idx;
+  scenes.forEach((s, i) => {
+    s.classList.toggle('active', i === idx);
+    if (i === idx) {
+      s.style.animation = 'none';
+      void s.offsetHeight;
+      s.style.animation = '';
+      s.querySelectorAll('[class*="-card"], [class*="-engine"], [class*="-stat"], [class*="-mod"]').forEach(el => {
+        el.style.animation = 'none';
+        void el.offsetHeight;
+        el.style.animation = '';
+      });
+    }
+  });
+  document.querySelectorAll('.scene-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  document.getElementById('sceneLabel').textContent = `SCENE ${idx+1} / ${scenes.length}`;
+  speakScene(idx);
+  showSubtitleSegments(idx);
+  if (idx === 3) {
+    setTimeout(animateDemo, 14000);
+  }
+}
+
+function animateDemo() {
+  if (currentScene !== 3) return;
+  const v1 = document.getElementById('dV1'), f1 = document.getElementById('dF1');
+  const v2 = document.getElementById('dV2'), f2 = document.getElementById('dF2');
+  const v3 = document.getElementById('dV3'), f3 = document.getElementById('dF3');
+  const score = document.getElementById('demoScore'), delta = document.getElementById('demoDelta');
+  const targets = [
+    { from: 60, to: 90, e: v1, f: f1 },
+    { from: 52, to: 85, e: v2, f: f2 },
+    { from: 50, to: 80, e: v3, f: f3 },
+  ];
+  let progress = 0;
+  const dur = 8000, step = 50;
+  const interval = setInterval(() => {
+    if (currentScene !== 3 || !isPlaying) {
+      clearInterval(interval);
+      return;
+    }
+    progress += step;
+    const ratio = Math.min(progress / dur, 1);
+    targets.forEach(t => {
+      const v = Math.round(t.from + (t.to - t.from) * ratio);
+      t.e.textContent = v;
+      t.f.style.width = v + '%';
+    });
+    const newScore = (62 + (88 - 62) * ratio).toFixed(1);
+    score.textContent = newScore;
+    if (ratio >= 1) {
+      delta.textContent = '🚀 郑州模式 · +26.0';
+      delta.style.background = 'rgba(252,165,165,0.18)';
+      delta.style.color = '#FCA5A5';
+      clearInterval(interval);
+    }
+  }, step);
+}
+
+function startTimer() {
+  if (timer) clearInterval(timer);
+  timer = setInterval(() => {
+    if (!isPlaying) return;
+    elapsed += 0.1;
+    if (elapsed >= totalDuration) {
+      isPlaying = false;
+      stopAllAudio();
+      document.getElementById('btnPlay').textContent = '▶ 重播';
+      return;
+    }
+    document.getElementById('topBarFill').style.width = (elapsed / totalDuration * 100) + '%';
+    const mm = Math.floor(elapsed / 60).toString().padStart(2, '0');
+    const ss = Math.floor(elapsed % 60).toString().padStart(2, '0');
+    document.getElementById('timecode').textContent = `${mm}:${ss} / 03:00`;
+    let scIdx = cumulative.findIndex(c => elapsed < c);
+    if (scIdx < 0) scIdx = scenes.length - 1;
+    if (scIdx !== currentScene) showScene(scIdx);
+  }, 100);
+}
+
+function togglePlay() {
+  if (elapsed >= totalDuration) { restart(); return; }
+  isPlaying = !isPlaying;
+  document.getElementById('btnPlay').textContent = isPlaying ? '⏸ 暂停' : '▶ 播放';
+  if (isPlaying) resumeAllAudio();
+  else pauseAllAudio();
+}
+
+function restart() {
+  stopAllAudio();
+  if (subtitleTimer) clearInterval(subtitleTimer);
+  elapsed = 0;
+  currentScene = -1;
+  isPlaying = true;
+  document.getElementById('btnPlay').textContent = '⏸ 暂停';
+  document.getElementById('topBarFill').style.width = '0%';
+  const initVals = [60, 52, 50];
+  ['dV1','dV2','dV3'].forEach((id, i) => document.getElementById(id).textContent = initVals[i]);
+  ['dF1','dF2','dF3'].forEach((id, i) => document.getElementById(id).style.width = initVals[i]+'%');
+  document.getElementById('demoScore').textContent = '62.0';
+  const delta = document.getElementById('demoDelta');
+  delta.textContent = '基线情景';
+  delta.style.background = 'rgba(134,239,172,0.18)';
+  delta.style.color = '#86EFAC';
+  showScene(0);
+}
+
+function jumpToScene(idx) {
+  stopAllAudio();
+  if (subtitleTimer) clearInterval(subtitleTimer);
+  currentScene = idx;
+  elapsed = idx > 0 ? cumulative[idx-1] : 0;
+  showScene(idx);
+  document.getElementById('topBarFill').style.width = (elapsed / totalDuration * 100) + '%';
+}
+
+function toggleTTS() {
+  ttsEnabled = !ttsEnabled;
+  const btn = document.getElementById('btnTTS');
+  btn.classList.toggle('on', ttsEnabled);
+  btn.textContent = ttsEnabled ? '🔊 语音 ON' : '🔇 语音 OFF';
+  if (!ttsEnabled) stopAllAudio();
+  else if (isPlaying) speakScene(currentScene);
+}
+
+function toggleSubtitle() {
+  subtitleOn = !subtitleOn;
+  const btn = document.getElementById('btnSub');
+  btn.classList.toggle('on', subtitleOn);
+  btn.textContent = '字幕 ' + (subtitleOn ? 'ON' : 'OFF');
+  if (!subtitleOn) {
+    document.querySelectorAll('.subtitle').forEach(s => s.classList.remove('show'));
+    if (subtitleTimer) clearInterval(subtitleTimer);
+  } else if (isPlaying) showSubtitleSegments(currentScene);
+}
+
+function toggleRec() {
+  document.getElementById('recTip').classList.toggle('show');
+  setTimeout(() => document.getElementById('recTip').classList.remove('show'), 8000);
+}
+
+/* ============================================================
+ * 试听 / 复制 / MP3 上传
+ * ============================================================ */
+function testVoice() {
+  speechSynthesis.cancel();
+  const sample = '各位领导，向您郑重汇报：河南省高效能治理交互模拟系统。';
+  const utt = new SpeechSynthesisUtterance(sample);
+  utt.lang = 'zh-CN';
+  utt.rate = 0.9;
+  utt.pitch = 0.95;
+  if (bestVoice) utt.voice = bestVoice;
+  speechSynthesis.speak(utt);
+}
+
+function copyText(btn, id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = '✓ 已复制';
+    btn.style.background = 'var(--gold)';
+    btn.style.color = '#8B0000';
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 1500);
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓ 已复制';
+    setTimeout(() => btn.textContent = '复制', 1500);
+  });
+}
+
+document.getElementById('audioUpload').addEventListener('change', e => {
+  const files = Array.from(e.target.files);
+  if (files.length === 0) return;
+
+  // 按文件名排序（1.mp3, 2.mp3, ...）
+  files.sort((a, b) => {
+    const numA = parseInt(a.name.match(/\d+/)?.[0] || '0');
+    const numB = parseInt(b.name.match(/\d+/)?.[0] || '0');
+    return numA - numB;
+  });
+
+  files.forEach((f, i) => {
+    if (i < 7) {
+      // 释放旧的
+      if (uploadedAudio[i]) URL.revokeObjectURL(uploadedAudio[i]);
+      uploadedAudio[i] = URL.createObjectURL(f);
+    }
+  });
+
+  const status = document.getElementById('uploadStatus');
+  const count = Math.min(files.length, 7);
+  status.classList.remove('empty');
+  status.innerHTML = `✓ 已上传 <strong>${count}</strong> 个 MP3 文件，将自动覆盖默认 TTS。${count < 7 ? `（建议上传 7 个，剩余 ${7-count} 个仍用 TTS）` : '🎉 全部场景已配音！'}`;
+});
+
+// 键盘
+document.addEventListener('keydown', e => {
+  if (document.getElementById('scriptModal').classList.contains('show')) {
+    if (e.code === 'Escape') document.getElementById('scriptModal').classList.remove('show');
+    return;
+  }
+  if (document.getElementById('introCover').classList.contains('hidden') === false) return;
+  if (e.code === 'Space') { e.preventDefault(); togglePlay(); }
+  if (e.code === 'ArrowRight') jumpToScene(Math.min(currentScene+1, scenes.length-1));
+  if (e.code === 'ArrowLeft') jumpToScene(Math.max(currentScene-1, 0));
+  if (e.code === 'KeyR') restart();
+  if (e.code === 'KeyF') document.documentElement.requestFullscreen();
+  if (e.code === 'KeyM') toggleTTS();
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) pauseAllAudio();
+  else if (isPlaying && ttsEnabled) resumeAllAudio();
+});
+</script>
+</body>
+</html>

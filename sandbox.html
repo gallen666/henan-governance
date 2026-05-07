@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>河南治理 EN-ROADS 沙盘 · 完整融合版 v3.0</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<style>
+:root{
+  --c-party:#B8232F;
+  --c-grid:#C9A063;
+  --c-brain:#1E3A5F;
+  --c-collab:#2F855A;
+  --c-cap:#805AD5;
+  --c-scene:#D2691E;
+  --gold:#C9A063;
+  --primary:#B8232F;
+  --primary-dark:#8B0000;
+  --primary-light:#E8C4C8;
+  --navy:#1E3A5F;
+  --navy-light:#2C5282;
+  --bg:#F4F2EE;
+  --bg-card:#fff;
+  --text:#1A202C;
+  --text-secondary:#4A5568;
+  --text-light:#718096;
+  --border:#DDD8CF;
+  --border-strong:#C8C2B5;
+  --good:#2F855A;
+  --warn:#D69E2E;
+  --bad:#C53030;
+  --shadow:0 1px 3px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 24px rgba(0,0,0,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+
+/* ============== 顶部导航条 ============== */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;box-shadow:var(--shadow)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),#8B0000);color:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;font-family:Georgia,serif;font-size:20px}
+.brand-text{display:flex;flex-direction:column}
+.brand-cn{font-size:14px;font-weight:800;color:var(--navy);line-height:1}
+.brand-en{font-size:9px;color:var(--text-light);letter-spacing:1.5px;margin-top:2px}
+.topbar-actions{display:flex;gap:6px;flex-wrap:wrap}
+.tb-btn{padding:6px 12px;font-size:12px;border-radius:4px;border:1px solid var(--border);background:#fff;color:var(--text-secondary);cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .15s;font-weight:600}
+.tb-btn:hover{background:#FAFAFA;border-color:var(--gold);color:var(--primary)}
+.tb-btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tb-btn.primary:hover{background:#8B0000;color:#fff}
+.tb-btn.active{background:var(--gold);color:var(--primary-dark);border-color:var(--gold);font-weight:700}
+
+/* ============== KPI 大数字栏 ============== */
+.kpi-strip{background:#fff;border-bottom:1px solid var(--border);padding:14px 20px;display:grid;grid-template-columns:1.1fr 0.9fr 0.9fr 1fr 1.4fr;gap:18px;align-items:center}
+.kpi-isui{display:flex;flex-direction:column;border-right:1px solid var(--border);padding-right:18px;background:linear-gradient(135deg,rgba(56,189,248,0.08),rgba(96,165,250,0.04));margin:-14px 0;padding:14px 18px;border-left:3px solid #38bdf8}
+.kpi-isui-label{font-size:10px;letter-spacing:2px;font-weight:700;margin-bottom:6px;color:#38bdf8;display:flex;align-items:center;gap:5px}
+.kpi-isui-label::before{content:"🌆";font-size:14px}
+.kpi-isui-num{font-size:32px;font-weight:800;color:#0284c7;font-family:Georgia,serif;line-height:1}
+.kpi-isui-rank{font-size:11px;color:var(--text-secondary);margin-top:4px}
+.kpi-isui-rank b{color:#0284c7;font-weight:800}
+.kpi-big{display:flex;flex-direction:column;align-items:flex-start;border-right:1px solid var(--border);padding-right:20px}
+.kpi-big-label{font-size:10px;letter-spacing:2px;color:var(--text-light);font-weight:700;margin-bottom:4px}
+.kpi-big-value{display:flex;align-items:baseline;gap:6px}
+.kpi-big-num{font-size:52px;font-weight:900;color:var(--primary);font-family:Georgia,serif;line-height:1}
+.kpi-big-unit{font-size:13px;color:var(--text-light)}
+.kpi-big-meta{font-size:11px;color:var(--text-light);margin-top:4px;letter-spacing:0.5px}
+.kpi-mid{display:flex;flex-direction:column;border-right:1px solid var(--border);padding-right:20px}
+.kpi-mid-label{font-size:10px;letter-spacing:2px;color:var(--text-light);font-weight:700;margin-bottom:6px}
+.kpi-mid-num{font-size:32px;font-weight:800;color:var(--navy);font-family:Georgia,serif;line-height:1}
+.kpi-mid-num.gap{color:var(--bad)}
+.kpi-mid-num.gap.met{color:var(--good)}
+.kpi-mid-meta{font-size:10px;color:var(--text-light);margin-top:4px}
+.kpi-target{padding-right:0;border-right:none}
+.target-row{display:flex;gap:8px;align-items:flex-start}
+.target-card{flex:1;padding:8px 10px;background:linear-gradient(135deg,#FAF8F4,#fff);border:1px solid #E8DCC0;border-radius:6px;border-left:3px solid var(--target-color,var(--gold))}
+.target-card.d1{--target-color:var(--c-party)}
+.target-card.d2{--target-color:var(--c-grid)}
+.target-card.d3{--target-color:var(--c-brain)}
+.target-card.d4{--target-color:var(--c-collab)}
+.target-card.d5{--target-color:var(--c-cap)}
+.target-card .lbl{font-size:9px;letter-spacing:1.5px;color:var(--text-light);font-weight:700}
+.target-card .val{font-size:18px;font-weight:800;color:var(--primary);font-family:Georgia,serif;line-height:1.2}
+.target-card .desc{font-size:10px;color:var(--text-light);margin-top:2px}
+
+/* ============== 主体三栏 ============== */
+.main{display:grid;grid-template-columns:360px 1fr;gap:0;min-height:calc(100vh - 132px)}
+
+/* 左：滑块面板 */
+.sliders-panel{background:#fff;border-right:1px solid var(--border);overflow-y:auto;padding:14px 16px;max-height:calc(100vh - 132px);position:sticky;top:132px}
+.sliders-panel::-webkit-scrollbar{width:6px}
+.sliders-panel::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px}
+.sp-title{font-size:11px;letter-spacing:2px;color:var(--text-light);font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+.category{margin-bottom:12px;background:#FAFAFA;border-radius:6px;border-left:3px solid var(--cat-color);--cat-color:var(--primary)}
+.category.party{--cat-color:var(--c-party)}
+.category.grid{--cat-color:var(--c-grid)}
+.category.brain{--cat-color:var(--c-brain)}
+.category.collab{--cat-color:var(--c-collab)}
+.category.cap{--cat-color:var(--c-cap)}
+.category.scene{--cat-color:var(--c-scene)}
+.cat-header{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.cat-header:hover{background:#F5F5F0}
+.cat-name{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:var(--navy)}
+.cat-name .dot{width:10px;height:10px;border-radius:50%;background:var(--cat-color)}
+.cat-arrow{font-size:10px;color:var(--text-light);transition:transform .2s}
+.category.open .cat-arrow{transform:rotate(180deg)}
+.cat-stats{display:flex;gap:8px;font-size:10px;color:var(--text-light);align-items:center}
+.cat-score{font-weight:800;color:var(--cat-color);font-family:Georgia,serif;font-size:13px}
+.cat-body{display:none;padding:0 14px 12px}
+.category.open .cat-body{display:block}
+
+.slider-row{margin-bottom:12px;padding:10px;background:#fff;border-radius:5px;border:1px solid var(--border)}
+.slider-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:6px}
+.slider-name{font-size:12px;font-weight:600;color:var(--text);flex:1;line-height:1.3}
+.slider-value-input{width:55px;font-size:12px;font-weight:800;color:var(--cat-color,var(--primary));text-align:center;border:1px solid var(--border);border-radius:3px;padding:2px 6px;font-family:Georgia,serif;background:#FAFAFA}
+.slider-value-input:focus{outline:none;border-color:var(--gold);background:#fff}
+.slider-info-btn{background:none;border:none;color:var(--text-light);font-size:13px;cursor:pointer;padding:0;display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%}
+.slider-info-btn:hover{background:#F0EDE5;color:var(--primary)}
+.slider-bar{position:relative;height:24px;display:flex;align-items:center}
+.slider-bar input[type="range"]{width:100%;-webkit-appearance:none;appearance:none;height:4px;background:linear-gradient(90deg,#E2E8F0,var(--cat-color,var(--primary)));border-radius:2px;outline:none}
+.slider-bar input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;background:#fff;border:2px solid var(--cat-color,var(--primary));border-radius:50%;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.15)}
+.slider-bar input[type="range"]::-moz-range-thumb{width:16px;height:16px;background:#fff;border:2px solid var(--cat-color,var(--primary));border-radius:50%;cursor:pointer}
+.slider-marks{display:flex;justify-content:space-between;font-size:9px;color:var(--text-light);margin-top:2px}
+
+/* 右：图表区 */
+.charts-panel{padding:14px 18px;overflow-y:auto;background:var(--bg)}
+.charts-row{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:16px}
+.charts-row.equal{grid-template-columns:1fr 1fr}
+.chart-block{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+.chart-block.full{grid-column:1/-1}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;gap:10px}
+.chart-title{font-size:13px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:6px}
+.chart-title::before{content:"";width:3px;height:13px;background:linear-gradient(180deg,var(--primary),var(--gold));border-radius:1.5px}
+.chart-meta{font-size:10px;color:var(--text-light)}
+.chart-canvas-wrap{position:relative;height:240px}
+.chart-canvas-wrap.tall{height:300px}
+.chart-canvas-wrap.short{height:180px}
+.chart-canvas-wrap.xtall{height:380px}
+.time-axis-note{display:flex;justify-content:space-between;font-size:9px;color:var(--text-light);margin-top:6px;padding:0 8px}
+.time-axis-note .past{color:#9CA3AF}
+.time-axis-note .future{color:var(--primary)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:10px;margin-top:8px}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-color{width:10px;height:10px;border-radius:2px}
+
+/* 反馈回路 */
+.feedback-loops{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.fb-loop{background:#FAFAFA;border-left:3px solid;border-radius:0 4px 4px 0;padding:10px 12px;font-size:11px}
+.fb-loop.reinforce{border-left-color:var(--good);background:rgba(47,133,90,0.04)}
+.fb-loop.balance{border-left-color:var(--warn);background:rgba(214,158,46,0.04)}
+.fb-loop .lbl{font-size:9px;letter-spacing:1.5px;font-weight:700;margin-bottom:4px}
+.fb-loop.reinforce .lbl{color:var(--good)}
+.fb-loop.balance .lbl{color:var(--warn)}
+.fb-loop .desc{color:var(--text-secondary);line-height:1.55}
+.fb-loop .val{font-weight:800;color:var(--text);margin-left:4px}
+
+/* 4 效能卡 */
+.eff-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:6px}
+.eff-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;border-top:3px solid var(--card-color)}
+.eff-card.c1{--card-color:var(--c-party)}
+.eff-card.c2{--card-color:var(--c-brain)}
+.eff-card.c3{--card-color:var(--c-collab)}
+.eff-card.c4{--card-color:var(--c-grid)}
+.eff-card .ico{font-size:24px;margin-bottom:6px}
+.eff-card .name{font-size:12px;color:var(--text-secondary);margin-bottom:4px}
+.eff-card .stat{font-size:22px;font-weight:800;color:var(--card-color);font-family:Georgia,serif;line-height:1}
+.eff-card .desc{font-size:10px;color:var(--text-light);margin-top:6px}
+
+/* AI 诊断 */
+.ai-bar{background:linear-gradient(135deg,#1E3A5F,#142a47);color:#fff;border-radius:8px;padding:14px 18px;margin-bottom:16px;display:flex;gap:18px;align-items:flex-start}
+.ai-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.ai-content{flex:1}
+.ai-content .lbl{font-size:9px;letter-spacing:2px;color:var(--gold);font-weight:800}
+.ai-content .text{font-size:12.5px;line-height:1.7;color:rgba(255,255,255,0.92);margin-top:4px}
+.ai-content ul{list-style:none;padding:0;margin-top:6px;display:flex;flex-direction:column;gap:4px}
+.ai-content ul li{padding:6px 10px;background:rgba(255,255,255,0.08);border-left:2px solid rgba(201,160,99,0.5);border-radius:0 4px 4px 0;font-size:11.5px}
+.ai-content ul li.warn{border-left-color:#FCA5A5;background:rgba(252,165,165,0.08)}
+.ai-content ul li.good{border-left-color:#86EFAC;background:rgba(134,239,172,0.08)}
+
+/* 完整指标体系 */
+.idx-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;padding:14px;background:linear-gradient(135deg,#FAF8F4,#F4ECD8);border-radius:8px;border:1px solid #E8DCC0}
+.idx-stat{text-align:center;padding:6px}
+.idx-stat .num{font-size:26px;font-weight:800;color:var(--primary);line-height:1;font-family:Georgia,serif}
+.idx-stat .lbl{font-size:11px;color:var(--text-secondary);margin-top:6px}
+.idx-stat .desc{font-size:10px;color:var(--text-light);margin-top:2px}
+
+.dimension-row{display:flex;flex-direction:column;gap:10px}
+.dimension-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .25s;position:relative;border-left:4px solid var(--dim-color)}
+.dimension-card.dim-1{--dim-color:var(--c-party)}
+.dimension-card.dim-2{--dim-color:var(--c-grid)}
+.dimension-card.dim-3{--dim-color:var(--c-brain)}
+.dimension-card.dim-4{--dim-color:var(--c-collab)}
+.dimension-card.dim-5{--dim-color:var(--c-cap)}
+.dimension-card:hover{box-shadow:var(--shadow-lg)}
+.dim-head{display:grid;grid-template-columns:40px 1fr auto auto auto;gap:14px;align-items:center}
+.dim-icon{width:36px;height:36px;background:rgba(0,0,0,0.04);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.dim-name{display:flex;flex-direction:column;gap:2px}
+.dim-name h3{font-size:14px;font-weight:700;color:var(--navy);line-height:1.3}
+.dim-name .meta{font-size:11px;color:var(--text-light)}
+.dim-weight{font-size:9px;font-weight:700;color:var(--text-secondary);background:#FAFAFA;padding:3px 8px;border-radius:10px;letter-spacing:1px}
+.dim-score{font-size:22px;font-weight:800;color:var(--dim-color);font-family:Georgia,serif;line-height:1;min-width:50px;text-align:right}
+.dim-toggle{width:24px;height:24px;border-radius:50%;background:#FAFAFA;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-secondary);transition:transform .2s}
+.dimension-card.expanded .dim-toggle{transform:rotate(180deg);background:var(--dim-color);color:#fff}
+.dim-body{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border)}
+.dimension-card.expanded .dim-body{display:block}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sub-card{background:linear-gradient(180deg,#fafbfc,#fff);border:1px solid var(--border);border-radius:6px;padding:10px}
+.sub-card-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.sub-card-name{font-size:12px;font-weight:700;color:var(--navy)}
+.sub-card-weight{font-size:9px;font-weight:700;color:var(--text-light);background:#fff;padding:1px 6px;border-radius:8px;border:1px solid var(--border)}
+.sub-card-score{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:6px;font-family:Georgia,serif}
+.sub-card-bar{height:4px;background:#edf0f4;border-radius:2px;overflow:hidden;margin-bottom:6px}
+.sub-card-bar>div{height:100%;background:linear-gradient(90deg,var(--primary),var(--gold));border-radius:2px;transition:width .6s}
+.sub-card-tier3{font-size:10px;color:var(--text-light);line-height:1.5}
+.sub-card-tier3 .tier3-title{display:block;color:var(--text-secondary);font-weight:600;margin-bottom:2px;font-size:9px;letter-spacing:1px}
+.sub-card-tier3 ul{padding-left:12px;margin:0;list-style:disc}
+.sub-card-tier3 li{margin-bottom:1px}
+
+/* 滑块详情弹窗 */
+.detail-modal{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+.detail-modal.show{display:flex}
+.dm-box{background:#fff;border-radius:10px;width:100%;max-width:780px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.dm-header{padding:18px 22px;background:linear-gradient(135deg,#FAFAFA,#fff);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.dm-title-block{display:flex;align-items:center;gap:14px}
+.dm-cat-tag{font-size:9px;letter-spacing:2px;font-weight:800;padding:3px 10px;border-radius:3px;background:var(--cat-color);color:#fff}
+.dm-title{font-size:18px;font-weight:800;color:var(--navy)}
+.dm-close{background:none;border:none;font-size:22px;color:var(--text-light);cursor:pointer;width:30px;height:30px;border-radius:50%}
+.dm-close:hover{background:#F0EDE5;color:var(--primary)}
+.dm-body{padding:20px 22px;overflow-y:auto}
+.dm-section{margin-bottom:20px}
+.dm-section h4{font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:800;margin-bottom:8px}
+.dm-desc{font-size:13px;line-height:1.85;color:var(--text)}
+.dm-desc strong{color:var(--primary)}
+.dm-current{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.dm-stat{background:#FAFAFA;border-radius:6px;padding:12px 14px;border-left:3px solid var(--cat-color)}
+.dm-stat .lbl{font-size:10px;color:var(--text-light);letter-spacing:1px}
+.dm-stat .val{font-size:22px;font-weight:800;color:var(--primary);font-family:Georgia,serif}
+.dm-stat .delta{font-size:11px;color:var(--text-secondary);margin-top:2px}
+.dm-examples{padding:12px 14px;background:#FAF8F4;border-radius:6px;font-size:12px;line-height:1.85}
+.dm-examples strong{color:var(--primary)}
+.dm-related{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.dm-related-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#FAFAFA;border-radius:5px;font-size:12px}
+.dm-related-item .nm{color:var(--text)}
+.dm-related-item .vl{font-weight:700;color:var(--cat-color);font-family:Georgia,serif}
+
+/* 浮动迷你仪表盘 */
+.mini-dash{position:fixed;right:20px;bottom:20px;width:300px;background:linear-gradient(135deg,#1E3A5F,#142a47);color:#fff;border:1px solid rgba(201,160,99,0.3);border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,0.25);z-index:90;overflow:hidden;transition:all .3s;backdrop-filter:blur(8px)}
+.mini-dash.collapsed{width:160px}
+.mini-dash-header{display:flex;justify-content:space-between;align-items:center;padding:9px 13px;background:linear-gradient(135deg,rgba(201,160,99,0.15),rgba(201,160,99,0.05));border-bottom:1px solid rgba(201,160,99,0.2);cursor:pointer}
+.mini-dash-title{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--gold);display:flex;align-items:center;gap:6px}
+.live-pulse{display:inline-block;width:6px;height:6px;background:#86EFAC;border-radius:50%;box-shadow:0 0 8px #86EFAC;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.mini-dash-collapse{width:20px;height:20px;background:rgba(255,255,255,0.1);border:none;border-radius:50%;color:#fff;font-size:10px;cursor:pointer}
+.mini-dash-body{padding:13px}
+.mini-dash.collapsed .mini-dash-body{padding:10px 13px}
+.mini-dash.collapsed .mini-dash-detail,.mini-dash.collapsed .mini-dash-pills,.mini-dash.collapsed .mini-dash-jump{display:none}
+.mini-dash-composite{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.mini-dash-composite .v{font-size:30px;font-weight:900;color:var(--gold);font-family:Georgia,serif;line-height:1}
+.mini-dash-composite .u{font-size:10px;opacity:.7}
+.mini-dash-composite .delta{margin-left:auto;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(134,239,172,0.18);color:#86EFAC}
+.mini-dash-composite .delta.neg{background:rgba(252,165,165,0.18);color:#FCA5A5}
+.mini-dash-scenario{font-size:10px;color:rgba(255,255,255,0.7);margin-bottom:10px}
+.mini-dash-scenario strong{color:#fff}
+.mini-dash-detail{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:10px}
+.mini-dim{text-align:center;padding:5px 2px;background:rgba(255,255,255,0.05);border-radius:5px}
+.mini-dim .ll{font-size:8px;opacity:.65;letter-spacing:.5px}
+.mini-dim .vv{font-size:13px;font-weight:800;margin-top:2px}
+.mini-dim.d1 .vv{color:#FCA5A5}
+.mini-dim.d2 .vv{color:#FCD34D}
+.mini-dim.d3 .vv{color:#93C5FD}
+.mini-dim.d4 .vv{color:#86EFAC}
+.mini-dim.d5 .vv{color:#C4B5FD}
+.mini-dash-pills{display:flex;gap:3px;margin-bottom:8px;flex-wrap:wrap}
+.mini-pill{flex:1;min-width:0;padding:4px 3px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);cursor:pointer;font-family:inherit;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-pill:hover{background:rgba(201,160,99,0.2);color:var(--gold)}
+.mini-pill.active{background:var(--gold);color:#8B0000;font-weight:800}
+.mini-dash-jump{display:flex;gap:5px}
+.mini-dash-jump button{flex:1;padding:6px 6px;background:linear-gradient(135deg,rgba(184,35,47,0.7),rgba(184,35,47,0.5));border:1px solid rgba(201,160,99,0.3);border-radius:5px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;font-family:inherit}
+.mini-dash-jump button:hover{background:var(--primary)}
+.mini-dash-jump button.alt{background:rgba(255,255,255,0.06)}
+
+/* 快速调节 FAB */
+.quick-sim-fab{position:fixed;right:20px;bottom:230px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border:3px solid var(--gold);color:#fff;font-size:20px;cursor:pointer;box-shadow:0 8px 20px rgba(184,35,47,0.4);z-index:91;transition:all .25s;display:flex;align-items:center;justify-content:center}
+.quick-sim-fab:hover{transform:scale(1.08) rotate(15deg)}
+
+/* 快速调节抽屉 */
+.quick-sim-drawer{position:fixed;left:0;right:0;bottom:0;height:0;background:#fff;border-top:4px solid var(--primary);box-shadow:0 -12px 40px rgba(0,0,0,0.18);z-index:95;transition:height .35s cubic-bezier(0.4,0,0.2,1);overflow:hidden;display:flex;flex-direction:column}
+.quick-sim-drawer.open{height:520px}
+.qsd-header{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:linear-gradient(135deg,#FAF8F4,#F4ECD8);border-bottom:1px solid #E8DCC0}
+.qsd-title{font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:10px}
+.qsd-title .icon{width:30px;height:30px;background:var(--primary);color:#fff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.qsd-close{width:32px;height:32px;border-radius:50%;background:#fff;border:1px solid var(--border);color:var(--text-secondary);font-size:18px;cursor:pointer}
+.qsd-close:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.qsd-body{flex:1;overflow-y:auto;padding:18px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 20px}
+.qsd-lever{background:linear-gradient(180deg,#fff,#fafbfc);border:1px solid var(--border);border-radius:7px;padding:11px}
+.qsd-lever-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.qsd-lever-name{font-size:12px;font-weight:700;color:var(--text)}
+.qsd-lever-cat{font-size:9px;letter-spacing:1px;color:var(--gold);font-weight:800;background:var(--bg);padding:1px 6px;border-radius:8px}
+.qsd-lever-val{font-size:13px;font-weight:800;color:var(--primary);background:var(--primary-light);padding:1px 8px;border-radius:10px}
+.qsd-lever input[type="range"]{width:100%;-webkit-appearance:none;appearance:none;height:5px;background:linear-gradient(90deg,#E63946 0%,var(--gold) 50%,var(--good) 100%);border-radius:3px;outline:none}
+.qsd-lever input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:15px;height:15px;background:#fff;border:2px solid var(--primary);border-radius:50%;cursor:pointer}
+.qsd-footer{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--bg);border-top:1px solid var(--border)}
+.qsd-footer .composite-readout{font-size:13px;color:var(--text-secondary)}
+.qsd-footer .composite-readout strong{font-size:22px;color:var(--primary);font-family:Georgia,serif;margin-right:4px}
+.qsd-presets{display:flex;gap:5px;flex-wrap:wrap}
+.qsd-presets button{padding:6px 12px;border-radius:14px;border:1px solid var(--border-strong);background:#fff;font-size:11px;font-weight:700;color:var(--text-secondary);cursor:pointer;font-family:inherit}
+.qsd-presets button:hover{border-color:var(--primary);color:var(--primary)}
+.qsd-presets button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.qsd-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:94;opacity:0;pointer-events:none;transition:opacity .3s}
+.qsd-overlay.show{opacity:1;pointer-events:auto}
+
+/* Toast */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);padding:10px 20px;background:rgba(31,41,55,0.95);color:#fff;border-radius:24px;font-size:13px;z-index:300;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.show{opacity:1}
+
+@media (max-width:1100px){
+  .main{grid-template-columns:1fr;height:auto}
+  .sliders-panel{max-height:50vh;position:relative;top:auto}
+  .charts-row,.charts-row.equal{grid-template-columns:1fr}
+  .kpi-strip{grid-template-columns:1fr 1fr;gap:14px}
+  .target-row{flex-wrap:wrap}
+  .eff-grid{grid-template-columns:repeat(2,1fr)}
+  .idx-summary{grid-template-columns:repeat(2,1fr)}
+  .sub-grid{grid-template-columns:1fr}
+  .qsd-body{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- 顶栏 -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-logo">豫</div>
+    <div class="brand-text">
+      <div class="brand-cn">河南治理 EN-ROADS 沙盘 · 完整融合版</div>
+      <div class="brand-en">SYSTEM DYNAMICS · STOCKS & FLOWS · v3.0</div>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button class="tb-btn" data-preset="baseline">📍 基线</button>
+    <button class="tb-btn" data-preset="incremental">📈 渐进式</button>
+    <button class="tb-btn" data-preset="zhengzhou">🏛️ 郑州模式</button>
+    <button class="tb-btn" data-preset="deep">🚀 深化改革</button>
+    <button class="tb-btn" data-preset="modern">🌟 全面现代化</button>
+    <button class="tb-btn" data-preset="reset" style="color:var(--bad);border-color:#feb2b2">⟲ 重置</button>
+    <button class="tb-btn" id="btn-share">🔗 分享</button>
+    <button class="tb-btn primary" id="btn-tour">📖 教程</button>
+  </div>
+</header>
+
+<!-- KPI 大数字栏 -->
+<div class="kpi-strip">
+  <div class="kpi-big">
+    <div class="kpi-big-label">2050 年综合群众满意度</div>
+    <div class="kpi-big-value">
+      <span class="kpi-big-num" id="kpi-2050">—</span>
+      <span class="kpi-big-unit">/100 分</span>
+    </div>
+    <div class="kpi-big-meta" id="kpi-2050-meta">基线情景预测</div>
+  </div>
+  <div class="kpi-mid">
+    <div class="kpi-mid-label">2030 里程碑</div>
+    <div class="kpi-mid-num" id="kpi-2030">—</div>
+    <div class="kpi-mid-meta">短期路径节点</div>
+  </div>
+  <div class="kpi-mid">
+    <div class="kpi-mid-label">距 85 分目标</div>
+    <div class="kpi-mid-num gap" id="kpi-gap">—</div>
+    <div class="kpi-mid-meta">现代化目标差距</div>
+  </div>
+  <div class="kpi-isui">
+    <div class="kpi-isui-label">ISUI 智慧城市指数</div>
+    <div class="kpi-isui-num" id="kpi-isui">—</div>
+    <div class="kpi-isui-rank">全球预估 #<b id="kpi-rank">—</b> / 73 城市</div>
+  </div>
+  <div class="kpi-target">
+    <div class="target-row">
+      <div class="target-card d1"><div class="lbl">公服 25%</div><div class="val" id="d1-val">—</div></div>
+      <div class="target-card d2"><div class="lbl">治理 25%</div><div class="val" id="d2-val">—</div></div>
+      <div class="target-card d3"><div class="lbl">参与 20%</div><div class="val" id="d3-val">—</div></div>
+      <div class="target-card d4"><div class="lbl">生活 20%</div><div class="val" id="d4-val">—</div></div>
+      <div class="target-card d5"><div class="lbl">作风 10%</div><div class="val" id="d5-val">—</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 主体 -->
+<div class="main">
+  <!-- 左：滑块面板 -->
+  <aside class="sliders-panel" id="sliders-panel"></aside>
+
+  <!-- 右：图表区 -->
+  <main class="charts-panel">
+    <!-- AI 诊断 -->
+    <div class="ai-bar">
+      <div class="ai-icon">🩺</div>
+      <div class="ai-content">
+        <div class="lbl">AI 系统动力学诊断</div>
+        <div class="text" id="ai-text">正在分析当前情景...</div>
+        <ul id="ai-insights"></ul>
+      </div>
+    </div>
+
+    <!-- 主图行 1：满意度时间轨迹 + 5 维柱状 -->
+    <div class="charts-row">
+      <div class="chart-block">
+        <div class="chart-head">
+          <div class="chart-title">📈 综合群众满意度走势 · 2010-2050</div>
+          <div class="chart-meta">基线 vs 当前情景 vs 85 目标</div>
+        </div>
+        <div class="chart-canvas-wrap tall"><canvas id="trajectoryChart"></canvas></div>
+        <div class="time-axis-note">
+          <span class="past">◀ 历史校准（公开数据）</span>
+          <span style="font-weight:700">▼ 现在 2025</span>
+          <span class="future">未来推演 ▶</span>
+        </div>
+      </div>
+      <div class="chart-block">
+        <div class="chart-head">
+          <div class="chart-title">📊 5 维满意度对比</div>
+          <div class="chart-meta">基线 vs 当前</div>
+        </div>
+        <div class="chart-canvas-wrap tall"><canvas id="dimsChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- 主图 2：6 板块堆叠面积 -->
+    <div class="chart-block full" style="margin-bottom:16px">
+      <div class="chart-head">
+        <div class="chart-title">🌐 治理力度演化（按 6 板块） · 2010-2050</div>
+        <div class="chart-meta">堆叠面积图 - 各类政策杠杆累积投入</div>
+      </div>
+      <div class="chart-canvas-wrap"><canvas id="stackChart"></canvas></div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-color" style="background:var(--c-party)"></div>党建引领</div>
+        <div class="legend-item"><div class="legend-color" style="background:var(--c-grid)"></div>全域网格</div>
+        <div class="legend-item"><div class="legend-color" style="background:var(--c-brain)"></div>城市大脑</div>
+        <div class="legend-item"><div class="legend-color" style="background:var(--c-collab)"></div>多主体协同</div>
+        <div class="legend-item"><div class="legend-color" style="background:var(--c-cap)"></div>基层能力</div>
+        <div class="legend-item"><div class="legend-color" style="background:var(--c-scene)"></div>场景服务</div>
+      </div>
+    </div>
+
+    <!-- 反馈回路面板 -->
+    <div class="chart-block full" style="margin-bottom:16px">
+      <div class="chart-head">
+        <div class="chart-title">🔁 系统动力学反馈回路</div>
+        <div class="chart-meta">实时计算的非线性效应</div>
+      </div>
+      <div class="feedback-loops">
+        <div class="fb-loop reinforce">
+          <div class="lbl">▲ R1 强化回路 · 三引擎协同</div>
+          <div class="desc">党建+网格+城市大脑同步推进 → 协同奖励 <span class="val" id="fb-r1">+0.0</span></div>
+        </div>
+        <div class="fb-loop reinforce">
+          <div class="lbl">▲ R2 强化回路 · 信任飞轮</div>
+          <div class="desc">满意度↑ → 群众参与度↑ → 治理质量↑ <span class="val" id="fb-r2">×1.0</span></div>
+        </div>
+        <div class="fb-loop balance">
+          <div class="lbl">⚖ B1 平衡回路 · 边际饱和</div>
+          <div class="desc">满意度越接近 100，每分提升越难 <span class="val" id="fb-b1">饱和度 0%</span></div>
+        </div>
+        <div class="fb-loop balance">
+          <div class="lbl">⚖ B2 平衡回路 · 政策时滞</div>
+          <div class="desc">政策实施后 1.5 年才能完全显现 <span class="val" id="fb-b2">τ = 1.5 年</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 主图行 2：6 板块得分柱状 + 雷达图 -->
+    <div class="charts-row equal" style="margin-bottom:16px">
+      <div class="chart-block">
+        <div class="chart-head">
+          <div class="chart-title">🎯 6 大治理板块得分</div>
+          <div class="chart-meta">党建 / 网格 / 城市大脑 / 协同 / 能力 / 场景</div>
+        </div>
+        <div class="chart-canvas-wrap"><canvas id="categoryChart"></canvas></div>
+      </div>
+      <div class="chart-block">
+        <div class="chart-head">
+          <div class="chart-title">🔭 5 维满意度雷达</div>
+          <div class="chart-meta">基线 vs 当前情景</div>
+        </div>
+        <div class="chart-canvas-wrap"><canvas id="radarChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ISUI 智慧城市指数 6 维评估（史文中教授 + PolyU SCRI 体系） -->
+    <div class="chart-block full" style="margin-bottom:16px;border-top:3px solid #38bdf8">
+      <div class="chart-head">
+        <div class="chart-title">🌆 ISUI 智慧城市指数 · 6 大维度评估</div>
+        <div class="chart-meta">基于史文中教授「城市起源理论」+ PolyU SCRI 体系 · 2025 全球 73 城市对标</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:18px;margin-top:8px">
+        <div>
+          <div class="chart-canvas-wrap tall"><canvas id="isuiRadarChart"></canvas></div>
+          <div style="margin-top:8px;padding:10px 14px;background:rgba(56,189,248,0.06);border-left:3px solid #38bdf8;border-radius:0 6px 6px 0;font-size:11.5px;color:var(--text-secondary);line-height:1.7">
+            <strong style="color:#0284c7">▶ 城市起源理论</strong>　城市存在的根本目的是<strong>满足居民基础需求 + 提升社会化效率 + 文化生产</strong>。智慧城市评价不应只看"技术先进度"，而应衡量对市民日常生活的实际支撑。
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="background:linear-gradient(135deg,#38bdf8,#0284c7);color:#fff;border-radius:8px;padding:14px 16px">
+            <div style="font-size:10px;letter-spacing:2px;font-weight:700;opacity:0.9">ISUI 综合得分</div>
+            <div style="font-size:42px;font-weight:900;font-family:Georgia,serif;line-height:1;margin:4px 0" id="isui-total">—</div>
+            <div style="font-size:11px;opacity:0.95">全球预估排名 <strong id="isui-rank-detail" style="font-size:18px">—</strong> / 73 城市</div>
+          </div>
+          <div id="isui-dim-list" style="display:flex;flex-direction:column;gap:6px"></div>
+          <div style="background:#FAFAFA;border-radius:8px;padding:10px 12px;font-size:11px;color:var(--text-secondary);line-height:1.6">
+            <strong style="color:var(--navy)">📊 全球榜对标</strong><br>
+            🥇 1 斯德哥尔摩 88.5 · 🥈 2 华盛顿 87.2 · 🥉 3 巴塞罗那 86.8<br>
+            5 东京 85.4 · 8 香港 84.0 · 15 北京 79.0 · 25 深圳 71.5
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 项关键效能指标 -->
+    <div class="chart-block full" style="margin-bottom:16px">
+      <div class="chart-head">
+        <div class="chart-title">⚡ 关键效能指标</div>
+        <div class="chart-meta">参考报告"20% / 30% / 50% / 90%"四大量化目标</div>
+      </div>
+      <div class="eff-grid">
+        <div class="eff-card c1">
+          <div class="ico">😊</div>
+          <div class="name">群众满意度提升</div>
+          <div class="stat" id="eff-sat">+0%</div>
+          <div class="desc">vs 基线 · 目标 ≥20%</div>
+        </div>
+        <div class="eff-card c2">
+          <div class="ico">⚡</div>
+          <div class="name">政务服务效率提升</div>
+          <div class="stat" id="eff-eff">+0%</div>
+          <div class="desc">办事时限压缩 · 目标 ≥30%</div>
+        </div>
+        <div class="eff-card c3">
+          <div class="ico">🔗</div>
+          <div class="name">跨部门协同事项增长</div>
+          <div class="stat" id="eff-coll">+0%</div>
+          <div class="desc">数据共享驱动 · 目标 ≥50%</div>
+        </div>
+        <div class="eff-card c4">
+          <div class="ico">📲</div>
+          <div class="name">数字化服务覆盖率</div>
+          <div class="stat" id="eff-dig">0%</div>
+          <div class="desc">政务+民生 · 目标 ≥90%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 完整指标体系（5→15→tier3） -->
+    <div class="chart-block full" style="margin-bottom:16px">
+      <div class="chart-head">
+        <div class="chart-title">📚 河南省基层群众满意度指数完整体系</div>
+        <div class="chart-meta">5 维 → 15 二级 → 225 三级</div>
+      </div>
+      <div class="idx-summary">
+        <div class="idx-stat"><div class="num">5</div><div class="lbl">一级指标</div><div class="desc">五个评价维度</div></div>
+        <div class="idx-stat"><div class="num">15</div><div class="lbl">二级指标</div><div class="desc">维度细化板块</div></div>
+        <div class="idx-stat"><div class="num">225</div><div class="lbl">三级指标</div><div class="desc">具体可量化测评项</div></div>
+        <div class="idx-stat"><div class="num">100<span style="font-size:14px">分</span></div><div class="lbl">综合满分</div><div class="desc">加权汇总指数</div></div>
+      </div>
+      <div class="dimension-row" id="dimensionRow"></div>
+    </div>
+
+    <!-- 15 项二级指标实时柱状图 -->
+    <div class="chart-block full">
+      <div class="chart-head">
+        <div class="chart-title">📊 15 项二级指标实时仪表盘</div>
+        <div class="chart-meta">加权得分（满分按二级指标自身权重的 100% 折算）</div>
+      </div>
+      <div class="chart-canvas-wrap xtall"><canvas id="subIndicatorChart"></canvas></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- 滑块详情弹窗 -->
+<div class="detail-modal" id="detailModal">
+  <div class="dm-box">
+    <div class="dm-header">
+      <div class="dm-title-block">
+        <span class="dm-cat-tag" id="dm-cat-tag">类别</span>
+        <span class="dm-title" id="dm-title">滑块名称</span>
+      </div>
+      <button class="dm-close" onclick="closeDetail()">×</button>
+    </div>
+    <div class="dm-body">
+      <div class="dm-section">
+        <h4>▶ 杠杆描述</h4>
+        <p class="dm-desc" id="dm-desc">...</p>
+      </div>
+      <div class="dm-section">
+        <h4>▶ 当前数值</h4>
+        <div class="dm-current">
+          <div class="dm-stat">
+            <div class="lbl">当前值</div>
+            <div class="val" id="dm-cur">—</div>
+            <div class="delta" id="dm-delta">vs 基线</div>
+          </div>
+          <div class="dm-stat">
+            <div class="lbl">边际贡献</div>
+            <div class="val" id="dm-margin">—</div>
+            <div class="delta">每提升 1% 综合分变化</div>
+          </div>
+        </div>
+      </div>
+      <div class="dm-section">
+        <h4>▶ 现实案例参照</h4>
+        <div class="dm-examples" id="dm-examples">...</div>
+      </div>
+      <div class="dm-section">
+        <h4>▶ 相关协同杠杆</h4>
+        <div class="dm-related" id="dm-related"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 浮动迷你仪表盘 -->
+<div class="mini-dash" id="miniDash">
+  <div class="mini-dash-header" onclick="toggleMiniDash()">
+    <div class="mini-dash-title"><span class="live-pulse"></span>实时仪表 · LIVE</div>
+    <button class="mini-dash-collapse" id="miniDashCollapseBtn" onclick="event.stopPropagation();toggleMiniDash()">−</button>
+  </div>
+  <div class="mini-dash-body">
+    <div class="mini-dash-composite">
+      <span class="v" id="miniComposite">—</span>
+      <span class="u">/100</span>
+      <span class="delta" id="miniDelta">+0.0</span>
+    </div>
+    <div class="mini-dash-scenario">情景：<strong id="miniScenario">基线</strong></div>
+    <div class="mini-dash-detail">
+      <div class="mini-dim d1"><div class="ll">公服</div><div class="vv" id="miniD1">—</div></div>
+      <div class="mini-dim d2"><div class="ll">治理</div><div class="vv" id="miniD2">—</div></div>
+      <div class="mini-dim d3"><div class="ll">参与</div><div class="vv" id="miniD3">—</div></div>
+      <div class="mini-dim d4"><div class="ll">生活</div><div class="vv" id="miniD4">—</div></div>
+      <div class="mini-dim d5"><div class="ll">作风</div><div class="vv" id="miniD5">—</div></div>
+    </div>
+    <div class="mini-dash-pills">
+      <button class="mini-pill" data-mini-preset="baseline">基线</button>
+      <button class="mini-pill" data-mini-preset="incremental">渐进</button>
+      <button class="mini-pill" data-mini-preset="zhengzhou">郑州</button>
+      <button class="mini-pill" data-mini-preset="deep">深化</button>
+      <button class="mini-pill" data-mini-preset="modern">现代化</button>
+    </div>
+    <div class="mini-dash-jump">
+      <button onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 顶部</button>
+      <button class="alt" onclick="toggleQuickSim()">🎛️ 快调</button>
+    </div>
+  </div>
+</div>
+
+<!-- 快速调节 FAB -->
+<button class="quick-sim-fab" onclick="toggleQuickSim()" title="快速调节核心杠杆">🎛️</button>
+
+<!-- 快速调节抽屉 -->
+<div class="qsd-overlay" id="qsdOverlay" onclick="toggleQuickSim()"></div>
+<div class="quick-sim-drawer" id="quickSimDrawer">
+  <div class="qsd-header">
+    <div class="qsd-title">
+      <span class="icon">🎛️</span>
+      <div>
+        <div>快速政策调节 · 9 项核心杠杆</div>
+        <div style="font-size:11px;font-weight:400;color:var(--text-secondary);margin-top:2px">不离开当前位置即时调节</div>
+      </div>
+    </div>
+    <button class="qsd-close" onclick="toggleQuickSim()">×</button>
+  </div>
+  <div class="qsd-body" id="qsdBody"></div>
+  <div class="qsd-footer">
+    <div class="composite-readout">
+      综合：<strong id="qsdComposite">—</strong>分
+      <span style="margin-left:8px;font-size:12px;color:var(--text-light)">vs 基线 <span id="qsdDelta" style="font-weight:700;color:var(--good)">+0.0</span></span>
+    </div>
+    <div class="qsd-presets">
+      <button class="qsd-preset" data-mini-preset="baseline">基线</button>
+      <button class="qsd-preset" data-mini-preset="zhengzhou">郑州</button>
+      <button class="qsd-preset" data-mini-preset="modern">现代化</button>
+      <button class="qsd-preset" data-mini-preset="reset" style="background:#fff5f5;color:var(--bad);border-color:#feb2b2">重置</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+ * 河南治理系统动力学 EN-ROADS 完整融合版 v3.0
+ * ============================================================ */
+
+// ========== 18 杠杆定义（含详情）==========
+const LEVERS = {
+  partyOrg: { cat:'party', name:'基层党组织覆盖率', value:60, unit:'%',
+    desc:'党组织建在网格上、楼栋里、产业链上的覆盖广度。<strong>党的领导力是治理效能的根本保证</strong>。',
+    examples:'<strong>郑州实践：</strong>建立网格党组织 13.5 万个，党组织覆盖到 50-70 户的微网格。<br><strong>对应数据：</strong>郑州市党组织覆盖率达 95%。'
+  },
+  partyVanguard: { cat:'party', name:'党员先锋模范作用', value:55, unit:'%',
+    desc:'党员示范岗、责任区、承诺践诺机制建设强度，<strong>直接影响群众信任度</strong>。',
+    examples:'<strong>双治理实验：</strong>河南省每年评选基层党员先锋模范，2025 年表彰 1.2 万人。'
+  },
+  partyGrid: { cat:'party', name:'党建+网格深度融合', value:50, unit:'%',
+    desc:'网格党组织+网格员+志愿者三位一体机制。<strong>党建与治理同频共振的关键</strong>。',
+    examples:'<strong>郑州模式：</strong>"一格一支部、一格一中心、一格一品牌"，党建+网格+大数据三位一体。'
+  },
+  gridDensity: { cat:'grid', name:'网格精细化密度', value:50, unit:'%',
+    desc:'从 300-500 户标准网格 → 50-70 户微网格的精细化程度。<strong>越精细，响应越快</strong>。',
+    examples:'<strong>郑州实践：</strong>50-70 户微网格，2 小时内入户排查。'
+  },
+  gridStaffing: { cat:'grid', name:'专职网格员配备', value:60, unit:'%',
+    desc:'专职网格员队伍配备率与待遇水平。<strong>"最后一公里"的执行力</strong>。',
+    examples:'<strong>河南目标：</strong>到 2027 年，城市社区每 300 户配备 1 名专职网格员。'
+  },
+  specialGrid: { cat:'grid', name:'专属网格设置', value:40, unit:'%',
+    desc:'高铁枢纽、商超、学校、医院等重点区域设立专属网格，<strong>破解治理盲区</strong>。',
+    examples:'<strong>郑州东站：</strong>高铁枢纽专属网格 24 小时巡查。'
+  },
+  digitalInfra: { cat:'brain', name:'数字基础设施投入', value:55, unit:'%',
+    desc:'5G、政务云、视联网、物联网等"数字底座"投入水平。<strong>智慧治理的天花板</strong>。',
+    examples:'<strong>郑州城市大脑：</strong>二期投资 9.3 亿元，建设 5 大平台。'
+  },
+  dataSharing: { cat:'brain', name:'跨部门数据共享率', value:45, unit:'%',
+    desc:'破解"数据孤岛"是数字治理首要任务。共享率每提升 10%，<strong>跨部门协同事项可增长约 20%</strong>。',
+    examples:'<strong>郑州数据中台：</strong>已打通 56 个委办局，每日数据交换 4.2 亿条。'
+  },
+  aiDecision: { cat:'brain', name:'AI 智能决策应用', value:40, unit:'%',
+    desc:'智慧交通、医疗、应急、执法等场景的 AI 渗透深度。<strong>城市大脑的"神经"</strong>。',
+    examples:'<strong>郑州 1+16+215：</strong>市级 1 个城运中心、16 个区县、215 个街道乡镇三级运行体系。'
+  },
+  govSocial: { cat:'collab', name:'政社协同(社工+志愿者)', value:50, unit:'%',
+    desc:'河南"3.5 万社工 + 1400 万志愿者"专业社工+志愿服务融合机制活跃度。',
+    examples:'<strong>河南双治理：</strong>2025 年实现专业社工+志愿服务融合试点全省 100% 覆盖。'
+  },
+  govBusiness: { cat:'collab', name:'政企协同(红色物业)', value:45, unit:'%',
+    desc:'红色物业、PPP、特许经营等政企合作机制，<strong>影响营商环境与公共服务</strong>。',
+    examples:'<strong>红色物业：</strong>针对老旧小区，"政府兜底+党建引领+市场化运作"模式。'
+  },
+  publicPart: { cat:'collab', name:'群众参与治理深度', value:50, unit:'%',
+    desc:'议事协商、村民/居民自治、监督评议机制完善度。<strong>决定治理的人民性</strong>。',
+    examples:'<strong>河南示范：</strong>2025 年覆盖全省 60% 社区的"民意会商日"制度。'
+  },
+  fiscalSink: { cat:'cap', name:'财政资源下沉力度', value:50, unit:'%',
+    desc:'基层财政"工资、运转、民生"三保障水平及一般性转移支付倾斜程度。',
+    examples:'<strong>河南"放权赋能"：</strong>2024 年向县级下沉财政事权占比达 65%。'
+  },
+  talentSink: { cat:'cap', name:'专业人才下沉', value:45, unit:'%',
+    desc:'教师、医生、农技、社工、数字人才等向乡镇/社区下沉力度。',
+    examples:'<strong>河南"千人下乡"：</strong>每年向基层输送 1 万名专业人才。'
+  },
+  cadreTrain: { cat:'cap', name:'干部能力培训强度', value:55, unit:'%',
+    desc:'数字素养、群众工作、依法治理、应急处突等核心能力培训覆盖深度。',
+    examples:'<strong>河南"基层干部学院"：</strong>2025 年累计培训乡镇/街道干部 5.2 万人次。'
+  },
+  livelihoodSmart: { cat:'scene', name:'民生服务智慧化', value:50, unit:'%',
+    desc:'智慧医疗、教育、养老、停车等高频场景的覆盖与体验深度。',
+    examples:'<strong>郑州智慧停车：</strong>主城区 22.4 万车位、889 家停车场全接入。'
+  },
+  oneStop: { cat:'scene', name:'一网通办覆盖率', value:60, unit:'%',
+    desc:'政务服务事项网上可办率与"一次办成"率，<strong>政务效率最直观指标</strong>。',
+    examples:'<strong>郑州"一网通办"：</strong>2024 年事项可办率 96.5%，办件全流程压缩 65%。'
+  },
+  personalize: { cat:'scene', name:'服务个性化推送', value:35, unit:'%',
+    desc:'基于大数据画像的"政策找人、服务上门"机制成熟度。',
+    examples:'<strong>郑州"政策秒享"：</strong>20 类高频政策"无感兑现"，已惠及 12 万家企业。'
+  }
+};
+
+const CATEGORIES = {
+  party:  {name:'思想党建引领', color:'#B8232F', code:'A'},
+  grid:   {name:'全域网格管理', color:'#C9A063', code:'B'},
+  brain:  {name:'城市大脑',     color:'#1E3A5F', code:'C'},
+  collab: {name:'多主体协同',   color:'#2F855A', code:'D'},
+  cap:    {name:'基层能力建设', color:'#805AD5', code:'E'},
+  scene:  {name:'场景化服务',   color:'#D2691E', code:'F'},
+};
+
+const HISTORICAL = [
+  {year:2010,value:55},{year:2012,value:57},{year:2014,value:59},{year:2016,value:61},
+  {year:2018,value:62},{year:2020,value:63},{year:2022,value:64},{year:2024,value:65},{year:2025,value:65}
+];
+
+// ========== 5→15→tier3 完整指标树 ==========
+const INDICATOR_TREE = [
+  { id:'d1', code:'一', name:'公共服务满意度', icon:'🏥', weight:25, klass:'dim-1',
+    desc:'群众对基层各类公共服务的满意程度（服务质量、效率、便民性）',
+    sub:[
+      { id:'d1_1', name:'基本公共服务', weight:8,
+        tier3:['义务教育学校标准化达标率','基本医疗保险报销比例','基层医疗机构服务能力','养老设施覆盖率与服务质量','老年人健康关爱程度'],
+        levers:{ livelihoodSmart:0.32, fiscalSink:0.22, talentSink:0.18, oneStop:0.10, partyOrg:0.10, gridStaffing:0.08 }
+      },
+      { id:'d1_2', name:'政务服务', weight:9,
+        tier3:['一次办成事项比例','政务服务平均办结时限','网上办事成功率','移动端服务功能','24小时自助服务覆盖'],
+        levers:{ oneStop:0.40, dataSharing:0.18, aiDecision:0.14, digitalInfra:0.12, gridStaffing:0.08, cadreTrain:0.08 }
+      },
+      { id:'d1_3', name:'便民服务', weight:8,
+        tier3:['水电气供应稳定性','智慧停车便利度','公共交通覆盖与便利度','文化设施利用率','生活缴费便利度'],
+        levers:{ livelihoodSmart:0.32, gridDensity:0.20, digitalInfra:0.18, personalize:0.14, fiscalSink:0.08, gridStaffing:0.08 }
+      }
+    ]
+  },
+  { id:'d2', code:'二', name:'治理效果满意度', icon:'🛡️', weight:25, klass:'dim-2',
+    desc:'群众对基层治理成效的满意程度（问题解决、环境改善、安全保障）',
+    sub:[
+      { id:'d2_1', name:'问题解决效果', weight:9,
+        tier3:['投诉处理及时率','矛盾纠纷调解成功率','信访问题化解率','应急响应速度','社会矛盾缓解程度'],
+        levers:{ gridStaffing:0.28, gridDensity:0.20, partyGrid:0.16, aiDecision:0.14, dataSharing:0.12, publicPart:0.10 }
+      },
+      { id:'d2_2', name:'环境改善效果', weight:8,
+        tier3:['村容村貌整治效果','空气质量优良天数比例','绿化覆盖率','道路硬化率','生活垃圾分类处理'],
+        levers:{ fiscalSink:0.28, gridDensity:0.20, govBusiness:0.16, livelihoodSmart:0.14, specialGrid:0.12, talentSink:0.10 }
+      },
+      { id:'d2_3', name:'安全保障效果', weight:8,
+        tier3:['群众安全感指数','违法犯罪案件控制率','安全生产事故控制率','食品安全抽检合格率','应急物资保障'],
+        levers:{ specialGrid:0.26, gridStaffing:0.20, aiDecision:0.18, partyOrg:0.14, dataSharing:0.12, cadreTrain:0.10 }
+      }
+    ]
+  },
+  { id:'d3', code:'三', name:'民主参与满意度', icon:'🗳️', weight:20, klass:'dim-3',
+    desc:'群众对参与基层治理的满意程度（参与渠道、意见采纳、信息公开）',
+    sub:[
+      { id:'d3_1', name:'参与渠道', weight:7,
+        tier3:['重大事项民主决策程序执行率','群众代表参与决策比例','监督渠道畅通度','村民自治制度执行率','村民大会参与率'],
+        levers:{ publicPart:0.36, partyVanguard:0.18, govSocial:0.16, partyGrid:0.12, cadreTrain:0.10, gridStaffing:0.08 }
+      },
+      { id:'d3_2', name:'意见采纳', weight:6,
+        tier3:['合理建议采纳率','采纳建议落实率','诉求处理满意度','诉求解决率','诉求渠道便民度'],
+        levers:{ publicPart:0.30, govSocial:0.20, dataSharing:0.16, oneStop:0.14, cadreTrain:0.12, partyVanguard:0.08 }
+      },
+      { id:'d3_3', name:'信息公开', weight:7,
+        tier3:['政务信息公开及时率','决策过程透明度','财务公开内容完整性','服务标准公开率','执行结果公示率'],
+        levers:{ dataSharing:0.34, digitalInfra:0.20, oneStop:0.16, aiDecision:0.12, partyOrg:0.10, publicPart:0.08 }
+      }
+    ]
+  },
+  { id:'d4', code:'四', name:'生活改善满意度', icon:'🌱', weight:20, klass:'dim-4',
+    desc:'群众对生活水平改善的满意程度（收入、便利、保障）',
+    sub:[
+      { id:'d4_1', name:'收入改善', weight:7,
+        tier3:['就业机会充足度','人均收入增长率','职业技能培训覆盖率','脱贫攻坚成果巩固率','帮扶政策满意度'],
+        levers:{ govBusiness:0.30, talentSink:0.20, fiscalSink:0.16, livelihoodSmart:0.12, govSocial:0.12, personalize:0.10 }
+      },
+      { id:'d4_2', name:'生活便利', weight:6,
+        tier3:['商业网点便利度','交通出行便利度','网络覆盖与信号质量','数字鸿沟缩小程度','消费者权益保护'],
+        levers:{ livelihoodSmart:0.30, oneStop:0.20, digitalInfra:0.20, personalize:0.14, gridDensity:0.10, govBusiness:0.06 }
+      },
+      { id:'d4_3', name:'社会保障', weight:7,
+        tier3:['社会保险覆盖率与待遇水平','社会救助及时性','困难群体帮扶覆盖率','残疾人服务质量','儿童保护与关爱'],
+        levers:{ fiscalSink:0.26, govSocial:0.22, livelihoodSmart:0.16, personalize:0.14, talentSink:0.12, publicPart:0.10 }
+      }
+    ]
+  },
+  { id:'d5', code:'五', name:'干部作风满意度', icon:'🎖️', weight:10, klass:'dim-5',
+    desc:'群众对基层干部工作作风的满意程度（服务态度、工作效率、廉洁自律）',
+    sub:[
+      { id:'d5_1', name:'服务态度', weight:4,
+        tier3:['接待群众热情度','服务主动性与责任心','用语规范度','为民服务意识','服务亲和力'],
+        levers:{ partyVanguard:0.32, cadreTrain:0.24, partyOrg:0.16, partyGrid:0.12, gridStaffing:0.10, publicPart:0.06 }
+      },
+      { id:'d5_2', name:'工作效率', weight:3,
+        tier3:['办事速度与时间观念','工作准确性与完整性','解决问题能力','工作方法创新度','执行力强度'],
+        levers:{ aiDecision:0.24, oneStop:0.20, dataSharing:0.16, cadreTrain:0.16, gridStaffing:0.14, digitalInfra:0.10 }
+      },
+      { id:'d5_3', name:'廉洁自律', weight:3,
+        tier3:['不收受礼品礼金','执法公正性','依法办事严格性','工作作风务实度','群众口碑'],
+        levers:{ partyOrg:0.30, partyVanguard:0.22, dataSharing:0.16, cadreTrain:0.14, partyGrid:0.12, publicPart:0.06 }
+      }
+    ]
+  }
+];
+
+// ========== 系统动力学模型 ==========
+
+function getCategoryScores(){
+  const scores = {};
+  for (const cat of Object.keys(CATEGORIES)){
+    const ks = Object.keys(LEVERS).filter(k => LEVERS[k].cat === cat);
+    scores[cat] = ks.reduce((s,k)=>s+LEVERS[k].value,0) / ks.length;
+  }
+  return scores;
+}
+
+function flattenLevers(){
+  const f = {};
+  for (const k of Object.keys(LEVERS)) f[k] = LEVERS[k].value;
+  return f;
+}
+
+function simulateTrajectory(){
+  const cat = getCategoryScores();
+  const triMin = Math.min(cat.party, cat.grid, cat.brain);
+  const triAvg = (cat.party + cat.grid + cat.brain) / 3;
+  const synergy = (triMin/100)**2 * 8 + (triMin/Math.max(triAvg,1)) * triAvg * 0.04;
+  const dim1_raw = cat.scene*0.40 + cat.brain*0.25 + cat.cap*0.20 + cat.grid*0.15;
+  const dim2_raw = cat.grid*0.35 + cat.brain*0.25 + cat.party*0.20 + cat.collab*0.20;
+  const dim3_raw = cat.collab*0.50 + cat.party*0.20 + LEVERS.dataSharing.value*0.15 + cat.scene*0.15;
+  const dim4_raw = cat.scene*0.35 + cat.collab*0.25 + cat.cap*0.25 + cat.grid*0.15;
+  const dim5_raw = cat.party*0.50 + cat.cap*0.30 + LEVERS.dataSharing.value*0.20;
+  const dim1 = Math.min(100, dim1_raw + synergy*0.20);
+  const dim2 = Math.min(100, dim2_raw + synergy*0.30);
+  const dim3 = Math.min(100, dim3_raw + synergy*0.15);
+  const dim4 = Math.min(100, dim4_raw + synergy*0.20);
+  const dim5 = Math.min(100, dim5_raw + synergy*0.15);
+  const targetSat = dim1*0.25 + dim2*0.25 + dim3*0.20 + dim4*0.20 + dim5*0.10;
+
+  // 系统动力学时滞模拟
+  const tau = 1.5;
+  const trajectory = [];
+  let stock = 65;
+  for (let y = 2025; y <= 2050; y++){
+    const gap = targetSat - stock;
+    const saturationFactor = 1 - (stock/100)**2.5 * 0.55;
+    const trustFlywheel = 1 + (Math.max(0, stock - 65) / 35) * 0.20;
+    const flow = (gap / tau) * saturationFactor * trustFlywheel;
+    stock += flow;
+    stock = Math.min(98, Math.max(0, stock));
+    trajectory.push({year:y, value:stock});
+  }
+
+  // 关键效能指标
+  const baseEff = (50 + 40 + 45) / 3;
+  const curEff = (LEVERS.oneStop.value + LEVERS.aiDecision.value + LEVERS.dataSharing.value) / 3;
+  const efficiencyGain = ((curEff - baseEff) / baseEff) * 100 * 0.6;
+  const baseCol = (45 + 50 + 45) / 3;
+  const curCol = (LEVERS.dataSharing.value + LEVERS.govSocial.value + LEVERS.govBusiness.value) / 3;
+  const collabGain = ((curCol - baseCol) / baseCol) * 100;
+  const digitalCov = LEVERS.digitalInfra.value*0.3 + LEVERS.oneStop.value*0.4 + LEVERS.livelihoodSmart.value*0.3;
+
+  return {
+    trajectory, dim1, dim2, dim3, dim4, dim5,
+    composite: trajectory[trajectory.length-1].value,
+    composite2030: trajectory[5].value,
+    targetSat, synergy, categories: cat,
+    saturation: ((stock/100)**2.5 * 100),
+    trustFlywheel: 1 + (Math.max(0, stock - 65) / 35) * 0.20,
+    triMin, triAvg, efficiencyGain, collabGain, digitalCov
+  };
+}
+
+function getBaselineTrajectory(){
+  const saved = {};
+  for (const k of Object.keys(LEVERS)){ saved[k] = LEVERS[k].value; LEVERS[k].value = 50; }
+  const baseline = simulateTrajectory();
+  for (const k of Object.keys(LEVERS)){ LEVERS[k].value = saved[k]; }
+  return baseline;
+}
+
+function calcSubIndicators(){
+  const flat = flattenLevers();
+  const sim = simulateTrajectory();
+  const result = {};
+  for (const dim of INDICATOR_TREE){
+    result[dim.id] = { score:0, sub:[] };
+    for (const sub of dim.sub){
+      let raw = 0, totW = 0;
+      for (const [lv, w] of Object.entries(sub.levers)){
+        if (flat[lv] !== undefined){ raw += flat[lv] * w; totW += w; }
+      }
+      let base = totW > 0 ? raw / totW : 0;
+      const dimBonus = { d1:0.20, d2:0.30, d3:0.15, d4:0.20, d5:0.15 }[dim.id] || 0.20;
+      let final = Math.min(100, Math.max(0, base + sim.synergy * dimBonus));
+      result[dim.id].sub.push({ id:sub.id, name:sub.name, weight:sub.weight, score:final, tier3:sub.tier3 });
+    }
+    const subTotal = result[dim.id].sub.reduce((a,b) => a + b.weight, 0);
+    result[dim.id].score = result[dim.id].sub.reduce((a,b) => a + b.score * b.weight, 0) / subTotal;
+  }
+  return result;
+}
+
+// ========== UI 渲染 ==========
+
+function renderSlidersPanel(){
+  const wrap = document.getElementById('sliders-panel');
+  let html = '<div class="sp-title">▶ 政策杠杆控制台 · 18 项</div>';
+  let isFirst = true;
+  for (const [catKey, catInfo] of Object.entries(CATEGORIES)){
+    const ks = Object.keys(LEVERS).filter(k => LEVERS[k].cat === catKey);
+    const avg = ks.reduce((s,k)=>s+LEVERS[k].value,0) / ks.length;
+    html += `
+      <div class="category ${catKey} ${isFirst?'open':''}">
+        <div class="cat-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="cat-name"><span class="dot"></span><span>${catInfo.code} · ${catInfo.name}</span></div>
+          <div class="cat-stats"><span class="cat-score" data-cat="${catKey}">${avg.toFixed(0)}</span><span class="cat-arrow">▼</span></div>
+        </div>
+        <div class="cat-body">`;
+    for (const k of ks){
+      const L = LEVERS[k];
+      html += `
+        <div class="slider-row" data-lever="${k}">
+          <div class="slider-head">
+            <span class="slider-name">${L.name}</span>
+            <input class="slider-value-input" type="text" value="${L.value}" maxlength="3" onchange="setLeverValue('${k}',this.value)" onclick="this.select()">
+            <button class="slider-info-btn" onclick="openDetail('${k}')" title="详情">ⓘ</button>
+          </div>
+          <div class="slider-bar"><input type="range" min="0" max="100" value="${L.value}" oninput="setLeverValue('${k}',this.value)"></div>
+          <div class="slider-marks"><span>0</span><span>50</span><span>100</span></div>
+        </div>`;
+    }
+    html += '</div></div>';
+    isFirst = false;
+  }
+  wrap.innerHTML = html;
+}
+
+function setLeverValue(leverKey, value){
+  const v = Math.max(0, Math.min(100, parseInt(value) || 0));
+  LEVERS[leverKey].value = v;
+  const row = document.querySelector(`[data-lever="${leverKey}"]`);
+  if (row){
+    row.querySelector('input[type="range"]').value = v;
+    row.querySelector('.slider-value-input').value = v;
+  }
+  // 同步抽屉滑块
+  const qsdEl = document.querySelector(`.qsd-lever[data-qsd-lever="${leverKey}"]`);
+  if (qsdEl){
+    qsdEl.querySelector('input[type="range"]').value = v;
+    qsdEl.querySelector('.qv').textContent = v;
+  }
+  const cat = LEVERS[leverKey].cat;
+  const ks = Object.keys(LEVERS).filter(k => LEVERS[k].cat === cat);
+  const avg = ks.reduce((s,k)=>s+LEVERS[k].value,0) / ks.length;
+  const scoreEl = document.querySelector(`.cat-score[data-cat="${cat}"]`);
+  if (scoreEl) scoreEl.textContent = avg.toFixed(0);
+  recompute();
+}
+
+let trajectoryChart, dimsChart, stackChart, categoryChart, radarChart, subChart, isuiRadarChart;
+
+/* ============================================================
+ * ISUI 智慧城市指数（史文中 PolyU SCRI · 6 维 · 城市起源理论）
+ * ============================================================ */
+
+// 18 杠杆 → ISUI 6 维映射
+function calcISUI(){
+  const L = LEVERS;
+  const v = id => L[id].value;
+  // 公民 Citizen（数字素养、教育、健康、参与度）
+  const citizen = v('cadreTrain')*0.20 + v('publicPart')*0.35 + v('livelihoodSmart')*0.25 + v('govSocial')*0.20;
+  // 环境 Environment（生态、可持续、人居）
+  const environment = v('specialGrid')*0.20 + v('livelihoodSmart')*0.30 + v('fiscalSink')*0.20 + v('govBusiness')*0.15 + v('gridDensity')*0.15;
+  // 社会图景 Social Landscape（公平、文化、社区、住房）
+  const social = v('govSocial')*0.30 + v('publicPart')*0.20 + v('livelihoodSmart')*0.25 + v('fiscalSink')*0.15 + v('partyVanguard')*0.10;
+  // 经济 Economy（创新、营商、就业、数字经济）
+  const economy = v('govBusiness')*0.30 + v('personalize')*0.20 + v('oneStop')*0.20 + v('digitalInfra')*0.15 + v('aiDecision')*0.15;
+  // 基础设施 Infrastructure（智能交通、通信、能源）
+  const infrastructure = v('digitalInfra')*0.35 + v('gridDensity')*0.20 + v('gridStaffing')*0.15 + v('aiDecision')*0.15 + v('specialGrid')*0.15;
+  // 治理 Governance（数字政府、数据开放、公共服务）
+  const governance = v('partyOrg')*0.10 + v('partyVanguard')*0.10 + v('partyGrid')*0.15 + v('dataSharing')*0.25 + v('aiDecision')*0.15 + v('oneStop')*0.25;
+  const total = (citizen + environment + social + economy + infrastructure + governance) / 6;
+  return { citizen, environment, social, economy, infrastructure, governance, total };
+}
+
+// 全球 73 城市对标排名估算
+const ISUI_GLOBAL_2025 = [
+  {rank:1, city:'斯德哥尔摩', score:88.5},{rank:2, city:'华盛顿', score:87.2},
+  {rank:3, city:'巴塞罗那', score:86.8},{rank:4, city:'伦敦', score:86.0},
+  {rank:5, city:'东京', score:85.4},{rank:6, city:'苏黎世', score:85.0},
+  {rank:7, city:'纽约', score:84.6},{rank:8, city:'香港', score:84.0},
+  {rank:9, city:'哥本哈根', score:83.5},{rank:10, city:'奥斯陆', score:83.0},
+  {rank:13, city:'首尔', score:80.5},{rank:15, city:'北京', score:79.0},
+  {rank:21, city:'新加坡', score:74.0},{rank:25, city:'深圳', score:71.5}
+];
+function estimateISUIRank(score){
+  for (const c of ISUI_GLOBAL_2025){
+    if (score >= c.score) return c.rank;
+  }
+  if (score >= 70) return 30;
+  if (score >= 65) return 40;
+  if (score >= 60) return 50;
+  if (score >= 55) return 60;
+  return 70;
+}
+const baselineTraj = getBaselineTrajectory();
+
+function initCharts(){
+  // 1. 轨迹时间序列
+  const ctx1 = document.getElementById('trajectoryChart').getContext('2d');
+  const allYears = [...HISTORICAL.map(h=>h.year), ...Array.from({length:25},(_,i)=>2026+i)];
+  trajectoryChart = new Chart(ctx1, {
+    type:'line',
+    data:{
+      labels: allYears,
+      datasets:[
+        { label:'历史校准',
+          data: HISTORICAL.map(h=>h.value).concat(Array(25).fill(null)),
+          borderColor:'#9CA3AF', backgroundColor:'rgba(156,163,175,0.15)',
+          borderWidth:2, pointRadius:3, pointBackgroundColor:'#6B7280', fill:true, tension:0 },
+        { label:'基线情景',
+          data: Array(HISTORICAL.length-1).fill(null).concat([HISTORICAL[HISTORICAL.length-1].value], baselineTraj.trajectory.slice(1).map(t=>t.value)),
+          borderColor:'#4A5568', backgroundColor:'rgba(74,85,104,0.06)',
+          borderWidth:2, borderDash:[4,4], pointRadius:0, fill:false, tension:0.25 },
+        { label:'当前情景',
+          data: Array(HISTORICAL.length-1).fill(null).concat([HISTORICAL[HISTORICAL.length-1].value], baselineTraj.trajectory.slice(1).map(t=>t.value)),
+          borderColor:'#B8232F', backgroundColor:'rgba(184,35,47,0.18)',
+          borderWidth:3, pointRadius:0, fill:true, tension:0.25 },
+        { label:'85 分目标',
+          data: Array(allYears.length).fill(85),
+          borderColor:'#C9A063', borderWidth:1.5, borderDash:[2,4], pointRadius:0, fill:false }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, animation:{duration:500},
+      interaction:{mode:'nearest', intersect:false},
+      plugins:{
+        legend:{position:'bottom', labels:{font:{size:10}, padding:8, boxWidth:12}},
+        tooltip:{callbacks:{title:items=>`${items[0].label} 年`, label:ctx=>`${ctx.dataset.label}: ${(ctx.parsed.y||0).toFixed(1)} 分`}}
+      },
+      scales:{
+        y:{min:50, max:100, title:{display:true, text:'综合满意度', font:{size:11}}, grid:{color:'#F3F0EA'}, ticks:{font:{size:10}}},
+        x:{grid:{display:false}, ticks:{font:{size:9}, maxTicksLimit:10}}
+      }
+    }
+  });
+
+  // 2. 5 维柱状对比
+  const ctx2 = document.getElementById('dimsChart').getContext('2d');
+  dimsChart = new Chart(ctx2, {
+    type:'bar',
+    data:{
+      labels:['公服','治理','参与','生活','作风'],
+      datasets:[
+        {label:'基线', data:[baselineTraj.dim1,baselineTraj.dim2,baselineTraj.dim3,baselineTraj.dim4,baselineTraj.dim5],
+         backgroundColor:'rgba(74,85,104,0.4)', borderColor:'#4A5568', borderWidth:1, borderRadius:3},
+        {label:'当前', data:[baselineTraj.dim1,baselineTraj.dim2,baselineTraj.dim3,baselineTraj.dim4,baselineTraj.dim5],
+         backgroundColor:'rgba(184,35,47,0.6)', borderColor:'#B8232F', borderWidth:1, borderRadius:3}
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, animation:{duration:400},
+      plugins:{legend:{position:'bottom', labels:{font:{size:10}, padding:8, boxWidth:12}}},
+      scales:{
+        y:{beginAtZero:true, max:100, grid:{color:'#F3F0EA'}, ticks:{font:{size:10}}},
+        x:{grid:{display:false}, ticks:{font:{size:11, weight:'bold'}, color:'#1E3A5F'}}
+      }
+    }
+  });
+
+  // 3. 6 板块堆叠面积
+  const ctx3 = document.getElementById('stackChart').getContext('2d');
+  const buildHistoricalStack = ()=> {
+    const data = {party:[],grid:[],brain:[],collab:[],cap:[],scene:[]};
+    const startVals = {party:32,grid:25,brain:15,collab:30,cap:35,scene:20};
+    const cur = getCategoryScores();
+    const yrs = [...HISTORICAL.map(h=>h.year), ...Array.from({length:25},(_,i)=>2026+i)];
+    for (const cat of Object.keys(data)){
+      yrs.forEach(yr => {
+        if (yr <= 2025){
+          const t = (yr - 2010) / 15;
+          data[cat].push(startVals[cat] + (cur[cat] - startVals[cat]) * t);
+        } else {
+          data[cat].push(cur[cat]);
+        }
+      });
+    }
+    return {labels:yrs, data};
+  };
+  const stackData = buildHistoricalStack();
+  stackChart = new Chart(ctx3, {
+    type:'line',
+    data:{
+      labels: stackData.labels,
+      datasets:[
+        {label:'党建', data:stackData.data.party,  backgroundColor:'rgba(184,35,47,0.7)',  borderColor:'#B8232F', borderWidth:0, fill:true, pointRadius:0, tension:0.2, stack:'A'},
+        {label:'网格', data:stackData.data.grid,   backgroundColor:'rgba(201,160,99,0.7)', borderColor:'#C9A063', borderWidth:0, fill:true, pointRadius:0, tension:0.2, stack:'A'},
+        {label:'城市大脑', data:stackData.data.brain, backgroundColor:'rgba(30,58,95,0.7)',   borderColor:'#1E3A5F', borderWidth:0, fill:true, pointRadius:0, tension:0.2, stack:'A'},
+        {label:'协同', data:stackData.data.collab, backgroundColor:'rgba(47,133,90,0.7)',  borderColor:'#2F855A', borderWidth:0, fill:true, pointRadius:0, tension:0.2, stack:'A'},
+        {label:'能力', data:stackData.data.cap,    backgroundColor:'rgba(128,90,213,0.7)', borderColor:'#805AD5', borderWidth:0, fill:true, pointRadius:0, tension:0.2, stack:'A'},
+        {label:'场景', data:stackData.data.scene,  backgroundColor:'rgba(210,105,30,0.7)', borderColor:'#D2691E', borderWidth:0, fill:true, pointRadius:0, tension:0.2, stack:'A'}
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, animation:{duration:400},
+      plugins:{legend:{display:false}},
+      scales:{
+        y:{stacked:true, beginAtZero:true, max:600, title:{display:true, text:'累积治理力度', font:{size:11}}, grid:{color:'#F3F0EA'}, ticks:{font:{size:10}}},
+        x:{grid:{display:false}, ticks:{font:{size:9}, maxTicksLimit:14}}
+      }
+    }
+  });
+
+  // 4. 6 板块得分柱状（v5 保留）
+  const ctx4 = document.getElementById('categoryChart').getContext('2d');
+  categoryChart = new Chart(ctx4, {
+    type:'bar',
+    data:{
+      labels:['党建引领','网格管理','城市大脑','多主体协同','基层能力','场景服务'],
+      datasets:[{
+        label:'板块得分',
+        data:Object.values(getCategoryScores()),
+        backgroundColor:['#B8232F','#C9A063','#1E3A5F','#2F855A','#805AD5','#D2691E'],
+        borderRadius:6, maxBarThickness:36
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y.toFixed(1)} 分 / 100`}}},
+      scales:{
+        y:{beginAtZero:true, max:100, grid:{color:'#F3F0EA'}, ticks:{font:{size:10}}},
+        x:{grid:{display:false}, ticks:{color:'#1E3A5F', font:{size:11, weight:'bold'}}}
+      }
+    }
+  });
+
+  // 5. 5 维雷达图（v5 保留）
+  const ctx5 = document.getElementById('radarChart').getContext('2d');
+  radarChart = new Chart(ctx5, {
+    type:'radar',
+    data:{
+      labels:['公共服务','治理效果','民主参与','生活改善','干部作风'],
+      datasets:[
+        {label:'基线', data:[baselineTraj.dim1,baselineTraj.dim2,baselineTraj.dim3,baselineTraj.dim4,baselineTraj.dim5],
+         borderColor:'rgba(150,150,150,0.7)', backgroundColor:'rgba(150,150,150,0.1)',
+         borderWidth:2, pointRadius:3, pointBackgroundColor:'#888'},
+        {label:'当前', data:[baselineTraj.dim1,baselineTraj.dim2,baselineTraj.dim3,baselineTraj.dim4,baselineTraj.dim5],
+         borderColor:'#B8232F', backgroundColor:'rgba(184,35,47,0.18)',
+         borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#B8232F'}
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{
+        r:{beginAtZero:true, max:100,
+           ticks:{stepSize:20, color:'#9aa0a6', backdropColor:'transparent', font:{size:10}},
+           pointLabels:{font:{size:12, weight:'bold'}, color:'#1E3A5F'},
+           grid:{color:'#e2e8f0'}, angleLines:{color:'#e2e8f0'}}
+      },
+      plugins:{legend:{position:'bottom', labels:{font:{size:11}, padding:12}}}
+    }
+  });
+
+  // 6.5 ISUI 6 维雷达图（史文中教授体系）
+  const ctxISUI = document.getElementById('isuiRadarChart').getContext('2d');
+  const initISUI = calcISUI();
+  isuiRadarChart = new Chart(ctxISUI, {
+    type:'radar',
+    data:{
+      labels:['公民 Citizen','环境 Environment','社会图景 Social','经济 Economy','基础设施 Infrastructure','治理 Governance'],
+      datasets:[
+        {label:'香港 #8 (84.0)', data:[85,82,78,90,89,84],
+         borderColor:'rgba(96,165,250,0.85)', backgroundColor:'rgba(96,165,250,0.06)',
+         borderWidth:1.5, borderDash:[5,3], pointRadius:2, pointBackgroundColor:'rgba(96,165,250,0.85)'},
+        {label:'北京 #15 (79.0)', data:[75,72,70,82,80,79],
+         borderColor:'rgba(168,85,247,0.7)', backgroundColor:'rgba(168,85,247,0.04)',
+         borderWidth:1.5, borderDash:[5,3], pointRadius:2, pointBackgroundColor:'rgba(168,85,247,0.7)'},
+        {label:'当前河南情景', data:[initISUI.citizen,initISUI.environment,initISUI.social,initISUI.economy,initISUI.infrastructure,initISUI.governance],
+         borderColor:'#0284c7', backgroundColor:'rgba(56,189,248,0.22)',
+         borderWidth:3, pointRadius:5, pointBackgroundColor:'#0284c7'}
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{
+        r:{beginAtZero:true, max:100,
+           ticks:{stepSize:20, color:'#9aa0a6', backdropColor:'transparent', font:{size:10}},
+           pointLabels:{font:{size:11, weight:'bold'}, color:'#0284c7'},
+           grid:{color:'#e2e8f0'}, angleLines:{color:'#e2e8f0'}}
+      },
+      plugins:{
+        legend:{position:'bottom', labels:{font:{size:10.5}, padding:10}},
+        tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.r.toFixed(1)}`}}
+      }
+    }
+  });
+
+  // 6. 15 项二级指标柱状（v5 保留）
+  const subs = calcSubIndicators();
+  const ctx6 = document.getElementById('subIndicatorChart').getContext('2d');
+  const labels = [], data = [], colors = [];
+  const palette = {d1:'#B8232F', d2:'#C9A063', d3:'#1E3A5F', d4:'#2F855A', d5:'#805AD5'};
+  INDICATOR_TREE.forEach(dim => {
+    subs[dim.id].sub.forEach(sb => {
+      labels.push(sb.name);
+      data.push(sb.score);
+      colors.push(palette[dim.id]);
+    });
+  });
+  subChart = new Chart(ctx6, {
+    type:'bar',
+    data:{labels, datasets:[{label:'二级指标得分', data, backgroundColor:colors, borderRadius:4, maxBarThickness:30}]},
+    options:{
+      responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          label:ctx=>`${ctx.parsed.x.toFixed(1)} 分 / 100`,
+          afterLabel:ctx=>{
+            const idx = ctx.dataIndex;
+            let cnt = 0;
+            for (const dim of INDICATOR_TREE){
+              for (const sb of dim.sub){
+                if (cnt === idx) return `所属维度：${dim.name}（权重 ${sb.weight}%）`;
+                cnt++;
+              }
+            }
+          }
+        }}
+      },
+      scales:{
+        x:{beginAtZero:true, max:100, grid:{color:'#f1f3f5'}, ticks:{color:'#718096'}},
+        y:{grid:{display:false}, ticks:{color:'#1E3A5F', font:{size:11}}}
+      }
+    }
+  });
+}
+
+function renderDimensionRow(){
+  const subs = calcSubIndicators();
+  const wrap = document.getElementById('dimensionRow');
+  if (wrap.dataset.rendered){
+    INDICATOR_TREE.forEach(dim => {
+      const card = document.querySelector(`[data-dim="${dim.id}"]`);
+      if (!card) return;
+      card.querySelector('.dim-score').textContent = subs[dim.id].score.toFixed(1);
+      subs[dim.id].sub.forEach((sb, idx) => {
+        const subEl = card.querySelectorAll('.sub-card')[idx];
+        if (subEl){
+          subEl.querySelector('.sub-card-score').textContent = sb.score.toFixed(1);
+          subEl.querySelector('.sub-card-bar > div').style.width = sb.score + '%';
+        }
+      });
+    });
+    return;
+  }
+  wrap.innerHTML = INDICATOR_TREE.map(dim => `
+    <div class="dimension-card ${dim.klass}" data-dim="${dim.id}">
+      <div class="dim-head">
+        <div class="dim-icon">${dim.icon}</div>
+        <div class="dim-name">
+          <h3>${dim.code}、${dim.name}</h3>
+          <div class="meta">${dim.desc}</div>
+        </div>
+        <div class="dim-weight">权重 ${dim.weight}%</div>
+        <div class="dim-score">${subs[dim.id].score.toFixed(1)}</div>
+        <div class="dim-toggle">▼</div>
+      </div>
+      <div class="dim-body">
+        <div class="sub-grid">
+          ${subs[dim.id].sub.map(sb => `
+            <div class="sub-card">
+              <div class="sub-card-head">
+                <div class="sub-card-name">${sb.name}</div>
+                <div class="sub-card-weight">${sb.weight}%</div>
+              </div>
+              <div class="sub-card-score">${sb.score.toFixed(1)} <span style="font-size:10px;color:var(--text-light);font-weight:400">/ 100</span></div>
+              <div class="sub-card-bar"><div style="width:${sb.score}%"></div></div>
+              <div class="sub-card-tier3">
+                <span class="tier3-title">关键三级测评项</span>
+                <ul>${sb.tier3.map(t=>`<li>${t}</li>`).join('')}</ul>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+  wrap.dataset.rendered = '1';
+  wrap.querySelectorAll('.dimension-card').forEach(card => {
+    card.querySelector('.dim-head').addEventListener('click', () => card.classList.toggle('expanded'));
+  });
+  wrap.querySelector('.dimension-card').classList.add('expanded');
+}
+
+function recompute(){
+  const sim = simulateTrajectory();
+  // 顶部 KPI
+  document.getElementById('kpi-2050').textContent = sim.composite.toFixed(1);
+  document.getElementById('kpi-2050-meta').textContent = sim.composite >= 85 ? '✓ 达成现代化目标' : sim.composite >= 75 ? '深化改革轨迹' : '仍有提升空间';
+  document.getElementById('kpi-2030').textContent = sim.composite2030.toFixed(1);
+  const gap = 85 - sim.composite;
+  const gapEl = document.getElementById('kpi-gap');
+  gapEl.textContent = (gap >= 0 ? '+' : '−') + Math.abs(gap).toFixed(1);
+  gapEl.className = 'kpi-mid-num gap' + (gap <= 0 ? ' met' : '');
+  document.getElementById('d1-val').textContent = sim.dim1.toFixed(0);
+  document.getElementById('d2-val').textContent = sim.dim2.toFixed(0);
+  document.getElementById('d3-val').textContent = sim.dim3.toFixed(0);
+  document.getElementById('d4-val').textContent = sim.dim4.toFixed(0);
+  document.getElementById('d5-val').textContent = sim.dim5.toFixed(0);
+
+  // 反馈回路
+  document.getElementById('fb-r1').textContent = '+' + sim.synergy.toFixed(1) + ' 分';
+  document.getElementById('fb-r2').textContent = '×' + sim.trustFlywheel.toFixed(2);
+  document.getElementById('fb-b1').textContent = '饱和度 ' + sim.saturation.toFixed(0) + '%';
+
+  // 4 效能指标
+  document.getElementById('eff-sat').textContent = '+' + Math.max(0, ((sim.composite - baselineTraj.composite)/baselineTraj.composite*100)).toFixed(1) + '%';
+  document.getElementById('eff-eff').textContent = (sim.efficiencyGain >= 0 ? '+' : '') + sim.efficiencyGain.toFixed(1) + '%';
+  document.getElementById('eff-coll').textContent = (sim.collabGain >= 0 ? '+' : '') + sim.collabGain.toFixed(1) + '%';
+  document.getElementById('eff-dig').textContent = sim.digitalCov.toFixed(0) + '%';
+
+  // 主图 1：轨迹
+  const currentLine = [
+    ...Array(HISTORICAL.length-1).fill(null),
+    HISTORICAL[HISTORICAL.length-1].value,
+    ...sim.trajectory.slice(1).map(t=>t.value)
+  ];
+  trajectoryChart.data.datasets[2].data = currentLine;
+  trajectoryChart.update('none');
+
+  // 主图 2：5 维
+  dimsChart.data.datasets[1].data = [sim.dim1, sim.dim2, sim.dim3, sim.dim4, sim.dim5];
+  dimsChart.update('none');
+
+  // 主图 3：堆叠
+  const cat = sim.categories;
+  const histLen = HISTORICAL.length;
+  for (let i = histLen; i < stackChart.data.labels.length; i++){
+    stackChart.data.datasets[0].data[i] = cat.party;
+    stackChart.data.datasets[1].data[i] = cat.grid;
+    stackChart.data.datasets[2].data[i] = cat.brain;
+    stackChart.data.datasets[3].data[i] = cat.collab;
+    stackChart.data.datasets[4].data[i] = cat.cap;
+    stackChart.data.datasets[5].data[i] = cat.scene;
+  }
+  stackChart.update('none');
+
+  // 4 板块柱状
+  categoryChart.data.datasets[0].data = Object.values(cat);
+  categoryChart.update('none');
+
+  // 5 维雷达
+  radarChart.data.datasets[1].data = [sim.dim1, sim.dim2, sim.dim3, sim.dim4, sim.dim5];
+  radarChart.update('none');
+
+  // 15 二级指标
+  const subs = calcSubIndicators();
+  const newData = [];
+  INDICATOR_TREE.forEach(dim => {
+    subs[dim.id].sub.forEach(sb => newData.push(sb.score));
+  });
+  subChart.data.datasets[0].data = newData;
+  subChart.update('none');
+
+  // 完整指标体系树
+  renderDimensionRow();
+
+  // 浮动迷你仪表
+  updateMiniDash(sim);
+
+  // AI 诊断
+  updateAI(sim);
+
+  // ISUI 智慧城市指数（史文中教授 6 维体系）
+  const isui = calcISUI();
+  const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent = v; };
+  set('kpi-isui', isui.total.toFixed(1));
+  const rank = estimateISUIRank(isui.total);
+  set('kpi-rank', rank);
+  set('isui-total', isui.total.toFixed(1));
+  set('isui-rank-detail', '#' + rank);
+  // 维度列表
+  const dimDefs = [
+    {id:'citizen', name:'公民 Citizen', icon:'👤', color:'#60a5fa'},
+    {id:'environment', name:'环境 Environment', icon:'🌳', color:'#34d399'},
+    {id:'social', name:'社会图景 Social', icon:'🏘️', color:'#fbbf24'},
+    {id:'economy', name:'经济 Economy', icon:'💰', color:'#a78bfa'},
+    {id:'infrastructure', name:'基础设施 Infra', icon:'🏗️', color:'#f472b6'},
+    {id:'governance', name:'治理 Governance', icon:'🏛️', color:'#22d3ee'}
+  ];
+  const listEl = document.getElementById('isui-dim-list');
+  if (listEl){
+    listEl.innerHTML = dimDefs.map(d => `
+      <div style="display:flex;align-items:center;gap:8px;padding:5px 10px;background:#fff;border:1px solid var(--border);border-radius:6px;font-size:11.5px">
+        <span>${d.icon}</span>
+        <span style="flex:1;color:var(--text)">${d.name}</span>
+        <div style="flex:1;height:4px;background:#edf0f4;border-radius:2px;overflow:hidden;max-width:80px">
+          <div style="height:100%;background:${d.color};width:${isui[d.id]}%"></div>
+        </div>
+        <span style="font-weight:800;color:${d.color};font-family:Georgia,serif;min-width:30px;text-align:right">${isui[d.id].toFixed(0)}</span>
+      </div>
+    `).join('');
+  }
+  // 雷达图刷新
+  if (isuiRadarChart){
+    isuiRadarChart.data.datasets[2].data = [isui.citizen, isui.environment, isui.social, isui.economy, isui.infrastructure, isui.governance];
+    isuiRadarChart.update('none');
+  }
+
+  // 跨 iframe 广播：通知父窗口（如果嵌在 9 栏目网站里）
+  if (window.parent && window.parent !== window) {
+    try {
+      window.parent.postMessage({
+        type: 'sandbox-state-update',
+        payload: {
+          composite: sim.composite,
+          composite2030: sim.composite2030,
+          dim1: sim.dim1, dim2: sim.dim2, dim3: sim.dim3, dim4: sim.dim4, dim5: sim.dim5,
+          synergy: sim.synergy,
+          triMin: sim.triMin,
+          categories: sim.categories,
+          efficiencyGain: sim.efficiencyGain,
+          collabGain: sim.collabGain,
+          digitalCov: sim.digitalCov,
+          scenario: detectScenario(),
+          baselineComposite: baselineTraj.composite,
+          trajectory: sim.trajectory.map(t => ({year: t.year, value: t.value})),
+          isui: isui,
+          isuiRank: rank
+        }
+      }, '*');
+    } catch(e) { /* 跨域时静默失败 */ }
+  }
+}
+
+// 接收父窗口的预设切换请求
+window.addEventListener('message', function(e){
+  if (!e.data || typeof e.data !== 'object') return;
+  if (e.data.type === 'sandbox-apply-preset' && e.data.preset) {
+    if (typeof applyPreset === 'function') applyPreset(e.data.preset);
+  }
+  if (e.data.type === 'sandbox-request-state') {
+    // 父窗口刚装载，发一次最新状态
+    recompute();
+  }
+});
+
+function updateAI(sim){
+  let txt = '';
+  const insights = [];
+  if (sim.composite >= 90){
+    txt = `🌟 全面现代化情景。综合分 ${sim.composite.toFixed(1)}。`;
+    insights.push({type:'good', text:`三引擎同步推进触发协同奖励 +${sim.synergy.toFixed(1)} 分（R1 强化回路）`});
+    insights.push({type:'good', text:`5 年后达 ${sim.composite.toFixed(0)}+ 分，整体迈入治理现代化。`});
+  } else if (sim.composite >= 80){
+    txt = `✅ 深化改革轨迹。综合分 ${sim.composite.toFixed(1)}。`;
+    if (sim.dim3 < 75) insights.push({type:'warn', text:`民主参与（${sim.dim3.toFixed(0)}分）相对薄弱`});
+    if (sim.dim4 < 75) insights.push({type:'warn', text:`生活改善（${sim.dim4.toFixed(0)}分）需加强`});
+    if (sim.synergy >= 5) insights.push({type:'good', text:`协同奖励 +${sim.synergy.toFixed(1)} 分已激活`});
+  } else if (sim.composite >= 70){
+    txt = `📈 渐进改革阶段。距 85 分还差 ${(85-sim.composite).toFixed(1)} 分。`;
+    insights.push({type:'normal', text:`系统时滞 τ=1.5 年，5 年内可见效。`});
+  } else {
+    txt = `⚠️ 当前推力不足。`;
+    if (LEVERS.partyGrid.value < 70) insights.push({type:'warn', text:`党建+网格融合度仅 ${LEVERS.partyGrid.value}%，建议优先提升（边际 ROI 最高）`});
+    if (LEVERS.dataSharing.value < 70) insights.push({type:'warn', text:`数据共享率 ${LEVERS.dataSharing.value}%，"数据孤岛"仍存`});
+  }
+  // 三引擎失衡
+  const cat = sim.categories;
+  const triMax = Math.max(cat.party, cat.grid, cat.brain);
+  if (triMax - sim.triMin > 25){
+    const weakest = cat.party === sim.triMin ? '党建引领' : (cat.grid === sim.triMin ? '网格管理' : '城市大脑');
+    insights.push({type:'warn', text:`⚖️ 三引擎失衡：${weakest} 仅 ${sim.triMin.toFixed(0)} 分，差距 ${(triMax-sim.triMin).toFixed(0)} 分，协同奖励被削减`});
+  } else if (sim.triMin >= 70){
+    insights.push({type:'good', text:`🔗 三引擎均衡推进（最低 ${sim.triMin.toFixed(0)} 分），呼应郑州模式成功要素`});
+  }
+  document.getElementById('ai-text').textContent = txt;
+  document.getElementById('ai-insights').innerHTML = insights.map(i => `<li class="${i.type}">${i.text}</li>`).join('');
+}
+
+// ========== 滑块详情弹窗 ==========
+
+function openDetail(leverKey){
+  const L = LEVERS[leverKey];
+  const cat = CATEGORIES[L.cat];
+  const modal = document.getElementById('detailModal');
+  document.getElementById('dm-cat-tag').textContent = cat.code + ' · ' + cat.name;
+  document.getElementById('dm-cat-tag').style.background = cat.color;
+  document.getElementById('dm-title').textContent = L.name;
+  document.getElementById('dm-desc').innerHTML = L.desc;
+  document.getElementById('dm-cur').textContent = L.value + L.unit;
+  const before = simulateTrajectory().composite;
+  L.value = Math.min(100, L.value + 1);
+  const after = simulateTrajectory().composite;
+  L.value = Math.max(0, L.value - 1);
+  const margin = (after - before).toFixed(3);
+  document.getElementById('dm-margin').textContent = '+' + margin + ' 分/%';
+  document.getElementById('dm-delta').textContent = '基线值 50' + L.unit;
+  document.getElementById('dm-examples').innerHTML = L.examples;
+  const related = Object.entries(LEVERS).filter(([k,v])=>v.cat===L.cat && k!==leverKey);
+  document.getElementById('dm-related').innerHTML = related.map(([k,v]) => `
+    <div class="dm-related-item">
+      <span class="nm">${v.name}</span>
+      <span class="vl">${v.value}${v.unit}</span>
+    </div>`).join('');
+  modal.classList.add('show');
+}
+
+function closeDetail(){ document.getElementById('detailModal').classList.remove('show'); }
+
+// ========== 浮动仪表盘与抽屉 ==========
+
+function toggleMiniDash(){
+  const md = document.getElementById('miniDash');
+  md.classList.toggle('collapsed');
+  const btn = document.getElementById('miniDashCollapseBtn');
+  if (btn) btn.textContent = md.classList.contains('collapsed') ? '+' : '−';
+}
+
+function detectScenario(){
+  const flat = flattenLevers();
+  let best = '自定义', minDist = 50;
+  for (const [pname, pstate] of Object.entries(PRESETS)){
+    let dist = 0, count = 0;
+    for (const [k, v] of Object.entries(pstate)){
+      if (flat[k] !== undefined){
+        dist += Math.abs(flat[k] - v);
+        count++;
+      }
+    }
+    dist = dist / Math.max(count,1);
+    if (dist < minDist){ minDist = dist; best = pname; }
+  }
+  if (minDist > 8) return '自定义情景';
+  return {baseline:'当前基线', incremental:'渐进式改革', zhengzhou:'郑州模式', deep:'深化改革', modern:'全面现代化', reset:'全部归零'}[best];
+}
+
+function updateMiniDash(sim){
+  const set = (id,v)=>{ const e=document.getElementById(id); if(e) e.textContent = v; };
+  set('miniComposite', sim.composite.toFixed(1));
+  const delta = sim.composite - baselineTraj.composite;
+  const dEl = document.getElementById('miniDelta');
+  if (dEl){
+    dEl.textContent = (delta>=0 ? '+':'') + delta.toFixed(1);
+    dEl.classList.toggle('neg', delta < 0);
+  }
+  set('miniD1', sim.dim1.toFixed(0));
+  set('miniD2', sim.dim2.toFixed(0));
+  set('miniD3', sim.dim3.toFixed(0));
+  set('miniD4', sim.dim4.toFixed(0));
+  set('miniD5', sim.dim5.toFixed(0));
+  set('miniScenario', detectScenario());
+  set('qsdComposite', sim.composite.toFixed(1));
+  const qd = document.getElementById('qsdDelta');
+  if (qd){
+    qd.textContent = (delta>=0 ? '+':'') + delta.toFixed(1);
+    qd.style.color = delta>=0 ? 'var(--good)' : 'var(--bad)';
+  }
+}
+
+function toggleQuickSim(){
+  const drawer = document.getElementById('quickSimDrawer');
+  const overlay = document.getElementById('qsdOverlay');
+  drawer.classList.toggle('open');
+  overlay.classList.toggle('show');
+  if (drawer.classList.contains('open') && !drawer.dataset.populated){
+    populateQuickSim();
+    drawer.dataset.populated = '1';
+  }
+}
+
+const QSD_LEVERS = [
+  {id:'partyGrid', cat:'A 党建', name:'党建+网格融合度'},
+  {id:'gridDensity', cat:'B 网格', name:'网格精细化密度'},
+  {id:'gridStaffing', cat:'B 网格', name:'专职网格员配备'},
+  {id:'digitalInfra', cat:'C 大脑', name:'数字基础设施投入'},
+  {id:'dataSharing', cat:'C 大脑', name:'跨部门数据共享'},
+  {id:'aiDecision', cat:'C 大脑', name:'AI 智能决策应用'},
+  {id:'publicPart', cat:'D 协同', name:'群众参与治理深度'},
+  {id:'fiscalSink', cat:'E 能力', name:'财政资源下沉'},
+  {id:'oneStop', cat:'F 场景', name:'一网通办覆盖率'}
+];
+
+function populateQuickSim(){
+  const body = document.getElementById('qsdBody');
+  body.innerHTML = QSD_LEVERS.map(L => `
+    <div class="qsd-lever" data-qsd-lever="${L.id}">
+      <div class="qsd-lever-head">
+        <div class="qsd-lever-name">${L.name}<span class="qsd-lever-cat">${L.cat}</span></div>
+        <div class="qsd-lever-val"><span class="qv">${LEVERS[L.id].value}</span>%</div>
+      </div>
+      <input type="range" min="0" max="100" value="${LEVERS[L.id].value}">
+    </div>`).join('');
+  body.querySelectorAll('.qsd-lever').forEach(el => {
+    const lid = el.dataset.qsdLever;
+    el.querySelector('input').addEventListener('input', e => {
+      setLeverValue(lid, e.target.value);
+    });
+  });
+}
+
+// ========== 预设 / 分享 ==========
+
+const PRESETS = {
+  baseline:{partyOrg:60,partyVanguard:55,partyGrid:50,gridDensity:50,gridStaffing:60,specialGrid:40,
+    digitalInfra:55,dataSharing:45,aiDecision:40,govSocial:50,govBusiness:45,publicPart:50,
+    fiscalSink:50,talentSink:45,cadreTrain:55,livelihoodSmart:50,oneStop:60,personalize:35},
+  incremental:{partyOrg:70,partyVanguard:68,partyGrid:65,gridDensity:65,gridStaffing:70,specialGrid:55,
+    digitalInfra:68,dataSharing:60,aiDecision:55,govSocial:62,govBusiness:58,publicPart:60,
+    fiscalSink:62,talentSink:58,cadreTrain:65,livelihoodSmart:62,oneStop:72,personalize:50},
+  zhengzhou:{partyOrg:88,partyVanguard:80,partyGrid:90,gridDensity:85,gridStaffing:80,specialGrid:80,
+    digitalInfra:88,dataSharing:80,aiDecision:75,govSocial:75,govBusiness:70,publicPart:70,
+    fiscalSink:75,talentSink:70,cadreTrain:75,livelihoodSmart:78,oneStop:88,personalize:65},
+  deep:{partyOrg:82,partyVanguard:80,partyGrid:80,gridDensity:80,gridStaffing:80,specialGrid:75,
+    digitalInfra:82,dataSharing:78,aiDecision:75,govSocial:78,govBusiness:75,publicPart:78,
+    fiscalSink:78,talentSink:75,cadreTrain:80,livelihoodSmart:78,oneStop:85,personalize:72},
+  modern:{partyOrg:95,partyVanguard:92,partyGrid:95,gridDensity:92,gridStaffing:92,specialGrid:90,
+    digitalInfra:95,dataSharing:92,aiDecision:90,govSocial:90,govBusiness:88,publicPart:90,
+    fiscalSink:90,talentSink:88,cadreTrain:92,livelihoodSmart:92,oneStop:96,personalize:88},
+  reset:{partyOrg:0,partyVanguard:0,partyGrid:0,gridDensity:0,gridStaffing:0,specialGrid:0,
+    digitalInfra:0,dataSharing:0,aiDecision:0,govSocial:0,govBusiness:0,publicPart:0,
+    fiscalSink:0,talentSink:0,cadreTrain:0,livelihoodSmart:0,oneStop:0,personalize:0}
+};
+
+function applyPreset(name){
+  const p = PRESETS[name];
+  if (!p) return;
+  for (const [k,v] of Object.entries(p)) LEVERS[k].value = v;
+  renderSlidersPanel();
+  if (document.getElementById('quickSimDrawer').dataset.populated){
+    populateQuickSim();
+  }
+  recompute();
+  document.querySelectorAll('[data-preset], [data-mini-preset]').forEach(b => {
+    b.classList.toggle('active', (b.dataset.preset===name || b.dataset.miniPreset===name));
+  });
+}
+
+document.querySelectorAll('[data-preset]').forEach(btn => {
+  btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
+});
+document.querySelectorAll('[data-mini-preset]').forEach(btn => {
+  btn.addEventListener('click', () => applyPreset(btn.dataset.miniPreset));
+});
+
+document.getElementById('btn-share').onclick = () => {
+  const params = Object.keys(LEVERS).map(k => `${k}=${LEVERS[k].value}`).join('&');
+  const url = `${location.origin}${location.pathname}?${params}`;
+  navigator.clipboard.writeText(url).then(() => showToast('已复制情景链接到剪贴板'));
+};
+
+document.getElementById('btn-tour').onclick = () => alert('引导教程：\n\n1. 左侧 18 项政策杠杆，点击ⓘ查看详情\n2. 顶部 5 套预设按钮一键加载经典情景\n3. 主图 1：满意度时间走势（含基线对照）\n4. 主图 2：5 维满意度对比柱状\n5. 主图 3：6 板块治理力度演化（堆叠面积）\n6. 反馈回路面板：实时显示 R1/R2/B1/B2 系统效应\n7. 6 板块得分柱状 + 5 维雷达图（v5 保留）\n8. 4 项关键效能指标（满意度/效率/协同/数字化）\n9. 完整 5+15+225 指标体系（点击展开二级指标）\n10. 15 项二级指标实时仪表盘\n11. 右下角浮动仪表盘 + FAB 快速调节抽屉\n12. 分享情景：URL 完全保留滑块状态');
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+function loadFromURL(){
+  const params = new URLSearchParams(location.search);
+  let loaded = 0;
+  for (const k of Object.keys(LEVERS)){
+    if (params.has(k)){ LEVERS[k].value = parseInt(params.get(k)); loaded++; }
+  }
+  if (loaded > 0) setTimeout(()=>showToast(`已恢复 ${loaded} 项杠杆`), 500);
+}
+
+// ========== 启动 ==========
+loadFromURL();
+renderSlidersPanel();
+initCharts();
+recompute();
+
+// 高亮当前预设
+document.querySelectorAll('[data-preset], [data-mini-preset]').forEach(b => {
+  b.classList.toggle('active', (b.dataset.preset==='baseline' || b.dataset.miniPreset==='baseline'));
+});
+</script>
+</body>
+</html>
