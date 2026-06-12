@@ -4043,6 +4043,62 @@ body.app-mode > footer { margin-top: 0; }
   .ph-h1 { font-size: 24px; }
 }
 
+
+/* ========== v8 理论融入新增样式 ========== */
+.v8-anchor {background:linear-gradient(135deg,#FAF8F2,#fff); border-left:5px solid #C9A063; border-radius:0 10px 10px 0; padding:18px 22px; margin:20px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04); position:relative}
+.v8-anchor::before {content:"〝"; position:absolute; top:-4px; left:8px; font-size:42px; color:#C9A063; opacity:0.35; font-family:Georgia,serif; line-height:1}
+.v8-anchor-text {font-size:14px; line-height:1.85; color:#1A202C; padding-left:14px}
+.v8-anchor-cite {font-size:11px; color:#718096; margin-top:8px; font-style:italic; padding-left:18px; border-left:2px solid #C9A063}
+.v8-anchor-cite b {color:#B8232F}
+
+.v8-six-grid {display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:18px 0}
+.v8-target {background:#FAF8F2; border:1px solid #DDD8CF; border-radius:8px; padding:14px 16px; border-top:4px solid var(--tc,#C9A063)}
+.v8-target.t1 {--tc:#B8232F} .v8-target.t2 {--tc:#C9A063} .v8-target.t3 {--tc:#2F855A}
+.v8-target.t4 {--tc:#D69E2E} .v8-target.t5 {--tc:#805AD5} .v8-target.t6 {--tc:#2C7A7B}
+.v8-target-name {font-size:15px; font-weight:800; color:var(--tc); margin-bottom:5px}
+.v8-target-desc {font-size:11.5px; color:#4A5568; line-height:1.55; margin-bottom:6px}
+.v8-target-lever {font-size:10.5px; color:#718096; font-style:italic}
+
+.v8-mini-tl {display:flex; gap:8px; margin:14px 0; overflow-x:auto; padding-bottom:8px}
+.v8-tl-dot {flex-shrink:0; min-width:130px; background:#fff; border:1px solid #DDD8CF; border-left:3px solid #B8232F; border-radius:6px; padding:8px 12px}
+.v8-tl-dot .y {font-size:10px; color:#B8232F; font-weight:800; letter-spacing:1px}
+.v8-tl-dot .e {font-size:11.5px; color:#1A202C; line-height:1.4; margin-top:3px}
+
+.v8-pyramid {display:flex; flex-direction:column; align-items:center; gap:6px; margin:20px 0}
+.v8-pyr-level {background:linear-gradient(135deg,#1E3A5F,#142a47); color:#fff; padding:12px 24px; border-radius:8px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.v8-pyr-l1 {width:60%}
+.v8-pyr-l2 {width:75%; background:linear-gradient(135deg,#B8232F,#8B0000)}
+.v8-pyr-l3 {width:90%; background:linear-gradient(135deg,#C9A063,#A88450); color:#1A202C}
+.v8-pyr-title {font-size:14px; font-weight:800; margin-bottom:2px}
+.v8-pyr-sub {font-size:11px; opacity:0.85}
+
+.v8-card {background:#fff; border:1px solid #DDD8CF; border-radius:10px; padding:18px 20px; margin:14px 0; box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.v8-card-head {display:flex; align-items:center; gap:10px; margin-bottom:10px}
+.v8-card-num {width:32px; height:32px; background:#B8232F; color:#fff; display:flex; align-items:center; justify-content:center; border-radius:6px; font-weight:800; font-size:14px; font-family:Georgia,serif}
+.v8-card-title {font-size:15px; font-weight:800; color:#1E3A5F; flex:1}
+.v8-card-tag {font-size:9px; background:#C9A063; color:#1A202C; padding:2px 8px; border-radius:3px; font-weight:800; letter-spacing:1px}
+
+.v8-cmp-table {width:100%; border-collapse:collapse; margin:16px 0; font-size:12.5px}
+.v8-cmp-table th, .v8-cmp-table td {padding:9px 12px; border-bottom:1px solid #DDD8CF; text-align:left; vertical-align:top}
+.v8-cmp-table th {background:#1E3A5F; color:#fff; font-size:11px; font-weight:700}
+.v8-cmp-table .col-zheng {background:#FFF5F5}
+.v8-cmp-table .col-zhe {background:#F0FFF4}
+
+.v8-mapping-row {background:#fff; border:1px solid #DDD8CF; border-radius:10px; padding:14px 18px; margin-bottom:10px; display:grid; grid-template-columns:110px 1fr 1fr; gap:14px; align-items:center}
+.v8-mapping-lever {background:linear-gradient(135deg,#B8232F,#8B0000); color:#fff; padding:8px 10px; border-radius:6px; text-align:center; font-weight:800; font-size:11.5px}
+.v8-mapping-quote {font-size:11.5px; color:#1A202C; line-height:1.55; padding-right:12px; border-right:2px dashed #DDD8CF}
+.v8-mapping-quote-src {font-size:9.5px; color:#C9A063; font-weight:800; margin-top:4px; display:block; letter-spacing:0.5px}
+.v8-mapping-impl {font-size:11.5px; color:#4A5568; line-height:1.55}
+
+.v8-section-tag {display:inline-block; background:linear-gradient(135deg,#B8232F,#8B0000); color:#C9A063; padding:5px 14px; border-radius:4px; font-size:11px; font-weight:800; letter-spacing:1.5px; margin-bottom:14px}
+
+@media (max-width:768px) {
+  .v8-six-grid {grid-template-columns:1fr 1fr}
+  .v8-mapping-row {grid-template-columns:1fr}
+  .v8-mapping-quote {border-right:none; border-bottom:2px dashed #DDD8CF; padding-bottom:10px; padding-right:0}
+  .v8-pyr-l1, .v8-pyr-l2, .v8-pyr-l3 {width:95%}
+}
+
 </style>
 </head>
 
@@ -4263,6 +4319,47 @@ body.app-mode > footer { margin-top: 0; }
 
 </section>
 
+
+<!-- ============ v8 M1 · 首页理论锚定 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 理论锚定 · 习近平 2025.05 河南考察</span>
+  <div class="v8-anchor">
+    <div class="v8-anchor-text">"以高质量发展和高效能治理奋力谱写中原大地推进中国式现代化新篇章。"</div>
+    <div class="v8-anchor-cite"><b>习近平</b> · 2025年5月20日 · 河南考察重要讲话</div>
+  </div>
+
+  <h3 style="font-size:18px;color:#1E3A5F;margin:28px 0 10px;font-weight:800;">🏛️ 现代化人民城市 · 6 大目标（中央城市工作会议 2025.07）</h3>
+  <div class="v8-six-grid">
+    <div class="v8-target t1"><div class="v8-target-name">🚀 创新城市</div><div class="v8-target-desc">城市发展动能转换，从规模扩张到创新驱动</div><div class="v8-target-lever">对位杠杆：城市大脑·感知设备·人才</div></div>
+    <div class="v8-target t2"><div class="v8-target-name">🏘️ 宜居城市</div><div class="v8-target-desc">舒适便利的生活家园，群众满意优先</div><div class="v8-target-lever">对位杠杆：网格密度·协商共治·议事</div></div>
+    <div class="v8-target t3"><div class="v8-target-name">🌱 美丽城市</div><div class="v8-target-desc">绿色低碳转型，守住生态底线</div><div class="v8-target-lever">对位杠杆：极端天气·绿色基础设施</div></div>
+    <div class="v8-target t4"><div class="v8-target-name">🛡️ 韧性城市</div><div class="v8-target-desc">生命线工程，风险防控嵌入</div><div class="v8-target-lever">对位杠杆：重大事件·应急响应·纪检</div></div>
+    <div class="v8-target t5"><div class="v8-target-name">🎭 文明城市</div><div class="v8-target-desc">崇德向善，文化软实力</div><div class="v8-target-lever">对位杠杆：思想宣讲·社会组织·志愿者</div></div>
+    <div class="v8-target t6"><div class="v8-target-name">🤖 智慧城市</div><div class="v8-target-desc">一网通办+一网统管+一网通享</div><div class="v8-target-lever">对位杠杆：数据中台·城运中心·AI</div></div>
+  </div>
+
+  <h3 style="font-size:18px;color:#1E3A5F;margin:24px 0 10px;font-weight:800;">📅 治理思想演进 12 关键节点</h3>
+  <div class="v8-mini-tl">
+    <div class="v8-tl-dot"><div class="y">2013.11</div><div class="e">十八届三中全会·治理体系现代化</div></div>
+    <div class="v8-tl-dot"><div class="y">2019.11 ⭐</div><div class="e">上海杨浦·"人民城市人民建"</div></div>
+    <div class="v8-tl-dot"><div class="y">2020.03</div><div class="e">浙江杭州·城市大脑·"更智慧"</div></div>
+    <div class="v8-tl-dot"><div class="y">2022.10</div><div class="e">党的二十大·治理体系深入推进</div></div>
+    <div class="v8-tl-dot"><div class="y">2024.07</div><div class="e">二十届三中全会·三治融合</div></div>
+    <div class="v8-tl-dot"><div class="y">2025.05 ⭐</div><div class="e">河南考察·首提"高质量+高效能"</div></div>
+    <div class="v8-tl-dot"><div class="y">2025.07 ⭐</div><div class="e">中央城市工作会议·6目标5转变7任务</div></div>
+    <div class="v8-tl-dot"><div class="y">2025.10</div><div class="e">二十届四中全会·完善社会治理</div></div>
+    <div class="v8-tl-dot"><div class="y">2026.01</div><div class="e">《求是》全文发表</div></div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#1E3A5F,#142a47);color:#fff;border-radius:12px;padding:24px 28px;margin-top:24px;text-align:center;">
+    <div style="font-size:11px;color:#C9A063;letter-spacing:2px;margin-bottom:8px;font-weight:800;">🎯 三高战略框架</div>
+    <div style="font-size:22px;font-weight:800;color:#fff;font-family:Georgia,serif;line-height:1.4;">高质量发展 · 高效能治理 · 高水平安全</div>
+    <div style="font-size:12px;color:#C9A063;margin-top:10px;opacity:0.9;">党的二十届四中全会 · 三者良性互动</div>
+  </div>
+
+</div>
+
 <section class="page" data-page="sandbox">
   <div class="page-header">
     <div class="ph-num">PAGE 02 · CORE INTERACTIVE</div>
@@ -4298,6 +4395,42 @@ body.app-mode > footer { margin-top: 0; }
     </div>
   </div>
 </section>
+
+
+<!-- ============ v8 M2 · 政策沙盘 6目标对位 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 沙盘理论对位</span>
+  <h3 style="font-size:18px;color:#1E3A5F;margin:8px 0 14px;font-weight:800;">18 杠杆 ↔ 6 大类别 ↔ 现代化人民城市 6 目标</h3>
+  <table class="v8-cmp-table">
+    <thead><tr><th>杠杆类别</th><th>对位人民城市目标</th><th>总书记原话依据</th></tr></thead>
+    <tbody>
+      <tr><td><b>党建引领</b><br>组织·宣讲·纪检</td><td><b>文明城市 + 治理投入转变</b></td><td>"健全党组织领导的自治法治德治相结合的城乡基层治理体系"<br><i>—— 二十届三中全会</i></td></tr>
+      <tr><td><b>网格管理</b><br>密度·素质·应急</td><td><b>宜居城市 + 韧性城市</b></td><td>"确保社会治理各项工作纵向到底、横向到边"<br><i>—— 二十届三中全会</i></td></tr>
+      <tr><td><b>城市大脑</b><br>数据·城运·感知</td><td><b>智慧城市 + 创新城市</b></td><td>"运用大数据、云计算、区块链、人工智能等推动城市管理...从数字化到智能化再到智慧化"<br><i>—— 2020 杭州考察</i></td></tr>
+      <tr><td><b>协商共治</b><br>代表·组织·志愿</td><td><b>宜居城市 + 文明城市</b></td><td>"人民城市人民建，人民城市为人民...聚焦人民群众的需求"<br><i>—— 2019 上海杨浦</i></td></tr>
+      <tr><td><b>能力建设</b><br>培训·人才·薪酬</td><td><b>创新城市 + 治理投入</b></td><td>"城市管理应该像绣花一样精细...绣花般的细心、耐心、巧心"<br><i>—— 习近平多次论述</i></td></tr>
+      <tr><td><b>场景任务</b><br>极端天气·重大事件·信访</td><td><b>韧性城市 + 美丽城市</b></td><td>"推进城市基础设施生命线安全工程建设...风险防控有机嵌入城市管理系统"<br><i>—— 2025.07 中央城市工作会议</i></td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:16px;color:#1E3A5F;margin:24px 0 10px;font-weight:800;">🎯 推荐情景预设（新增）</h3>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+    <div class="v8-card" style="border-left:5px solid #B8232F;">
+      <div class="v8-card-head"><div class="v8-card-num">郑</div><div class="v8-card-title">郑州模式</div><div class="v8-card-tag">党建+网格+大数据</div></div>
+      <div style="font-size:11.5px;color:#4A5568;line-height:1.65;">党建引领全档拉满 · 网格密度全档拉满 · 城市大脑数据中台开启 · 协商共治中档 · AI 小郑+郑好拍闭环</div>
+    </div>
+    <div class="v8-card" style="border-left:5px solid #2C7A7B;">
+      <div class="v8-card-head"><div class="v8-card-num" style="background:#2C7A7B;">杭</div><div class="v8-card-title">杭州模式</div><div class="v8-card-tag">152+城市大脑3.0</div></div>
+      <div style="font-size:11.5px;color:#4A5568;line-height:1.65;">城市大脑全档拉满 · 数据中台+城运中心+感知设备满档 · 协商共治高档 · 三个一网协同 · 浙里办支撑</div>
+    </div>
+    <div class="v8-card" style="border-left:5px solid #C9A063;">
+      <div class="v8-card-head"><div class="v8-card-num" style="background:#C9A063;color:#1A202C;">理</div><div class="v8-card-title">理想路径</div><div class="v8-card-tag">6目标均衡</div></div>
+      <div style="font-size:11.5px;color:#4A5568;line-height:1.65;">6 大类别均衡发力 · 党建+网格+大脑+共治+能力+场景全档动态调优 · 对应"6 目标 5 转变"全面落地</div>
+    </div>
+  </div>
+
+</div>
 
 <section class="page" data-page="methodology">
   <div class="page-header">
@@ -4401,6 +4534,52 @@ body.app-mode > footer { margin-top: 0; }
     </div>
   </div>
 </section>
+
+
+<!-- ============ v8 M3 · 方法论金字塔 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 方法论金字塔</span>
+  <h3 style="font-size:18px;color:#1E3A5F;margin:8px 0 14px;font-weight:800;">🏛️ 治理科学三层支撑</h3>
+  <div class="v8-pyramid">
+    <div class="v8-pyr-level v8-pyr-l1"><div class="v8-pyr-title">习近平人民城市与高效能治理思想</div><div class="v8-pyr-sub">政治锚定 · 党中央顶层设计</div></div>
+    <div class="v8-pyr-level v8-pyr-l2"><div class="v8-pyr-title">MIT En-ROADS + 港理工 ISUI</div><div class="v8-pyr-sub">方法论支撑 · 世界级学术 IP</div></div>
+    <div class="v8-pyr-level v8-pyr-l3"><div class="v8-pyr-title">河南调研数据 + 郑州/杭州实践</div><div class="v8-pyr-sub">经验基础 · 真实可验证</div></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0;">
+    <div class="v8-card" style="border-top:4px solid #B8232F;">
+      <div class="v8-card-head"><div class="v8-card-num">①</div><div class="v8-card-title">为什么是河南</div></div>
+      <div class="v8-anchor" style="margin:8px 0;">
+        <div class="v8-anchor-text" style="font-size:12.5px;">"河南人口总量、人口密度、人口流动量都比较大，社会问题复杂多样，必须扎扎实实加强社会治理。"</div>
+        <div class="v8-anchor-cite" style="font-size:10px;"><b>习近平</b> · 2025.05 河南考察</div>
+      </div>
+      <div style="font-size:11.5px;color:#4A5568;line-height:1.65;">河南作为人口大省、基层治理"枫桥经验"现代化示范区，是测试高效能治理工具的最佳样本。</div>
+    </div>
+    <div class="v8-card" style="border-top:4px solid #C9A063;">
+      <div class="v8-card-head"><div class="v8-card-num" style="background:#C9A063;color:#1A202C;">②</div><div class="v8-card-title">为什么是现在</div></div>
+      <div class="v8-anchor" style="margin:8px 0;">
+        <div class="v8-anchor-text" style="font-size:12.5px;">"我国城镇化正从快速增长期转向稳定发展期，城市发展正从大规模增量扩张阶段转向存量提质增效为主的阶段。"</div>
+        <div class="v8-anchor-cite" style="font-size:10px;"><b>习近平</b> · 2025.07 中央城市工作会议</div>
+      </div>
+      <div style="font-size:11.5px;color:#4A5568;line-height:1.65;">"存量提质增效"是新阶段的核心命题，沙盘推演恰好是这个命题的最佳分析工具。</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px;color:#1E3A5F;margin:24px 0 12px;font-weight:800;">📅 思想演进 12 关键节点（详细版）</h3>
+  <div class="v8-mini-tl" style="overflow-x:auto;">
+    <div class="v8-tl-dot"><div class="y">2013.11</div><div class="e">十八届三中全会首提"治理体系现代化"</div></div>
+    <div class="v8-tl-dot"><div class="y">2019.11 ⭐</div><div class="e">上海杨浦"人民城市人民建为人民"</div></div>
+    <div class="v8-tl-dot"><div class="y">2020.04</div><div class="e">杭州城市大脑"从数字化到智慧化"</div></div>
+    <div class="v8-tl-dot"><div class="y">2022.10</div><div class="e">党的二十大·公共安全+社会治理并列</div></div>
+    <div class="v8-tl-dot"><div class="y">2024.07</div><div class="e">二十届三中·三治融合 三网到边</div></div>
+    <div class="v8-tl-dot"><div class="y">2025.05 ⭐</div><div class="e">河南"高质量发展+高效能治理"</div></div>
+    <div class="v8-tl-dot"><div class="y">2025.07 ⭐</div><div class="e">中央城市工作会议·6目标·5转变·7任务</div></div>
+    <div class="v8-tl-dot"><div class="y">2025.10</div><div class="e">二十届四中·完善社会治理体系</div></div>
+    <div class="v8-tl-dot"><div class="y">2026.01</div><div class="e">《求是》发表会议讲话全文</div></div>
+  </div>
+
+</div>
 
 <section class="page" data-page="thesis">
   <div class="page-header">
@@ -6041,6 +6220,37 @@ body.app-mode > footer { margin-top: 0; }
   </div>
 </section>
 
+
+<!-- ============ v8 M4 · 论文政策依据时间轴 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 论文 ↔ 政策对位</span>
+  <h3 style="font-size:18px;color:#1E3A5F;margin:8px 0 14px;font-weight:800;">📚 11 章论文与总书记论述的精准对位</h3>
+
+  <table class="v8-cmp-table">
+    <thead><tr><th>论文章节</th><th>对应总书记论述</th><th>出处</th></tr></thead>
+    <tbody>
+      <tr><td><b>第1章 研究背景</b></td><td>"国家治理体系和治理能力现代化"理论命题</td><td>2013.11 十八届三中全会</td></tr>
+      <tr><td><b>第2章 文献综述</b></td><td>"人民城市人民建，人民城市为人民"</td><td>2019.11 上海杨浦</td></tr>
+      <tr><td><b>第3章 理论框架</b></td><td>"从数字化到智能化再到智慧化"</td><td>2020.04 浙江杭州</td></tr>
+      <tr><td><b>第4章 5/15/225指标体系</b></td><td>"健全社会治理体系...纵向到底横向到边"</td><td>2024.07 二十届三中</td></tr>
+      <tr><td><b>第5章 调研设计</b></td><td>"河南必须扎扎实实加强社会治理"</td><td>2025.05 河南考察</td></tr>
+      <tr><td><b>第6章 党建引领</b></td><td>"基层党组织建设成为坚强战斗堡垒"</td><td>2025.10 二十届四中</td></tr>
+      <tr><td><b>第7章 网格化管理</b></td><td>"网格员素质 + 应急响应"</td><td>2024.11 河南考察网格</td></tr>
+      <tr><td><b>第8章 城市大脑</b></td><td>"运用大数据、AI 等前沿技术"</td><td>2020.04 杭州城市大脑</td></tr>
+      <tr><td><b>第9章 满意度评估</b></td><td>"聚焦人民群众的需求"</td><td>2019.11 上海杨浦</td></tr>
+      <tr><td><b>第10章 反馈机制</b></td><td>"绣花般的细心、耐心、巧心"</td><td>习近平多次论述</td></tr>
+      <tr><td><b>第11章 政策建议</b></td><td>"以建设创新宜居美丽韧性文明智慧的现代化人民城市为目标"</td><td>2025.07 中央城市工作会议</td></tr>
+    </tbody>
+  </table>
+
+  <div class="v8-anchor" style="margin-top:20px;">
+    <div class="v8-anchor-text">本论文 11 章每一章都有明确的政策理论支撑，构成完整的"理论-方法-实证-建议"闭环。每一个学术结论都能在习总书记的论述中找到原文出处。</div>
+    <div class="v8-anchor-cite"><b>方法论说明</b> · 政治正确性 + 学术严谨性 + 实践可行性三位一体</div>
+  </div>
+
+</div>
+
 <section class="page" data-page="cases">
   <div class="page-header">
     <div class="ph-num">PAGE 05</div>
@@ -6166,6 +6376,79 @@ body.app-mode > footer { margin-top: 0; }
   </div>
 </section>
 
+
+<!-- ============ v8 M5 · 双案例对比 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 案例库升级</span>
+  <h3 style="font-size:18px;color:#1E3A5F;margin:8px 0 14px;font-weight:800;">🏛️ 郑州 vs 杭州 双案例深度对比</h3>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;">
+    <!-- 郑州 -->
+    <div class="v8-card" style="border-top:5px solid #B8232F;background:linear-gradient(180deg,#FFF5F5,#fff);">
+      <div class="v8-card-head"><div class="v8-card-num">郑</div><div class="v8-card-title">郑州 · "党建+网格+大数据"</div></div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0;">
+        <div style="background:#fff;padding:8px;border-radius:5px;border:1px solid #FED7D7;text-align:center;"><div style="font-size:18px;font-weight:900;color:#B8232F;font-family:Georgia,serif;">3,042</div><div style="font-size:10px;color:#718096;">郑好办事项</div></div>
+        <div style="background:#fff;padding:8px;border-radius:5px;border:1px solid #FED7D7;text-align:center;"><div style="font-size:18px;font-weight:900;color:#B8232F;font-family:Georgia,serif;">10.7万</div><div style="font-size:10px;color:#718096;">微网格</div></div>
+        <div style="background:#fff;padding:8px;border-radius:5px;border:1px solid #FED7D7;text-align:center;"><div style="font-size:18px;font-weight:900;color:#B8232F;font-family:Georgia,serif;">706.9万</div><div style="font-size:10px;color:#718096;">郑好拍处置</div></div>
+        <div style="background:#fff;padding:8px;border-radius:5px;border:1px solid #FED7D7;text-align:center;"><div style="font-size:18px;font-weight:900;color:#B8232F;font-family:Georgia,serif;">96.54%</div><div style="font-size:10px;color:#718096;">满意率</div></div>
+      </div>
+      <ul style="font-size:11.5px;color:#4A5568;line-height:1.75;padding-left:18px;margin-top:10px;">
+        <li><b>三网合一</b>：12345 热线+郑好办+网格化平台融合</li>
+        <li><b>AI 小郑</b>：社会治理大模型，116.8 万次智能分类</li>
+        <li><b>三级智慧城市运行中心</b>：市/县/街道全覆盖</li>
+        <li><b>专业网格 4,796 个</b>：商场/学校/医院/高铁站重点区域</li>
+        <li><b>2024 世界智慧城市治理奖</b></li>
+      </ul>
+    </div>
+
+    <!-- 杭州 -->
+    <div class="v8-card" style="border-top:5px solid #2C7A7B;background:linear-gradient(180deg,#F0FFF4,#fff);">
+      <div class="v8-card-head"><div class="v8-card-num" style="background:#2C7A7B;">杭</div><div class="v8-card-title">杭州 · "152+城市大脑3.0"</div></div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0;">
+        <div style="background:#fff;padding:8px;border-radius:5px;border:1px solid #C6F6D5;text-align:center;"><div style="font-size:18px;font-weight:900;color:#2C7A7B;font-family:Georgia,serif;">8,200万</div><div style="font-size:10px;color:#718096;">浙里办用户</div></div>
+        <div style="background:#fff;padding:8px;border-radius:5px;border:1px solid #C6F6D5;text-align:center;"><div style="font-size:18px;font-weight:900;color:#2C7A7B;font-family:Georgia,serif;">320</div><div style="font-size:10px;color:#718096;">城市大脑应用</div></div>
+        <div style="background:#fff;padding:8px;border-radius:5px;border:1px solid #C6F6D5;text-align:center;"><div style="font-size:18px;font-weight:900;color:#2C7A7B;font-family:Georgia,serif;">1,981万</div><div style="font-size:10px;color:#718096;">大脑用户</div></div>
+        <div style="background:#fff;padding:8px;border-radius:5px;border:1px solid #C6F6D5;text-align:center;"><div style="font-size:18px;font-weight:900;color:#2C7A7B;font-family:Georgia,serif;">300万+</div><div style="font-size:10px;color:#718096;">日活登录</div></div>
+      </div>
+      <ul style="font-size:11.5px;color:#4A5568;line-height:1.75;padding-left:18px;margin-top:10px;">
+        <li><b>152 工作体系</b>：1 中枢+5 系统+2 规范</li>
+        <li><b>三个一网</b>：通办+统管+共治</li>
+        <li><b>城市大脑 3.0</b>：2025.04 启动，全国首个政务模型训练场</li>
+        <li><b>141 县域</b>：1 治理中心+4 平台+1 综合网格</li>
+        <li><b>"浙系列"40+ 应用</b>：浙里健康/养老/教育/就医</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px;color:#1E3A5F;margin:24px 0 12px;font-weight:800;">📊 8 维对比矩阵</h3>
+  <table class="v8-cmp-table">
+    <thead><tr><th>维度</th><th class="col-zheng">郑州</th><th class="col-zhe">杭州/浙江</th><th>启示</th></tr></thead>
+    <tbody>
+      <tr><td><b>启动时间</b></td><td class="col-zheng">2020</td><td class="col-zhe">2014</td><td>⏰ 浙领先 6 年</td></tr>
+      <tr><td><b>用户规模</b></td><td class="col-zheng">1,097 万</td><td class="col-zhe">8,200 万</td><td>📊 浙 7.5×</td></tr>
+      <tr><td><b>顶层设计</b></td><td class="col-zheng">城市大脑+党建网格大数据</td><td class="col-zhe">"152" 标准化体系</td><td>📐 浙更体系化</td></tr>
+      <tr><td><b>基层融合</b></td><td class="col-zheng">三网合一 + 14h 缩短</td><td class="col-zhe">141 县域 + 综合网格</td><td>🤝 各有特色</td></tr>
+      <tr><td><b>AI 应用</b></td><td class="col-zheng">"AI 小郑" 垂直模型</td><td class="col-zhe">城市大脑 3.0 训练场</td><td>🤖 浙更前沿</td></tr>
+      <tr><td><b>评级</b></td><td class="col-zheng">2024 世界智慧城市治理奖</td><td class="col-zhe">国家数字政府标杆</td><td>🏆 浙更深</td></tr>
+      <tr><td><b>个人/法人</b></td><td class="col-zheng">政务/生活分立</td><td class="col-zhe">个人/法人双版</td><td>🏗️ 浙更精细</td></tr>
+      <tr><td><b>一件事</b></td><td class="col-zheng">293 项</td><td class="col-zhe">30 项全链路联办</td><td>📦 各有侧重</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:16px;color:#1E3A5F;margin:24px 0 12px;font-weight:800;">💡 5 条借鉴启示</h3>
+  <div style="background:#FFFBEB;border:1px solid #FAEBC8;border-left:5px solid #C9A063;padding:18px;border-radius:0 8px 8px 0;">
+    <ol style="font-size:12.5px;color:#1A202C;line-height:1.85;padding-left:20px;">
+      <li><b>顶层架构标准化</b>：借鉴浙江"152"形成河南"1X2"</li>
+      <li><b>个人/法人双版</b>：郑好办建议增设"惠企版"</li>
+      <li><b>全生命周期主题</b>：补齐"出生-入学-退休-身后"全链路</li>
+      <li><b>AI 大模型集成</b>：垂直 + 通用双轨并进</li>
+      <li><b>统一身份码</b>：推动"郑好码"作为全市认证标准</li>
+    </ol>
+  </div>
+
+</div>
+
 <section class="page" data-page="survey">
   <div class="page-header">
     <div class="ph-num">PAGE 06</div>
@@ -6210,6 +6493,50 @@ body.app-mode > footer { margin-top: 0; }
     </div>
   </div>
 </section>
+
+
+<!-- ============ v8 M6 · 问卷6目标感知 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 问卷理论锚定</span>
+  <div class="v8-anchor">
+    <div class="v8-anchor-text">"在城市建设中，一定要贯彻以人民为中心的发展思想...聚焦人民群众的需求，合理安排生产、生活、生态空间。"</div>
+    <div class="v8-anchor-cite"><b>习近平</b> · 2019年11月2日 · 上海杨浦考察</div>
+  </div>
+
+  <h3 style="font-size:16px;color:#1E3A5F;margin:18px 0 10px;font-weight:800;">🏘️ 现代化人民城市感知 · 5 题补充评估</h3>
+  <p style="font-size:12.5px;color:#4A5568;line-height:1.7;margin-bottom:14px;">
+    在原 15 题群众满意度问卷之外，新增 5 题对接中央城市工作会议 6 目标（智慧维度已在原题中）：
+  </p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="v8-card" style="padding:14px 16px;border-left:4px solid #B8232F;">
+      <div style="font-weight:700;color:#B8232F;font-size:12px;margin-bottom:4px;">P-1 创新活力</div>
+      <div style="font-size:11.5px;color:#1A202C;line-height:1.5;">您觉得本市在产业创新、就业机会、新技术应用上的表现如何？<br><span style="color:#718096;font-size:10px;">[5 级评分]</span></div>
+    </div>
+    <div class="v8-card" style="padding:14px 16px;border-left:4px solid #C9A063;">
+      <div style="font-weight:700;color:#C9A063;font-size:12px;margin-bottom:4px;">P-2 宜居便利</div>
+      <div style="font-size:11.5px;color:#1A202C;line-height:1.5;">您觉得本市的交通出行、医疗教育、住房保障如何？<br><span style="color:#718096;font-size:10px;">[5 级评分]</span></div>
+    </div>
+    <div class="v8-card" style="padding:14px 16px;border-left:4px solid #2F855A;">
+      <div style="font-weight:700;color:#2F855A;font-size:12px;margin-bottom:4px;">P-3 生态美丽</div>
+      <div style="font-size:11.5px;color:#1A202C;line-height:1.5;">您觉得本市的空气质量、公园绿化、垃圾分类如何？<br><span style="color:#718096;font-size:10px;">[5 级评分]</span></div>
+    </div>
+    <div class="v8-card" style="padding:14px 16px;border-left:4px solid #D69E2E;">
+      <div style="font-weight:700;color:#D69E2E;font-size:12px;margin-bottom:4px;">P-4 安全韧性</div>
+      <div style="font-size:11.5px;color:#1A202C;line-height:1.5;">您觉得本市应对极端天气、突发事件、社会治安能力如何？<br><span style="color:#718096;font-size:10px;">[5 级评分]</span></div>
+    </div>
+    <div class="v8-card" style="padding:14px 16px;border-left:4px solid #805AD5;">
+      <div style="font-weight:700;color:#805AD5;font-size:12px;margin-bottom:4px;">P-5 文明体验</div>
+      <div style="font-size:11.5px;color:#1A202C;line-height:1.5;">您觉得本市的文化娱乐、社区氛围、市民素养如何？<br><span style="color:#718096;font-size:10px;">[5 级评分]</span></div>
+    </div>
+    <div class="v8-card" style="padding:14px 16px;border-left:4px solid #2C7A7B;background:#F0FFFC;">
+      <div style="font-weight:700;color:#2C7A7B;font-size:12px;margin-bottom:4px;">P-6 智慧服务（原题对应）</div>
+      <div style="font-size:11.5px;color:#1A202C;line-height:1.5;">"郑好办"等政务APP使用感受参考原15题中相关项<br><span style="color:#718096;font-size:10px;">[已含在原问卷]</span></div>
+    </div>
+  </div>
+
+</div>
 
 <section class="page" data-page="diagnosis">
   <div class="page-header">
@@ -6273,6 +6600,69 @@ body.app-mode > footer { margin-top: 0; }
 <!-- ============================================================
      PAGE · 🌆 ISUI 智慧城市指数（史文中教授体系）
      ============================================================ -->
+
+<!-- ============ v8 M7 · AI诊断政策依据 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 AI 诊断政策合规</span>
+  <h3 style="font-size:18px;color:#1E3A5F;margin:8px 0 14px;font-weight:800;">🩺 AI 治理诊断 · 5 维升级（含政策合规）</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0;">
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #B8232F;">
+      <div style="font-size:24px;color:#B8232F;font-weight:900;font-family:Georgia,serif;">①</div>
+      <div style="font-size:13px;font-weight:700;color:#1E3A5F;margin-top:6px;">短板诊断</div>
+      <div style="font-size:10.5px;color:#718096;margin-top:4px;">指标短板自动识别</div>
+    </div>
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #C9A063;">
+      <div style="font-size:24px;color:#C9A063;font-weight:900;font-family:Georgia,serif;">②</div>
+      <div style="font-size:13px;font-weight:700;color:#1E3A5F;margin-top:6px;">优势识别</div>
+      <div style="font-size:10.5px;color:#718096;margin-top:4px;">领先维度对标</div>
+    </div>
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #2F855A;">
+      <div style="font-size:24px;color:#2F855A;font-weight:900;font-family:Georgia,serif;">③</div>
+      <div style="font-size:13px;font-weight:700;color:#1E3A5F;margin-top:6px;">路径推荐</div>
+      <div style="font-size:10.5px;color:#718096;margin-top:4px;">杠杆组合建议</div>
+    </div>
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #805AD5;">
+      <div style="font-size:24px;color:#805AD5;font-weight:900;font-family:Georgia,serif;">④</div>
+      <div style="font-size:13px;font-weight:700;color:#1E3A5F;margin-top:6px;">风险预警</div>
+      <div style="font-size:10.5px;color:#718096;margin-top:4px;">B1/B2 失衡预测</div>
+    </div>
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #2C7A7B;background:#F0FFFC;">
+      <div style="font-size:24px;color:#2C7A7B;font-weight:900;font-family:Georgia,serif;">⑤</div>
+      <div style="font-size:13px;font-weight:700;color:#1E3A5F;margin-top:6px;">政策合规 NEW</div>
+      <div style="font-size:10.5px;color:#718096;margin-top:4px;">总书记论述对位</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px;color:#1E3A5F;margin:24px 0 12px;font-weight:800;">📖 AI 建议附"政策依据" · 示例</h3>
+  <div class="v8-mapping-row">
+    <div class="v8-mapping-lever">网格密度<br>偏低</div>
+    <div class="v8-mapping-quote">
+      💡 建议：参照郑州 50-70 户/微网格标准重设网格，匹配"2 小时入户走访"目标
+      <span class="v8-mapping-quote-src">📖 二十届三中全会"纵向到底横向到边"</span>
+    </div>
+    <div class="v8-mapping-impl">同时配套"五人+一律师"队伍建设；引入快递骑手作为兼职网格员（参考郑州做法）</div>
+  </div>
+  <div class="v8-mapping-row">
+    <div class="v8-mapping-lever">数据中台<br>未建</div>
+    <div class="v8-mapping-quote">
+      💡 建议：参照杭州城市大脑 3.0 框架，建立 1 中枢+5 系统的"152"架构
+      <span class="v8-mapping-quote-src">📖 2020 杭州考察"从数字化到智能化再到智慧化"</span>
+    </div>
+    <div class="v8-mapping-impl">优先打通 12345 + 公安 + 城管 + 应急 4 个系统；预算约 5000 万</div>
+  </div>
+  <div class="v8-mapping-row">
+    <div class="v8-mapping-lever">协商共治<br>不足</div>
+    <div class="v8-mapping-quote">
+      💡 建议：建立"群众金点子→治理金钥匙"转化机制；参照上海垃圾分类 97% 参与模式
+      <span class="v8-mapping-quote-src">📖 2019 上海杨浦"聚焦人民群众的需求"</span>
+    </div>
+    <div class="v8-mapping-impl">每个社区设代表议事会；季度公开协商成果；与人大代表联动</div>
+  </div>
+
+</div>
+
 <section class="page" data-page="isui">
   <div class="page-header" style="border-bottom-color:#38bdf8">
     <div class="ph-num" style="background:linear-gradient(135deg,rgba(56,189,248,0.12),rgba(2,132,199,0.20));color:#0284c7;border-color:rgba(56,189,248,0.5)">PAGE · ISUI · 国际智慧城市指数</div>
@@ -6519,6 +6909,57 @@ body.app-mode > footer { margin-top: 0; }
   </div>
 </section>
 
+
+<!-- ============ v8 M8 · ISUI 4城对标 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 ISUI×6目标</span>
+  <h3 style="font-size:18px;color:#1E3A5F;margin:8px 0 14px;font-weight:800;">🌆 ISUI 6 维 × 现代化人民城市 6 目标精准对位</h3>
+
+  <table class="v8-cmp-table">
+    <thead><tr><th>ISUI 维度</th><th>对应人民城市目标</th><th>香港</th><th>北京</th><th>杭州</th><th>上海</th><th>郑州</th></tr></thead>
+    <tbody>
+      <tr><td><b>I1 智慧基础设施</b></td><td>韧性 + 创新</td><td>92</td><td>85</td><td>88</td><td>90</td><td>72</td></tr>
+      <tr><td><b>I2 智慧治理</b></td><td>智慧城市</td><td>88</td><td>90</td><td>92</td><td>89</td><td>78</td></tr>
+      <tr><td><b>I3 智慧经济</b></td><td>创新城市</td><td>85</td><td>87</td><td>90</td><td>92</td><td>71</td></tr>
+      <tr><td><b>I4 智慧人民</b></td><td>文明 + 宜居</td><td>82</td><td>78</td><td>83</td><td>85</td><td>68</td></tr>
+      <tr><td><b>I5 智慧环境</b></td><td>美丽城市</td><td>80</td><td>76</td><td>87</td><td>82</td><td>65</td></tr>
+      <tr><td><b>I6 智慧机动</b></td><td>宜居城市</td><td>95</td><td>84</td><td>89</td><td>91</td><td>74</td></tr>
+      <tr style="background:#FAF8F2;"><td><b>综合指数</b></td><td>—</td><td><b>87.0</b></td><td><b>83.3</b></td><td><b>88.2</b></td><td><b>88.2</b></td><td><b>71.3</b></td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:16px;color:#1E3A5F;margin:24px 0 12px;font-weight:800;">🏛️ 践行人民城市理念评分 · 5 维（新增）</h3>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;">
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #B8232F;">
+      <div style="font-size:11px;color:#C9A063;font-weight:800;letter-spacing:1px;">建</div>
+      <div style="font-size:14px;font-weight:700;color:#1E3A5F;margin:6px 0;">人民建</div>
+      <div style="font-size:10.5px;color:#718096;line-height:1.5;">群众金点子→治理</div>
+    </div>
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #C9A063;">
+      <div style="font-size:11px;color:#C9A063;font-weight:800;letter-spacing:1px;">管</div>
+      <div style="font-size:14px;font-weight:700;color:#1E3A5F;margin:6px 0;">人民管</div>
+      <div style="font-size:10.5px;color:#718096;line-height:1.5;">参与率 / 自觉履行</div>
+    </div>
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #2F855A;">
+      <div style="font-size:11px;color:#C9A063;font-weight:800;letter-spacing:1px;">治</div>
+      <div style="font-size:14px;font-weight:700;color:#1E3A5F;margin:6px 0;">人民治</div>
+      <div style="font-size:10.5px;color:#718096;line-height:1.5;">三治融合落地深度</div>
+    </div>
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #805AD5;">
+      <div style="font-size:11px;color:#C9A063;font-weight:800;letter-spacing:1px;">享</div>
+      <div style="font-size:14px;font-weight:700;color:#1E3A5F;margin:6px 0;">人民享</div>
+      <div style="font-size:10.5px;color:#718096;line-height:1.5;">优质资源留给群众</div>
+    </div>
+    <div class="v8-card" style="padding:14px;text-align:center;border-top:4px solid #2C7A7B;">
+      <div style="font-size:11px;color:#C9A063;font-weight:800;letter-spacing:1px;">暖</div>
+      <div style="font-size:14px;font-weight:700;color:#1E3A5F;margin:6px 0;">人民暖</div>
+      <div style="font-size:10.5px;color:#718096;line-height:1.5;">绣花精细化温度</div>
+    </div>
+  </div>
+
+</div>
+
 <section class="page" data-page="workshop">
   <div class="page-header">
     <div class="ph-num">PAGE 08</div>
@@ -6639,6 +7080,54 @@ body.app-mode > footer { margin-top: 0; }
   </div>
 </section>
 
+
+<!-- ============ v8 M9 · 工作坊理论锚定话术 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 工作坊话术包</span>
+  <h3 style="font-size:18px;color:#1E3A5F;margin:8px 0 14px;font-weight:800;">🎯 4 套工作坊都加 30 分钟"理论学习"前置</h3>
+
+  <div class="v8-card" style="border-left:5px solid #B8232F;">
+    <div class="v8-card-head"><div class="v8-card-num">①</div><div class="v8-card-title">开场金句 · 5 条</div></div>
+    <ol style="font-size:12px;color:#1A202C;line-height:1.85;padding-left:20px;">
+      <li>"今天我们一起推演的，正是总书记 2025 年 5 月在河南提出的'高质量发展+高效能治理'命题。"</li>
+      <li>"中央城市工作会议时隔 10 年再次召开，提出了'6 目标·5 转变·7 任务'，今天我们用沙盘把它推演一遍。"</li>
+      <li>"人民城市人民建、为人民。我们今天的每一个推演，都要回到这八个字。"</li>
+      <li>"我国城镇化已从'增量扩张'转向'存量提质'，今天我们就是在为'提质'找路径。"</li>
+      <li>"以高效能治理促进高质量发展和高水平安全的良性互动——这是我们沙盘的最终目标函数。"</li>
+    </ol>
+  </div>
+
+  <div class="v8-card" style="border-left:5px solid #C9A063;">
+    <div class="v8-card-head"><div class="v8-card-num" style="background:#C9A063;color:#1A202C;">②</div><div class="v8-card-title">关键节点引用 · 10 条</div></div>
+    <table class="v8-cmp-table">
+      <thead><tr><th>推演场景</th><th>引用话术</th></tr></thead>
+      <tbody>
+        <tr><td>党建引领类杠杆</td><td>"把基层党组织建设成为坚强战斗堡垒"</td></tr>
+        <tr><td>网格类杠杆</td><td>"健全党组织领导的自治法治德治相结合的城乡基层治理体系"</td></tr>
+        <tr><td>城市大脑</td><td>"运用大数据、AI 等推动从数字化到智能化再到智慧化"</td></tr>
+        <tr><td>协商共治</td><td>"聚焦人民群众的需求"</td></tr>
+        <tr><td>能力建设</td><td>"城市管理像绣花一样精细"</td></tr>
+        <tr><td>韧性应对</td><td>"风险防控有机嵌入城市管理系统"</td></tr>
+        <tr><td>满意度反馈</td><td>"让人民有更多获得感、幸福感、安全感"</td></tr>
+        <tr><td>对标先进</td><td>"以建设创新宜居美丽韧性文明智慧的现代化人民城市为目标"</td></tr>
+        <tr><td>财政约束</td><td>"我国城镇化正从快速增长期转向稳定发展期"</td></tr>
+        <tr><td>持续改进</td><td>"有些事要打攻坚战，有些事要久久为功"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="v8-card" style="border-left:5px solid #2F855A;">
+    <div class="v8-card-head"><div class="v8-card-num" style="background:#2F855A;">③</div><div class="v8-card-title">总结升华话术 · 3 条</div></div>
+    <ol style="font-size:12px;color:#1A202C;line-height:1.85;padding-left:20px;">
+      <li>"通过今天的推演，我们看到，6 目标不是孤立的，5 转变也不是空话。每个杠杆都对应着总书记的论述，每条路径都通向'三高'良性互动。"</li>
+      <li>"郑州模式给我们提供了'党建+网格+大数据'的本土经验，杭州模式给我们提供了'152+城市大脑'的标准化范式。河南要走的，是融合两者的第三条道路。"</li>
+      <li>"高效能治理不是终点，而是路径。终点是中国式现代化，是人民对美好生活的向往。今天我们在沙盘里推演的每一档每一格，最终都要落到群众脸上的笑容。"</li>
+    </ol>
+  </div>
+
+</div>
+
 <section class="page" data-page="about">
   <div class="page-header">
     <div class="ph-num">PAGE 09</div>
@@ -6724,6 +7213,50 @@ body.app-mode > footer { margin-top: 0; }
 
     </div>
   </div>
+
+<!-- ============ v8 M10 · 关于理论指导 ============ -->
+<div style="max-width:1240px;margin:24px auto;padding:0 20px;">
+
+  <span class="v8-section-tag">📖 v8 理论指导更新</span>
+  <h3 style="font-size:18px;color:#1E3A5F;margin:8px 0 14px;font-weight:800;">📚 政策依据 · 12 关键文献（更新到 2026.01）</h3>
+
+  <table class="v8-cmp-table">
+    <thead><tr><th>时间</th><th>文献</th><th>核心论断</th></tr></thead>
+    <tbody>
+      <tr><td>2013.11</td><td>党的十八届三中全会决定</td><td>首提"国家治理体系和治理能力现代化"</td></tr>
+      <tr><td>2019.11</td><td>习近平上海杨浦考察讲话</td><td>"人民城市人民建，人民城市为人民"</td></tr>
+      <tr><td>2020.04</td><td>习近平浙江杭州考察讲话</td><td>"让城市更聪明一些、更智慧一些"</td></tr>
+      <tr><td>2022.10</td><td>党的二十大报告</td><td>"国家治理体系和治理能力现代化深入推进"</td></tr>
+      <tr><td>2024.07</td><td>党的二十届三中全会决定</td><td>"健全党组织领导的自治法治德治相结合的城乡基层治理体系"</td></tr>
+      <tr><td>2025.05</td><td>习近平河南考察讲话 ⭐</td><td>"以高质量发展和高效能治理奋力谱写中原大地推进中国式现代化新篇章"</td></tr>
+      <tr><td>2025.07</td><td>中央城市工作会议 ⭐</td><td>"建设创新宜居美丽韧性文明智慧的现代化人民城市"</td></tr>
+      <tr><td>2025.08</td><td>中共中央国务院《关于推动城市高质量发展的意见》</td><td>城市更新+集约高效</td></tr>
+      <tr><td>2025.10</td><td>党的二十届四中全会决定</td><td>"完善社会治理体系"</td></tr>
+      <tr><td>2026.01</td><td>《求是》第 2 期 ⭐</td><td>习近平《在中央城市工作会议上的讲话》全文发表</td></tr>
+      <tr><td>—</td><td>《河南省"十四五"基层治理现代化规划》</td><td>河南落地实施纲领</td></tr>
+      <tr><td>—</td><td>MIT Sloan En-ROADS Simulator (v25.5)</td><td>方法论世界标杆</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:16px;color:#1E3A5F;margin:24px 0 12px;font-weight:800;">🙏 致谢 · 官方资料来源</h3>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+    <div class="v8-card" style="padding:10px 12px;text-align:center;"><div style="font-size:11.5px;color:#1A202C;font-weight:700;">新华网</div><div style="font-size:10px;color:#718096;">news.cn</div></div>
+    <div class="v8-card" style="padding:10px 12px;text-align:center;"><div style="font-size:11.5px;color:#1A202C;font-weight:700;">人民网</div><div style="font-size:10px;color:#718096;">people.com.cn</div></div>
+    <div class="v8-card" style="padding:10px 12px;text-align:center;"><div style="font-size:11.5px;color:#1A202C;font-weight:700;">求是网</div><div style="font-size:10px;color:#718096;">qstheory.cn</div></div>
+    <div class="v8-card" style="padding:10px 12px;text-align:center;"><div style="font-size:11.5px;color:#1A202C;font-weight:700;">共产党员网</div><div style="font-size:10px;color:#718096;">12371.cn</div></div>
+    <div class="v8-card" style="padding:10px 12px;text-align:center;"><div style="font-size:11.5px;color:#1A202C;font-weight:700;">中国政府网</div><div style="font-size:10px;color:#718096;">gov.cn</div></div>
+    <div class="v8-card" style="padding:10px 12px;text-align:center;"><div style="font-size:11.5px;color:#1A202C;font-weight:700;">理论中国</div><div style="font-size:10px;color:#718096;">theory.people.com.cn</div></div>
+    <div class="v8-card" style="padding:10px 12px;text-align:center;"><div style="font-size:11.5px;color:#1A202C;font-weight:700;">学习强国</div><div style="font-size:10px;color:#718096;">xuexi.cn</div></div>
+    <div class="v8-card" style="padding:10px 12px;text-align:center;"><div style="font-size:11.5px;color:#1A202C;font-weight:700;">中央党校 · 学习时报</div><div style="font-size:10px;color:#718096;">dangjian.cn</div></div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#1E3A5F,#142a47);color:#fff;border-radius:12px;padding:24px 28px;margin-top:24px;text-align:center;">
+    <div style="font-size:14px;color:#C9A063;font-style:italic;font-family:Georgia,serif;">"以高效能治理促进高质量发展和高水平安全良性互动"</div>
+    <div style="font-size:11px;margin-top:10px;opacity:0.85;">—— 党的二十届四中全会 · 完善社会治理体系核心论断</div>
+  </div>
+
+</div>
+
 </section>
 </div>
 <div class="mini-dash" id="miniDash">
