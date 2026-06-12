@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v7 理论框架与最佳实践 · 河南治理研究</title>
+<style>
+:root {
+  --primary: #B8232F; --primary-dark: #8B0000;
+  --navy: #1E3A5F; --navy-light: #2C5282;
+  --gold: #C9A063; --gold-dark: #A88450;
+  --bg: #F4F2EE; --bg-card: #fff; --bg-soft: #FAF8F2;
+  --text: #1A202C; --text-secondary: #4A5568; --text-light: #718096;
+  --border: #DDD8CF; --border-strong: #C8C2B5;
+  --good: #2F855A; --warn: #D69E2E; --bad: #C53030;
+  --shadow: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.10);
+}
+* {margin:0; padding:0; box-sizing:border-box}
+html,body {font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif; background:var(--bg); color:var(--text); font-size:14px; line-height:1.7}
+
+.container {max-width:1280px; margin:0 auto; padding:24px 20px}
+
+/* Hero */
+.hero {background:linear-gradient(135deg, #1E3A5F 0%, #142a47 100%); color:#fff; padding:48px 32px; border-radius:12px; margin-bottom:32px; position:relative; overflow:hidden}
+.hero::before {content:""; position:absolute; top:0; right:0; width:200px; height:200px; background:radial-gradient(circle, rgba(201,160,99,0.15), transparent); border-radius:50%}
+.hero-tag {display:inline-block; background:var(--gold); color:#1a202c; padding:4px 12px; border-radius:4px; font-size:11px; font-weight:800; letter-spacing:1.5px; margin-bottom:16px}
+.hero h1 {font-size:36px; font-weight:900; margin-bottom:12px; font-family:Georgia,serif}
+.hero h1 span {color:var(--gold)}
+.hero .subtitle {font-size:16px; opacity:0.9; line-height:1.6; max-width:780px}
+.hero-stats {display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:32px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.15)}
+.hero-stat {text-align:center}
+.hero-stat-num {font-size:28px; font-weight:900; color:var(--gold); font-family:Georgia,serif; line-height:1}
+.hero-stat-lbl {font-size:11px; opacity:0.7; margin-top:6px; letter-spacing:1px}
+
+/* Section */
+.section {background:#fff; border-radius:12px; padding:28px; margin-bottom:24px; box-shadow:var(--shadow); border:1px solid var(--border)}
+.section-head {display:flex; align-items:center; gap:14px; margin-bottom:20px; padding-bottom:14px; border-bottom:2px solid var(--gold)}
+.section-num {width:48px; height:48px; background:linear-gradient(135deg,var(--primary),#8b0000); color:var(--gold); display:flex; align-items:center; justify-content:center; border-radius:8px; font-weight:900; font-size:20px; font-family:Georgia,serif}
+.section-title {font-size:22px; font-weight:800; color:var(--navy); flex:1}
+.section-meta {font-size:11px; color:var(--text-light); letter-spacing:1px}
+
+/* Theory Quote Box */
+.theory-quote {background:linear-gradient(135deg,#FAF8F2,#fff); border-left:5px solid var(--gold); padding:20px 24px; border-radius:0 8px 8px 0; margin:16px 0; position:relative}
+.theory-quote::before {content:"〝"; position:absolute; top:-6px; left:10px; font-size:48px; color:var(--gold); font-family:Georgia,serif; line-height:1; opacity:0.4}
+.theory-quote-cite {font-size:11px; color:var(--text-light); margin-top:10px; font-style:italic; padding-left:20px; border-left:2px solid var(--gold)}
+.theory-quote-cite b {color:var(--primary)}
+.theory-quote-text {font-size:14px; line-height:1.85; color:var(--text); padding-left:18px}
+
+/* Timeline */
+.timeline {position:relative; padding-left:36px; margin:16px 0}
+.timeline::before {content:""; position:absolute; left:14px; top:0; bottom:0; width:2px; background:linear-gradient(180deg,var(--gold),var(--primary))}
+.tl-item {margin-bottom:20px; position:relative}
+.tl-item::before {content:""; position:absolute; left:-30px; top:6px; width:14px; height:14px; border-radius:50%; background:var(--gold); border:3px solid #fff; box-shadow:0 0 0 2px var(--gold)}
+.tl-item.major::before {background:var(--primary); box-shadow:0 0 0 2px var(--primary)}
+.tl-date {font-size:11px; font-weight:800; color:var(--primary); letter-spacing:1.5px; margin-bottom:4px}
+.tl-title {font-size:14px; font-weight:700; color:var(--navy); margin-bottom:6px}
+.tl-desc {font-size:12px; color:var(--text-secondary); line-height:1.65}
+
+/* Six Targets Grid */
+.six-targets {display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:18px 0}
+.target-card {background:#FAF8F2; border:1px solid var(--border); border-radius:8px; padding:16px 18px; border-top:4px solid var(--target-color)}
+.target-card.c1 {--target-color:var(--primary)}
+.target-card.c2 {--target-color:var(--gold)}
+.target-card.c3 {--target-color:var(--good)}
+.target-card.c4 {--target-color:#D69E2E}
+.target-card.c5 {--target-color:#805AD5}
+.target-card.c6 {--target-color:#2C7A7B}
+.target-name {font-size:18px; font-weight:800; color:var(--target-color); margin-bottom:6px}
+.target-desc {font-size:11.5px; color:var(--text-secondary); line-height:1.55; margin-bottom:8px}
+.target-impl {font-size:11px; color:var(--text-light); font-style:italic}
+
+/* App Section */
+.app-section {background:linear-gradient(180deg,#fff,#FAF8F2); border:2px solid var(--border-strong); border-radius:12px; padding:28px; margin-bottom:24px}
+.app-head {display:flex; align-items:center; gap:18px; margin-bottom:22px; padding-bottom:18px; border-bottom:1px dashed var(--border-strong)}
+.app-icon {width:64px; height:64px; border-radius:14px; background:linear-gradient(135deg,var(--app-color),var(--app-color-dark)); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; font-size:24px; font-family:Georgia,serif; box-shadow:var(--shadow-lg)}
+.app-info {flex:1}
+.app-info h2 {font-size:24px; font-weight:800; color:var(--navy); margin-bottom:3px}
+.app-info .sub {font-size:11px; color:var(--text-light); letter-spacing:1px}
+
+.app-stats {display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:18px 0}
+.app-stat {background:#fff; border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center}
+.app-stat-num {font-size:24px; font-weight:900; color:var(--app-color); font-family:Georgia,serif; line-height:1}
+.app-stat-lbl {font-size:11px; color:var(--text-secondary); margin-top:5px}
+
+/* Layered Drill-down */
+.layer {margin:16px 0; border-left:4px solid var(--app-color); padding-left:18px}
+.layer-name {font-size:13px; font-weight:800; color:var(--app-color); margin-bottom:8px; display:flex; align-items:center; gap:10px}
+.layer-name::before {content:""; width:24px; height:24px; border-radius:50%; background:var(--app-color); color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800}
+.layer.L1 .layer-name::before {content:"L1"}
+.layer.L2 .layer-name::before {content:"L2"}
+.layer.L3 .layer-name::before {content:"L3"}
+.layer.L4 .layer-name::before {content:"L4"}
+.layer.L5 .layer-name::before {content:"L5"}
+
+.layer-modules {display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:10px}
+.module {background:#fff; border:1px solid var(--border); border-radius:6px; padding:10px 12px; font-size:11.5px; color:var(--text); border-left:3px solid var(--app-color); line-height:1.4}
+.module b {color:var(--app-color); font-size:11px; display:block; margin-bottom:3px}
+
+/* Comparison table */
+.comp-table {width:100%; border-collapse:collapse; margin:16px 0}
+.comp-table th, .comp-table td {padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); font-size:12.5px; vertical-align:top}
+.comp-table th {background:var(--navy); color:#fff; font-weight:700; font-size:11px; letter-spacing:0.5px}
+.comp-table .col-zheng {background:#FFF5F5}
+.comp-table .col-zhe {background:#F0FFF4}
+.comp-table tr:hover td {background:#FAFAFA}
+.comp-table td b {color:var(--navy)}
+
+/* Lever-Quote Mapping */
+.mapping-card {background:#fff; border:1px solid var(--border); border-radius:10px; padding:16px 20px; margin-bottom:12px; display:grid; grid-template-columns:120px 1fr 1fr; gap:16px; align-items:center}
+.mapping-lever {background:var(--primary); color:#fff; padding:8px 12px; border-radius:6px; text-align:center; font-weight:800; font-size:12px}
+.mapping-quote {font-size:12px; color:var(--text); line-height:1.55; padding-right:14px; border-right:2px dashed var(--border)}
+.mapping-quote-src {font-size:10px; color:var(--gold); font-weight:800; margin-top:5px; display:block}
+.mapping-impl {font-size:12px; color:var(--text-secondary); line-height:1.55}
+
+/* Pull quote big */
+.pull-quote {text-align:center; margin:32px 0; padding:32px 28px; background:linear-gradient(135deg,#1E3A5F,#142a47); color:#fff; border-radius:12px; position:relative}
+.pull-quote-text {font-size:20px; font-weight:700; line-height:1.6; color:var(--gold); font-family:Georgia,serif}
+.pull-quote-src {font-size:11px; margin-top:14px; opacity:0.8; letter-spacing:1px}
+
+/* responsive */
+@media (max-width:768px) {
+  .hero h1 {font-size:24px}
+  .hero-stats, .six-targets, .app-stats, .layer-modules {grid-template-columns:1fr 1fr}
+  .mapping-card {grid-template-columns:1fr}
+  .mapping-quote {border-right:none; border-bottom:2px dashed var(--border); padding-bottom:10px; padding-right:0}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-tag">v7.0 · 理论与实践深度融合版</span>
+  <h1>从<span>「人民城市」</span>到<span>「高效能治理」</span><br>—— 习近平治理思想体系全景图</h1>
+  <p class="subtitle">系统梳理习近平总书记关于人民城市、高效能治理的全部论述，对照郑州「党建+网格+大数据」模式、浙江「152」数字化改革，构建可推演、可对标、可量化的治理决策科学体系。</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">2013-2026</div><div class="hero-stat-lbl">理论演进 13 年</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">12+</div><div class="hero-stat-lbl">重要论述节点</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">6+5+7</div><div class="hero-stat-lbl">目标·转变·任务</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">100%</div><div class="hero-stat-lbl">沙盘杠杆对位</div></div>
+  </div>
+</div>
+
+<!-- SECTION 1: 习近平治理思想 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">01</div>
+    <div class="section-title">习近平人民城市与高效能治理思想体系</div>
+    <div class="section-meta">12 个关键节点 · 完整理论谱系</div>
+  </div>
+
+  <div class="theory-quote">
+    <div class="theory-quote-text">人民城市人民建，人民城市为人民。在城市建设中，一定要贯彻以人民为中心的发展思想，合理安排生产、生活、生态空间，努力扩大公共空间，让老百姓有休闲、健身、娱乐的地方，让城市成为老百姓宜业宜居的乐园。</div>
+    <div class="theory-quote-cite"><b>习近平</b> · 2019年11月2日 · 上海市杨浦区杨树浦水厂滨江段考察</div>
+  </div>
+
+  <h3 style="font-size:16px; color:var(--navy); margin:20px 0 12px;">📅 思想演进时间轴</h3>
+
+  <div class="timeline">
+    <div class="tl-item major">
+      <div class="tl-date">2013.11 · 党的十八届三中全会</div>
+      <div class="tl-title">首次提出"国家治理体系和治理能力现代化"</div>
+      <div class="tl-desc">这是习近平治理思想的逻辑起点，标志着治理现代化作为重大理论命题正式确立。</div>
+    </div>
+    <div class="tl-item major">
+      <div class="tl-date">2019.11.02 · 上海杨浦考察 🌟</div>
+      <div class="tl-title">首次提出「人民城市人民建，人民城市为人民」</div>
+      <div class="tl-desc">在杨树浦水厂滨江段，对城市建设提出根本立场和方法论。理论界视为"人民城市"概念诞生地。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2020.03-04 · 浙江杭州考察</div>
+      <div class="tl-title">"让城市更聪明一些、更智慧一些"</div>
+      <div class="tl-desc">在杭州城市大脑运营指挥中心，提出从数字化→智能化→智慧化的演进路径。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2022.10 · 党的二十大</div>
+      <div class="tl-title">提出"国家治理体系和治理能力现代化深入推进"</div>
+      <div class="tl-desc">首次专章论述国家安全，"公共安全+社会治理"并列为安全部分重点。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2024.07 · 党的二十届三中全会</div>
+      <div class="tl-title">健全党组织领导的自治、法治、德治相结合的城乡基层治理体系</div>
+      <div class="tl-desc">明确基层治理"三治融合"路径，是高效能治理在基层的具体化。</div>
+    </div>
+    <div class="tl-item major">
+      <div class="tl-date">2025.05.19-20 · 河南考察 🌟</div>
+      <div class="tl-title">首次将「高质量发展」与「高效能治理」并提</div>
+      <div class="tl-desc">"以高质量发展和高效能治理奋力谱写中原大地推进中国式现代化新篇章" —— 这是高效能治理作为独立概念的标志性论述，也是河南治理研究的直接政策依据。</div>
+    </div>
+    <div class="tl-item major">
+      <div class="tl-date">2025.07.14-15 · 中央城市工作会议 🌟</div>
+      <div class="tl-title">时隔10年再次召开，提出 6 目标 · 5 转变 · 7 重点任务</div>
+      <div class="tl-desc">现代化人民城市建设的纲领性文件。习总书记发表重要讲话，明确我国城镇化从"快速增长"转向"稳定发展"、从"增量扩张"转向"存量提质"的历史性判断。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2025.10-12 · 党的二十届四中全会</div>
+      <div class="tl-title">"完善社会治理体系"列入"十五五规划建议"</div>
+      <div class="tl-desc">完善社会治理体系是"以高效能治理促进高质量发展和高水平安全良性互动"的重要保障。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026.01.15 · 《求是》发表</div>
+      <div class="tl-title">《在中央城市工作会议上的讲话》全文公开</div>
+      <div class="tl-desc">作为指导未来 5 年城市工作的权威文献，正式向党内外公开发表。</div>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    <div class="pull-quote-text">"以高质量发展和高效能治理奋力谱写中原大地推进中国式现代化新篇章"</div>
+    <div class="pull-quote-src">—— 习近平 · 2025年5月20日 · 河南考察</div>
+  </div>
+</div>
+
+<!-- SECTION 2: 现代化人民城市 6 目标 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">02</div>
+    <div class="section-title">现代化人民城市 · 6大目标深度解读</div>
+    <div class="section-meta">中央城市工作会议 2025.07</div>
+  </div>
+
+  <p style="font-size:13px; color:var(--text-secondary); margin-bottom:18px; line-height:1.7;">
+    习近平总书记在2025年7月中央城市工作会议上提出：以建设<b>创新、宜居、美丽、韧性、文明、智慧</b>的现代化人民城市为目标。这6个维度构成了我们沙盘的<b>核心评估框架</b>，每一项都对应18杠杆中的若干杠杆。
+  </p>
+
+  <div class="six-targets">
+    <div class="target-card c1">
+      <div class="target-name">🚀 创新城市</div>
+      <div class="target-desc">城市发展动能的根本转换。从规模扩张转向创新驱动、特色发展。</div>
+      <div class="target-impl">对应杠杆：城市大脑·感知设备、专业人才、数据中台</div>
+    </div>
+    <div class="target-card c2">
+      <div class="target-name">🏘️ 宜居城市</div>
+      <div class="target-desc">舒适便利的生活家园。突出"人本"导向、群众满意度优先。</div>
+      <div class="target-impl">对应杠杆：网格密度、协商共治、代表议事</div>
+    </div>
+    <div class="target-card c3">
+      <div class="target-name">🌱 美丽城市</div>
+      <div class="target-desc">绿色低碳转型、生态优先。守住生态底线，留住绿水青山。</div>
+      <div class="target-impl">对应杠杆：极端天气应对、绿色基础设施</div>
+    </div>
+    <div class="target-card c4">
+      <div class="target-name">🛡️ 韧性城市</div>
+      <div class="target-desc">安全可靠的底线系统。生命线工程、内涝防治、风险防控嵌入。</div>
+      <div class="target-impl">对应杠杆：重大事件应对、应急响应、纪检监督</div>
+    </div>
+    <div class="target-card c5">
+      <div class="target-name">🎭 文明城市</div>
+      <div class="target-desc">崇德向善的文化软实力。让群众"既富口袋更富脑袋"。</div>
+      <div class="target-impl">对应杠杆：思想宣讲、社会组织、志愿者</div>
+    </div>
+    <div class="target-card c6">
+      <div class="target-name">🤖 智慧城市</div>
+      <div class="target-desc">便捷高效的数字治理。一网通办+一网统管+一网通享。</div>
+      <div class="target-impl">对应杠杆：数据中台、城运中心、AI诊断</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px; color:var(--navy); margin:24px 0 12px;">🔄 5个转变 · 治理理念升级</h3>
+
+  <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px;">
+    <div style="background:#FAF8F2; border:1px solid var(--border); border-radius:8px; padding:14px; border-left:4px solid var(--primary);">
+      <div style="font-size:11px; color:var(--gold); font-weight:800; margin-bottom:5px;">转变 01</div>
+      <div style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px;">发展理念</div>
+      <div style="font-size:11.5px; color:var(--text-secondary); line-height:1.55;">更加注重<b>以人为本</b></div>
+    </div>
+    <div style="background:#FAF8F2; border:1px solid var(--border); border-radius:8px; padding:14px; border-left:4px solid var(--primary);">
+      <div style="font-size:11px; color:var(--gold); font-weight:800; margin-bottom:5px;">转变 02</div>
+      <div style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px;">发展方式</div>
+      <div style="font-size:11.5px; color:var(--text-secondary); line-height:1.55;">更加注重<b>集约高效</b></div>
+    </div>
+    <div style="background:#FAF8F2; border:1px solid var(--border); border-radius:8px; padding:14px; border-left:4px solid var(--primary);">
+      <div style="font-size:11px; color:var(--gold); font-weight:800; margin-bottom:5px;">转变 03</div>
+      <div style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px;">发展动力</div>
+      <div style="font-size:11.5px; color:var(--text-secondary); line-height:1.55;">更加注重<b>特色发展</b></div>
+    </div>
+    <div style="background:#FAF8F2; border:1px solid var(--border); border-radius:8px; padding:14px; border-left:4px solid var(--primary);">
+      <div style="font-size:11px; color:var(--gold); font-weight:800; margin-bottom:5px;">转变 04 ⭐</div>
+      <div style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px;">工作重心</div>
+      <div style="font-size:11.5px; color:var(--text-secondary); line-height:1.55;">更加注重<b>治理投入</b></div>
+    </div>
+    <div style="background:#FAF8F2; border:1px solid var(--border); border-radius:8px; padding:14px; border-left:4px solid var(--primary);">
+      <div style="font-size:11px; color:var(--gold); font-weight:800; margin-bottom:5px;">转变 05</div>
+      <div style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px;">工作方法</div>
+      <div style="font-size:11.5px; color:var(--text-secondary); line-height:1.55;">更加注重<b>统筹协调</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: 郑好办 App -->
+<div class="app-section" style="--app-color:#B8232F; --app-color-dark:#8B0000;">
+  <div class="app-head">
+    <div class="app-icon">郑</div>
+    <div class="app-info">
+      <h2>郑好办 App · 深度下钻（L1→L5）</h2>
+      <div class="sub">河南省郑州市 · 政务服务总入口 · 6.0 版本（2025.07）</div>
+    </div>
+  </div>
+
+  <div class="app-stats">
+    <div class="app-stat"><div class="app-stat-num">3,042</div><div class="app-stat-lbl">累计上线事项</div></div>
+    <div class="app-stat"><div class="app-stat-num">1,189万</div><div class="app-stat-lbl">累计办理量</div></div>
+    <div class="app-stat"><div class="app-stat-num">7,515万</div><div class="app-stat-lbl">查询人次</div></div>
+    <div class="app-stat"><div class="app-stat-num">1,097万</div><div class="app-stat-lbl">注册用户</div></div>
+  </div>
+
+  <!-- L1 -->
+  <div class="layer L1">
+    <div class="layer-name">顶层架构（核心入口）</div>
+    <div class="layer-modules">
+      <div class="module"><b>政务首页</b>3000+事项打包，按主题/部门分类</div>
+      <div class="module"><b>生活首页</b>沉浸式生活服务、独立首页</div>
+      <div class="module"><b>近期热点</b>失业保险、人才补贴、入学报名</div>
+      <div class="module"><b>移动端 · 智慧城市</b>城市大脑入口</div>
+    </div>
+  </div>
+
+  <!-- L2 -->
+  <div class="layer L2">
+    <div class="layer-name">政务服务 · 一级板块</div>
+    <div class="layer-modules">
+      <div class="module"><b>户政</b>居住证、户口办理</div>
+      <div class="module"><b>医疗</b>医保、就医登记</div>
+      <div class="module"><b>社保</b>参保、待遇核准</div>
+      <div class="module"><b>教育</b>入学报名、学籍管理</div>
+      <div class="module"><b>住房</b>公积金、人才公寓</div>
+      <div class="module"><b>就业</b>失业保险、技能补贴</div>
+      <div class="module"><b>交通出行</b>违章查询、电子驾照</div>
+      <div class="module"><b>社会救助</b>低保、补贴申领</div>
+    </div>
+  </div>
+
+  <!-- L3 -->
+  <div class="layer L3">
+    <div class="layer-name">「一件事一次办」专题（293+主题集成）</div>
+    <div class="layer-modules">
+      <div class="module"><b>公积金提取一件事</b>跨6部门，已办结22万笔，32亿元</div>
+      <div class="module"><b>新生儿一件事</b>出生证+户口+参保+社保卡一次办</div>
+      <div class="module"><b>新生入学报名</b>线上报名、学位预约</div>
+      <div class="module"><b>青年人才补贴</b>资格审核、自动到账</div>
+      <div class="module"><b>居住证快速核发</b>电子签注、零材料</div>
+      <div class="module"><b>契税补贴申领</b>购房税补一窗办理</div>
+      <div class="module"><b>失业保险申领</b>掌上办、刷脸办</div>
+      <div class="module"><b>劳动仲裁</b>在线调解、法律援助</div>
+    </div>
+  </div>
+
+  <!-- L4 -->
+  <div class="layer L4">
+    <div class="layer-name">生活服务 · 城市生活总入口</div>
+    <div class="layer-modules">
+      <div class="module"><b>郑好购</b>本地生活服务平台</div>
+      <div class="module"><b>郑好房</b>线上购房节、看房预约</div>
+      <div class="module"><b>婚恋板块</b>相亲交友、婚恋服务</div>
+      <div class="module"><b>养老服务</b>居家养老、机构养老</div>
+      <div class="module"><b>文体活动预约</b>体育场馆、图书馆</div>
+      <div class="module"><b>家政服务</b>保洁、月嫂、维修</div>
+      <div class="module"><b>本地新闻资讯</b>政府动态、民生热点</div>
+      <div class="module"><b>政民互动</b>市长信箱、问政平台</div>
+    </div>
+  </div>
+
+  <!-- L5 -->
+  <div class="layer L5">
+    <div class="layer-name">底层技术与运营（隐层）</div>
+    <div class="layer-modules">
+      <div class="module"><b>承办方</b>郑州市行政审批和政务信息管理局</div>
+      <div class="module"><b>运营方</b>郑州数智科技集团（前郑州数据集团）</div>
+      <div class="module"><b>底层架构</b>"城市大脑"为基座，鸿蒙版已上线</div>
+      <div class="module"><b>评级</b>2020年网上政务服务能力进入"高"组别</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:15px; color:var(--navy); margin:24px 0 12px;">🏗️ 郑好办 × 网格化深度融合</h3>
+  <div style="background:#FFF5F5; border:1px solid #FED7D7; border-radius:8px; padding:18px;">
+    <div style="font-weight:700; color:var(--primary); margin-bottom:10px;">「郑好拍」+「12345热线」+「AI小郑」三网合一闭环</div>
+    <ul style="font-size:12.5px; color:var(--text-secondary); line-height:1.85; padding-left:18px;">
+      <li><b>2024.06.15</b>：12345热线工单全面切换至网格化平台流转处置，平均处置时间缩短 <b>14 小时</b></li>
+      <li><b>"郑好拍"</b>：累计处置事件 <b>706.9 万件</b>，群众满意率 <b>96.54%</b></li>
+      <li><b>"AI 小郑"</b>：2024.07 上线社会治理行业大模型，累计协助网格员分类 <b>116.8 万次</b>，正确识别小微事件 <b>103 万件</b></li>
+      <li><b>三级智慧城市运行中心</b>：市/县/街道全覆盖，打通城管+应急+12345+110+热力等 8 部门数据</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 4: 浙里办 App -->
+<div class="app-section" style="--app-color:#2C7A7B; --app-color-dark:#1A4A4A;">
+  <div class="app-head">
+    <div class="app-icon">浙</div>
+    <div class="app-info">
+      <h2>浙里办 App · 深度下钻（L1→L5）</h2>
+      <div class="sub">浙江省 · 数字化改革总入口 · 十年迭代（2014→2024）</div>
+    </div>
+  </div>
+
+  <div class="app-stats">
+    <div class="app-stat"><div class="app-stat-num">3,600+</div><div class="app-stat-lbl">依申请政务事项</div></div>
+    <div class="app-stat"><div class="app-stat-num">2,000+</div><div class="app-stat-lbl">便民惠企服务</div></div>
+    <div class="app-stat"><div class="app-stat-num">8,200万</div><div class="app-stat-lbl">实名注册用户</div></div>
+    <div class="app-stat"><div class="app-stat-num">300万+</div><div class="app-stat-lbl">日活登录次数</div></div>
+  </div>
+
+  <!-- L1 -->
+  <div class="layer L1">
+    <div class="layer-name">顶层架构（个人版 + 法人版双切换）</div>
+    <div class="layer-modules">
+      <div class="module"><b>个人版</b>覆盖全生命周期</div>
+      <div class="module"><b>法人版</b>28个法人办事模块（2022.12 新增）</div>
+      <div class="module"><b>掌上办事</b>3600+ 政务事项</div>
+      <div class="module"><b>掌上咨询</b>政策问答、政民互动</div>
+      <div class="module"><b>掌上投诉</b>意见建议、问题反映</div>
+    </div>
+  </div>
+
+  <!-- L2 -->
+  <div class="layer L2">
+    <div class="layer-name">个人版 · 全生命周期「一件事」</div>
+    <div class="layer-modules">
+      <div class="module"><b>出生一件事</b>5证联办：出生证+户口+参保+社保卡+生育保险</div>
+      <div class="module"><b>入学一件事</b>报名+材料审核+学籍建档</div>
+      <div class="module"><b>就业一件事</b>失业登记+求职登记+技能培训</div>
+      <div class="module"><b>结婚一件事</b>婚姻登记+生育登记</div>
+      <div class="module"><b>购房一件事</b>不动产登记+水电气过户</div>
+      <div class="module"><b>退休一件事</b>退休申报+待遇核定+社保卡换发</div>
+      <div class="module"><b>身后一件事</b>火化+户口注销+遗属待遇</div>
+      <div class="module"><b>不动产一件事</b>登记+水电气联动</div>
+    </div>
+  </div>
+
+  <!-- L3 -->
+  <div class="layer L3">
+    <div class="layer-name">法人版 · 7大专题（28新增模块）</div>
+    <div class="layer-modules">
+      <div class="module"><b>企业开办</b>从15份材料7环节8.6天 → 1天</div>
+      <div class="module"><b>准入准营</b>许可证+经营场所证明</div>
+      <div class="module"><b>企业变更</b>名称/地址/法人/股权一窗办</div>
+      <div class="module"><b>生产经营</b>资质年检、信用查询</div>
+      <div class="module"><b>用工服务</b>招聘+社保+公积金</div>
+      <div class="module"><b>年检年审</b>工商年报、税务申报</div>
+      <div class="module"><b>税收财务</b>申报、退税、发票</div>
+      <div class="module"><b>惠企政策</b>政策直达兑付</div>
+    </div>
+  </div>
+
+  <!-- L4 -->
+  <div class="layer L4">
+    <div class="layer-name">数字社会矩阵 · "浙系列"应用</div>
+    <div class="layer-modules">
+      <div class="module"><b>浙里健康</b>40+应用：浙医互认、浙里急救、浙有善育</div>
+      <div class="module"><b>浙里养老</b>居家养老、机构养老</div>
+      <div class="module"><b>浙里教育</b>学籍管理、入学服务</div>
+      <div class="module"><b>浙里就医</b>挂号、检验报告</div>
+      <div class="module"><b>浙里康养</b>康复+养老综合服务</div>
+      <div class="module"><b>浙里有志</b>志愿服务平台</div>
+      <div class="module"><b>邻里系列</b>40+ 邻系列应用</div>
+      <div class="module"><b>共享系列</b>4个享系列应用</div>
+    </div>
+  </div>
+
+  <!-- L5 -->
+  <div class="layer L5">
+    <div class="layer-name">底层架构「152」工作体系</div>
+    <div class="layer-modules">
+      <div class="module"><b>1 个中枢</b>一体化智能化公共数据平台</div>
+      <div class="module"><b>5 大系统</b>党政整体智治+数字政府+数字经济+数字社会+数字法治</div>
+      <div class="module"><b>2 项规范</b>理论体系+制度规范</div>
+      <div class="module"><b>「141」县域</b>1社会治理中心+4基层平台+1村社综合网格</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:15px; color:var(--navy); margin:24px 0 12px;">🧠 浙里办 × 杭州城市大脑深度协同</h3>
+  <div style="background:#F0FFF4; border:1px solid #C6F6D5; border-radius:8px; padding:18px;">
+    <div style="font-weight:700; color:var(--good); margin-bottom:10px;">"三个一网"治理架构 · 2025.04 城市大脑 3.0 启动</div>
+    <ul style="font-size:12.5px; color:var(--text-secondary); line-height:1.85; padding-left:18px;">
+      <li><b>政务服务"一网通办"</b>：提升优化营商环境</li>
+      <li><b>城市运行"一网统管"</b>：保障城市安全运行</li>
+      <li><b>社会治理"一网共治"</b>：系统破解复杂难题</li>
+      <li><b>城市大脑应用数 320 个</b>，用户 <b>1981 万</b>，月活 <b>百万级</b></li>
+      <li><b>地下隐患智防</b>覆盖 893 平方公里，处置高中风险点 <b>425 处</b></li>
+      <li><b>2025.04 · 城市大脑 3.0</b>启动，建成全国首个政务模型训练场，接入基础通用大模型</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 5: 郑好办 vs 浙里办 对比 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">05</div>
+    <div class="section-title">郑好办 vs 浙里办 · 深度对比矩阵</div>
+    <div class="section-meta">8 维度全面对照 · 借鉴启示</div>
+  </div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th style="width:14%">对比维度</th>
+        <th class="col-zheng" style="width:38%">郑好办（郑州）</th>
+        <th class="col-zhe" style="width:38%">浙里办（浙江）</th>
+        <th style="width:10%">差距</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>启动时间</b></td>
+        <td class="col-zheng">2020 年上线（App Store 时间）</td>
+        <td class="col-zhe">2014 年起步，已迭代 10 年</td>
+        <td>⏰ 落后 6 年</td>
+      </tr>
+      <tr>
+        <td><b>用户规模</b></td>
+        <td class="col-zheng">注册 1,097 万</td>
+        <td class="col-zhe">注册 8,200 万 · 日活 300 万+</td>
+        <td>📊 7.5×</td>
+      </tr>
+      <tr>
+        <td><b>事项数量</b></td>
+        <td class="col-zheng">3,042 项 · 一件事 293 项</td>
+        <td class="col-zhe">3,600+ 政务 · 2,000+ 惠企 · 一件事 30 项联办</td>
+        <td>📦 接近</td>
+      </tr>
+      <tr>
+        <td><b>架构理念</b></td>
+        <td class="col-zheng">政务/生活两核分立（6.0 版本）</td>
+        <td class="col-zhe">个人/法人双版切换 + "浙系列"矩阵</td>
+        <td>🏗️ 浙更体系化</td>
+      </tr>
+      <tr>
+        <td><b>顶层设计</b></td>
+        <td class="col-zheng">城市大脑为基座，党建+网格+大数据</td>
+        <td class="col-zhe">"152" 工作体系 · 1 中枢+5 系统+2 规范</td>
+        <td>📐 浙有清晰范式</td>
+      </tr>
+      <tr>
+        <td><b>基层治理融合</b></td>
+        <td class="col-zheng">"郑好拍"+12345+网格三网合一 · 处置 706.9 万件 · 满意率 96.54%</td>
+        <td class="col-zhe">"141" 县域治理：1 社会治理中心+4 平台+1 村社综合网格</td>
+        <td>🤝 各有特色</td>
+      </tr>
+      <tr>
+        <td><b>AI 应用</b></td>
+        <td class="col-zheng">"AI 小郑" 社会治理大模型，分类 116.8 万次</td>
+        <td class="col-zhe">城市大脑 3.0 · 全国首个政务模型训练场</td>
+        <td>🤖 浙更前沿</td>
+      </tr>
+      <tr>
+        <td><b>评级地位</b></td>
+        <td class="col-zheng">网上政务能力进入"高"组别 · 2024 世界智慧城市治理奖</td>
+        <td class="col-zhe">国家数字政府典型案例多次入选 · 数字中国建设标杆</td>
+        <td>🏆 浙更靠前</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:16px; color:var(--navy); margin:20px 0 12px;">💡 借鉴启示</h3>
+  <div style="background:#FFFBEB; border:1px solid #FAEBC8; border-left:5px solid var(--gold); padding:18px; border-radius:0 8px 8px 0;">
+    <ol style="font-size:13px; color:var(--text); line-height:1.85; padding-left:20px;">
+      <li><b>顶层架构标准化</b>：浙江"152"已成为数字政府建设的事实标准，可借鉴形成河南"1X2"</li>
+      <li><b>个人/法人双版</b>：浙里办拆分双版本，郑好办仍以政务/生活划分。建议增设"惠企版"</li>
+      <li><b>全生命周期主题</b>：浙里办的"出生-入学-退休-身后"全链路集成，郑好办可对标补齐</li>
+      <li><b>AI 大模型集成</b>：郑州"AI小郑"是社会治理垂直模型，浙江城市大脑 3.0 已接入通用大模型，方向不同但都需深化</li>
+      <li><b>"一码"统一</b>：浙江"浙里办码"已成为全省身份认证标准，郑好办可推动"郑好码"统一</li>
+    </ol>
+  </div>
+</div>
+
+<!-- SECTION 6: 杠杆与原话精准对位 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">06</div>
+    <div class="section-title">18 杠杆 · 习近平原话精准对位</div>
+    <div class="section-meta">沙盘每一档位都有总书记论述支撑</div>
+  </div>
+
+  <p style="font-size:13px; color:var(--text-secondary); margin-bottom:18px; line-height:1.7;">
+    我们的政策沙盘 18 杠杆，每一项都能在习近平总书记的论述中找到原文出处。下面是 6 大类别的代表性映射：
+  </p>
+
+  <div class="mapping-card">
+    <div class="mapping-lever">党建引领<br>组织覆盖</div>
+    <div class="mapping-quote">
+      "要提高基层党组织领导基层治理能力，把基层党组织建设成为...坚强战斗堡垒，推动资源、服务、管理向基层下沉。"
+      <span class="mapping-quote-src">—— 党的二十届四中全会精神 · 完善社会治理体系</span>
+    </div>
+    <div class="mapping-impl">郑州做法："党组织+社会组织+基层自治组织" 三层架构，专业网格设党支部/党小组</div>
+  </div>
+
+  <div class="mapping-card">
+    <div class="mapping-lever">网格管理<br>网格密度</div>
+    <div class="mapping-quote">
+      "健全党组织领导的自治、法治、德治相结合的城乡基层治理体系...确保社会治理各项工作纵向到底、横向到边。"
+      <span class="mapping-quote-src">—— 党的二十届三中全会决定</span>
+    </div>
+    <div class="mapping-impl">郑州做法：50-70 户/微网格，10.7 万微网格，2 小时入户走访目标</div>
+  </div>
+
+  <div class="mapping-card">
+    <div class="mapping-lever">城市大脑<br>数据中台</div>
+    <div class="mapping-quote">
+      "运用大数据、云计算、区块链、人工智能等前沿技术推动城市管理手段、管理模式、管理理念创新，从数字化到智能化再到智慧化。"
+      <span class="mapping-quote-src">—— 习近平 · 2020 浙江杭州考察</span>
+    </div>
+    <div class="mapping-impl">郑州做法：市/县/街道三级智慧城市运行中心，打通城管+12345+110+热力等 8 部门</div>
+  </div>
+
+  <div class="mapping-card">
+    <div class="mapping-lever">协商共治<br>代表议事</div>
+    <div class="mapping-quote">
+      "人民城市人民建，人民城市为人民...无论是城市规划还是城市建设，都要坚持以人民为中心，聚焦人民群众的需求。"
+      <span class="mapping-quote-src">—— 习近平 · 2019 上海杨浦考察</span>
+    </div>
+    <div class="mapping-impl">上海做法：群众"金点子"转化为治理"金钥匙"，垃圾分类参与率 97%</div>
+  </div>
+
+  <div class="mapping-card">
+    <div class="mapping-lever">能力建设<br>干部培训</div>
+    <div class="mapping-quote">
+      "城市管理应该像绣花一样精细，既要善于运用现代科技手段实现智能化，又要通过绣花般的细心、耐心、巧心提高精细化水平。"
+      <span class="mapping-quote-src">—— 习近平 · 多次重要论述</span>
+    </div>
+    <div class="mapping-impl">河南：扎扎实实加强社会治理 · 健全社会治理体制机制 · 加强新经济组织新社会组织党建</div>
+  </div>
+
+  <div class="mapping-card">
+    <div class="mapping-lever">场景任务<br>韧性应对</div>
+    <div class="mapping-quote">
+      "推进城市基础设施生命线安全工程建设...统筹城市防洪体系和内涝治理...把风险防控有机嵌入城市管理系统。"
+      <span class="mapping-quote-src">—— 中央城市工作会议 2025.07</span>
+    </div>
+    <div class="mapping-impl">郑州做法："2024.07 城市大脑3.0" 接入韧性城市模块，地下隐患智防覆盖 893 平方公里</div>
+  </div>
+</div>
+
+<!-- 结语 -->
+<div class="pull-quote" style="margin-top:32px;">
+  <div class="pull-quote-text">"以高效能治理促进高质量发展和高水平安全良性互动"</div>
+  <div class="pull-quote-src">—— 党的二十届四中全会 · 完善社会治理体系核心论断</div>
+</div>
+
+</div>
+</body>
+</html>
