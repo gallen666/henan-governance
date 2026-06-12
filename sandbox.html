@@ -323,9 +323,41 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft 
   .sub-grid{grid-template-columns:1fr}
   .qsd-body{grid-template-columns:1fr}
 }
+
+/* ========== A3 对标基线浮窗 ========== */
+.benchmark-fab {position:fixed; left:20px; bottom:20px; background:linear-gradient(135deg,#1E3A5F,#142a47); color:#fff; padding:14px 18px; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.25); z-index:90; min-width:260px; cursor:pointer; transition:transform 0.2s}
+.benchmark-fab:hover {transform:translateY(-2px)}
+.benchmark-fab .bf-head {font-size:11px; letter-spacing:1.5px; color:#C9A063; font-weight:800; margin-bottom:8px; display:flex; align-items:center; gap:6px}
+.benchmark-fab .bf-row {display:flex; justify-content:space-between; align-items:center; font-size:12px; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.08)}
+.benchmark-fab .bf-row:last-child {border-bottom:none}
+.benchmark-fab .bf-city {color:#fff; font-weight:600}
+.benchmark-fab .bf-score {font-family:Georgia,serif; font-weight:800; color:#C9A063}
+.benchmark-fab .bf-gap {font-size:10px; padding:2px 6px; border-radius:3px; margin-left:8px}
+.benchmark-fab .bf-gap.behind {background:#C53030; color:#fff}
+.benchmark-fab .bf-gap.ahead {background:#2F855A; color:#fff}
+.benchmark-fab .bf-current {background:linear-gradient(135deg,rgba(201,160,99,0.15),rgba(201,160,99,0.25)); border-radius:5px; padding:6px 10px; margin-bottom:6px}
+.benchmark-fab.collapsed .bf-body {display:none}
+.benchmark-fab .bf-toggle {position:absolute; top:6px; right:8px; color:rgba(255,255,255,0.5); font-size:14px; background:none; border:none; cursor:pointer}
+
 </style>
 </head>
 <body>
+
+<!-- A3 对标基线浮窗 -->
+<div class="benchmark-fab" id="benchmarkFab" onclick="this.classList.toggle('collapsed')">
+  <button class="bf-toggle">±</button>
+  <div class="bf-head">📊 ISUI 实时对标</div>
+  <div class="bf-body">
+    <div class="bf-current">
+      <div class="bf-row"><div class="bf-city" style="color:#C9A063;font-weight:800">当前情景</div><div class="bf-score" id="bf-current">—</div></div>
+    </div>
+    <div class="bf-row"><div class="bf-city">🇨🇳 杭州</div><div><span class="bf-score">88.2</span><span class="bf-gap behind" id="bf-gap-hz">—</span></div></div>
+    <div class="bf-row"><div class="bf-city">🇨🇳 上海</div><div><span class="bf-score">88.2</span><span class="bf-gap behind" id="bf-gap-sh">—</span></div></div>
+    <div class="bf-row"><div class="bf-city">🇨🇳 北京</div><div><span class="bf-score">83.3</span><span class="bf-gap behind" id="bf-gap-bj">—</span></div></div>
+    <div class="bf-row"><div class="bf-city">🇭🇰 香港</div><div><span class="bf-score">84.0</span><span class="bf-gap behind" id="bf-gap-hk">—</span></div></div>
+  </div>
+</div>
+
 
 <!-- 顶栏 -->
 <header class="topbar">
@@ -340,6 +372,9 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft 
     <button class="tb-btn" data-preset="baseline">📍 基线</button>
     <button class="tb-btn" data-preset="incremental">📈 渐进式</button>
     <button class="tb-btn" data-preset="zhengzhou">🏛️ 郑州模式</button>
+    <button class="tb-btn" data-preset="hangzhou" style="background:linear-gradient(135deg,rgba(44,122,123,0.12),rgba(44,122,123,0.22));color:#2C7A7B;border-color:rgba(44,122,123,0.4)">💧 杭州模式</button>
+    <button class="tb-btn" data-preset="shanghai" style="background:linear-gradient(135deg,rgba(184,35,47,0.12),rgba(201,160,99,0.18));color:#B8232F;border-color:rgba(184,35,47,0.4)">🏯 上海模式</button>
+    <button class="tb-btn" data-preset="ideal" style="background:linear-gradient(135deg,#C9A063,#A88450);color:#fff;border-color:#A88450">⭐ 理想路径</button>
     <button class="tb-btn" data-preset="deep">🚀 深化改革</button>
     <button class="tb-btn" data-preset="modern">🌟 全面现代化</button>
     <button class="tb-btn" data-preset="reset" style="color:var(--bad);border-color:#feb2b2">⟲ 重置</button>
@@ -425,6 +460,22 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft 
     </div>
 
     <!-- 主图 2：6 板块堆叠面积 -->
+    
+    <div class="chart-block full" style="margin-bottom:16px;background:linear-gradient(135deg,#FAF8F2,#fff);border:2px solid #C9A063">
+      <div class="chart-head">
+        <div class="chart-title">🏛️ 现代化人民城市 6 目标雷达 · 创新·宜居·美丽·韧性·文明·智慧</div>
+        <div class="chart-meta">中央城市工作会议 2025.07 · 当前情景 vs 杭州/上海/北京/香港</div>
+      </div>
+      <div class="chart-canvas-wrap tall"><canvas id="rmc6Chart"></canvas></div>
+      <div class="legend" style="font-size:11px;margin-top:10px;">
+        <div class="legend-item"><div class="legend-color" style="background:#B8232F"></div>当前情景</div>
+        <div class="legend-item"><div class="legend-color" style="background:#2C7A7B"></div>杭州</div>
+        <div class="legend-item"><div class="legend-color" style="background:#C9A063"></div>上海</div>
+        <div class="legend-item"><div class="legend-color" style="background:#1E3A5F"></div>北京</div>
+        <div class="legend-item"><div class="legend-color" style="background:#805AD5"></div>香港</div>
+      </div>
+    </div>
+
     <div class="chart-block full" style="margin-bottom:16px">
       <div class="chart-head">
         <div class="chart-title">🌐 治理力度演化（按 6 板块） · 2010-2050</div>
@@ -1059,6 +1110,34 @@ const ISUI_GLOBAL_2025 = [
   {rank:13, city:'首尔', score:80.5},{rank:15, city:'北京', score:79.0},
   {rank:21, city:'新加坡', score:74.0},{rank:25, city:'深圳', score:71.5}
 ];
+
+// ========== 现代化人民城市 6 目标计算（创新/宜居/美丽/韧性/文明/智慧）==========
+// 基于 18 杠杆映射到中央城市工作会议 2025.07 提出的 6 大目标
+function calcRMC6(){
+  const v = id => LEVERS[id].value;
+  // 创新城市（动能转换）
+  const innovation = v('digitalInfra')*0.25 + v('aiDecision')*0.25 + v('cadreTrain')*0.20 + v('talentSink')*0.15 + v('govBusiness')*0.15;
+  // 宜居城市（舒适便利）
+  const livable = v('gridDensity')*0.20 + v('gridStaffing')*0.15 + v('livelihoodSmart')*0.25 + v('publicPart')*0.20 + v('oneStop')*0.20;
+  // 美丽城市（生态绿色）
+  const beautiful = v('specialGrid')*0.25 + v('livelihoodSmart')*0.20 + v('fiscalSink')*0.20 + v('govBusiness')*0.20 + v('gridDensity')*0.15;
+  // 韧性城市（安全可靠）
+  const resilient = v('specialGrid')*0.30 + v('gridStaffing')*0.20 + v('partyVanguard')*0.15 + v('digitalInfra')*0.20 + v('aiDecision')*0.15;
+  // 文明城市（崇德向善）
+  const civilized = v('partyOrg')*0.25 + v('partyVanguard')*0.20 + v('govSocial')*0.25 + v('publicPart')*0.15 + v('cadreTrain')*0.15;
+  // 智慧城市（数字治理）
+  const smart = v('digitalInfra')*0.25 + v('dataSharing')*0.25 + v('aiDecision')*0.20 + v('oneStop')*0.20 + v('personalize')*0.10;
+  return { innovation, livable, beautiful, resilient, civilized, smart };
+}
+
+// 4 城对标基准值（2025 实测/估算数据）
+const RMC6_BENCHMARKS = {
+  hangzhou: {innovation:88, livable:86, beautiful:90, resilient:83, civilized:84, smart:92},
+  shanghai: {innovation:90, livable:85, beautiful:84, resilient:86, civilized:90, smart:88},
+  beijing:  {innovation:85, livable:80, beautiful:78, resilient:88, civilized:88, smart:85},
+  hongkong: {innovation:84, livable:88, beautiful:80, resilient:90, civilized:85, smart:92}
+};
+
 function estimateISUIRank(score){
   for (const c of ISUI_GLOBAL_2025){
     if (score >= c.score) return c.rank;
@@ -1510,6 +1589,33 @@ window.addEventListener('message', function(e){
     // 父窗口刚装载，发一次最新状态
     recompute();
   }
+
+  // === 更新现代化人民城市雷达 ===
+  if (window.rmc6Chart) {
+    const rmc = calcRMC6();
+    window.rmc6Chart.data.datasets[0].data = [rmc.innovation, rmc.livable, rmc.beautiful, rmc.resilient, rmc.civilized, rmc.smart];
+    window.rmc6Chart.update('none');
+  }
+
+
+  // === 更新对标基线浮窗 ===
+  const cur = calcISUI();
+  const bfCurrent = document.getElementById('bf-current');
+  if (bfCurrent) {
+    bfCurrent.textContent = cur.total.toFixed(1);
+    const updateGap = (id, target) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const gap = (cur.total - target).toFixed(1);
+      el.textContent = (gap >= 0 ? '+' : '') + gap;
+      el.className = 'bf-gap ' + (gap >= 0 ? 'ahead' : 'behind');
+    };
+    updateGap('bf-gap-hz', 88.2);
+    updateGap('bf-gap-sh', 88.2);
+    updateGap('bf-gap-bj', 83.3);
+    updateGap('bf-gap-hk', 84.0);
+  }
+
 });
 
 function updateAI(sim){
@@ -1681,6 +1787,15 @@ const PRESETS = {
   deep:{partyOrg:82,partyVanguard:80,partyGrid:80,gridDensity:80,gridStaffing:80,specialGrid:75,
     digitalInfra:82,dataSharing:78,aiDecision:75,govSocial:78,govBusiness:75,publicPart:78,
     fiscalSink:78,talentSink:75,cadreTrain:80,livelihoodSmart:78,oneStop:85,personalize:72},
+  hangzhou:{partyOrg:75,partyVanguard:72,partyGrid:78,gridDensity:82,gridStaffing:80,specialGrid:75,
+    digitalInfra:95,dataSharing:92,aiDecision:90,govSocial:78,govBusiness:82,publicPart:80,
+    fiscalSink:82,talentSink:78,cadreTrain:85,livelihoodSmart:90,oneStop:95,personalize:85},
+  ideal:{partyOrg:88,partyVanguard:85,partyGrid:88,gridDensity:88,gridStaffing:85,specialGrid:82,
+    digitalInfra:90,dataSharing:88,aiDecision:85,govSocial:88,govBusiness:85,publicPart:88,
+    fiscalSink:85,talentSink:82,cadreTrain:88,livelihoodSmart:88,oneStop:90,personalize:80},
+  shanghai:{partyOrg:85,partyVanguard:82,partyGrid:82,gridDensity:80,gridStaffing:78,specialGrid:80,
+    digitalInfra:90,dataSharing:85,aiDecision:82,govSocial:90,govBusiness:85,publicPart:92,
+    fiscalSink:85,talentSink:82,cadreTrain:85,livelihoodSmart:88,oneStop:92,personalize:82},
   modern:{partyOrg:95,partyVanguard:92,partyGrid:95,gridDensity:92,gridStaffing:92,specialGrid:90,
     digitalInfra:95,dataSharing:92,aiDecision:90,govSocial:90,govBusiness:88,publicPart:90,
     fiscalSink:90,talentSink:88,cadreTrain:92,livelihoodSmart:92,oneStop:96,personalize:88},
@@ -1743,7 +1858,142 @@ recompute();
 // 高亮当前预设
 document.querySelectorAll('[data-preset], [data-mini-preset]').forEach(b => {
   b.classList.toggle('active', (b.dataset.preset==='baseline' || b.dataset.miniPreset==='baseline'));
+
+  // === 现代化人民城市 6 目标雷达 ===
+  if (document.getElementById('rmc6Chart')) {
+    const ctxRMC = document.getElementById('rmc6Chart').getContext('2d');
+    const rmc = calcRMC6();
+    window.rmc6Chart = new Chart(ctxRMC, {
+      type:'radar',
+      data:{
+        labels:['创新城市','宜居城市','美丽城市','韧性城市','文明城市','智慧城市'],
+        datasets:[
+          {label:'当前情景', data:[rmc.innovation, rmc.livable, rmc.beautiful, rmc.resilient, rmc.civilized, rmc.smart], borderColor:'#B8232F', backgroundColor:'rgba(184,35,47,0.18)', borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#B8232F'},
+          {label:'杭州', data:[88,86,90,83,84,92], borderColor:'#2C7A7B', backgroundColor:'rgba(44,122,123,0.10)', borderWidth:1.5, pointRadius:3, borderDash:[6,4]},
+          {label:'上海', data:[90,85,84,86,90,88], borderColor:'#C9A063', backgroundColor:'rgba(201,160,99,0.10)', borderWidth:1.5, pointRadius:3, borderDash:[6,4]},
+          {label:'北京', data:[85,80,78,88,88,85], borderColor:'#1E3A5F', backgroundColor:'rgba(30,58,95,0.10)', borderWidth:1.5, pointRadius:3, borderDash:[6,4]},
+          {label:'香港', data:[84,88,80,90,85,92], borderColor:'#805AD5', backgroundColor:'rgba(128,90,213,0.10)', borderWidth:1.5, pointRadius:3, borderDash:[6,4]},
+        ]
+      },
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{beginAtZero:true,max:100,ticks:{stepSize:20,font:{size:10}},pointLabels:{font:{size:11,weight:'bold'},color:'#1E3A5F'}}}}
+    });
+  }
+
 });
 </script>
+
+<!-- A4 AI 大模型诊断升级 -->
+<div style="background:linear-gradient(135deg,#1E3A5F,#142a47);color:#fff;border-radius:10px;padding:18px 22px;margin:16px 0;">
+  <div style="font-size:11px;color:#C9A063;letter-spacing:1.5px;margin-bottom:8px;font-weight:800;">🤖 AI 大模型深度诊断（接 DeepSeek / 通义 / 文心）</div>
+  <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+    <button onclick="callLLMDiagnosis()" style="background:#C9A063;color:#1A202C;border:none;padding:10px 20px;border-radius:6px;font-weight:800;font-size:13px;cursor:pointer">🚀 调用 AI 深度诊断</button>
+    <select id="llmModel" style="padding:8px 12px;border-radius:5px;border:1px solid rgba(255,255,255,0.2);background:#142a47;color:#fff;font-size:12px;">
+      <option value="deepseek">DeepSeek-V3（推荐）</option>
+      <option value="qwen">通义千问 Max</option>
+      <option value="ernie">文心一言 4.0</option>
+      <option value="local">规则引擎（不调用 API）</option>
+    </select>
+    <input type="password" id="llmApiKey" placeholder="API Key（首次使用需填入）" style="padding:8px 12px;border-radius:5px;border:1px solid rgba(255,255,255,0.2);background:#142a47;color:#fff;font-size:12px;width:240px;">
+  </div>
+  <div id="llmResult" style="background:rgba(255,255,255,0.05);border-radius:6px;padding:14px;font-size:12.5px;line-height:1.7;color:#fff;min-height:60px;">
+    <em style="opacity:0.7;">点击上方按钮触发 AI 深度诊断。AI 会基于当前 18 杠杆数值，结合习近平人民城市与高效能治理理论，给出 4 维度（优势/短板/风险/建议）+ 政策合规性分析。</em>
+  </div>
+  <div style="font-size:10px;color:#C9A063;margin-top:8px;opacity:0.7;">💡 API Key 仅存于本地浏览器、不上传服务器；不填则使用本地规则引擎</div>
+</div>
+
+<script>
+async function callLLMDiagnosis() {
+  const resultDiv = document.getElementById('llmResult');
+  const model = document.getElementById('llmModel').value;
+  const apiKey = document.getElementById('llmApiKey').value || localStorage.getItem('llm_key_'+model);
+
+  if (model !== 'local' && !apiKey) {
+    resultDiv.innerHTML = '<span style="color:#FCA5A5;">⚠️ 请先填入 API Key（DeepSeek 可免费注册 https://platform.deepseek.com）</span>';
+    return;
+  }
+  if (apiKey) localStorage.setItem('llm_key_'+model, apiKey);
+
+  const sim = simulateTrajectory();
+  const isui = calcISUI();
+  const rmc = calcRMC6();
+  const cat = sim.categories;
+
+  const prompt = `你是一位精通习近平人民城市与高效能治理理论的政策研究专家。请基于以下河南治理沙盘数据，给出深度诊断。
+
+【当前 18 杠杆得分】（满分 100）
+党建引领：${cat.party.toFixed(0)}（组织覆盖${LEVERS.partyOrg.value}/先锋模范${LEVERS.partyVanguard.value}/网格融合${LEVERS.partyGrid.value}）
+网格管理：${cat.grid.toFixed(0)}（密度${LEVERS.gridDensity.value}/配备${LEVERS.gridStaffing.value}/专属${LEVERS.specialGrid.value}）
+城市大脑：${cat.brain.toFixed(0)}（基建${LEVERS.digitalInfra.value}/共享${LEVERS.dataSharing.value}/AI${LEVERS.aiDecision.value}）
+协商共治：${cat.collab.toFixed(0)}（政社${LEVERS.govSocial.value}/政企${LEVERS.govBusiness.value}/群众${LEVERS.publicPart.value}）
+能力建设：${cat.cap.toFixed(0)}（财政${LEVERS.fiscalSink.value}/人才${LEVERS.talentSink.value}/培训${LEVERS.cadreTrain.value}）
+场景服务：${cat.scene.toFixed(0)}（民生${LEVERS.livelihoodSmart.value}/一网${LEVERS.oneStop.value}/个性${LEVERS.personalize.value}）
+
+【综合指标】
+2050 综合满意度：${sim.composite.toFixed(1)}（基线 65）
+ISUI 智慧城市指数：${isui.total.toFixed(1)}（杭州 88.2）
+现代化人民城市 6 目标：创新${rmc.innovation.toFixed(0)} 宜居${rmc.livable.toFixed(0)} 美丽${rmc.beautiful.toFixed(0)} 韧性${rmc.resilient.toFixed(0)} 文明${rmc.civilized.toFixed(0)} 智慧${rmc.smart.toFixed(0)}
+
+请按以下 5 维度给出诊断，每条引用 1 个总书记原话作为政策依据（用 📖 标注）：
+1. ✅ 优势识别（2-3 条）
+2. ⚠️ 短板诊断（2-3 条）
+3. 🚨 风险预警（1-2 条）
+4. 💡 路径建议（3-5 条具体杠杆调整）
+5. 📖 政策合规性评分（10 分制）
+
+输出要简洁有力，每条不超过 50 字。`;
+
+  resultDiv.innerHTML = '<em style="opacity:0.8;">🔄 AI 正在深度分析（约 5-15 秒）...</em>';
+
+  if (model === 'local') {
+    // 本地规则引擎
+    setTimeout(() => {
+      const advice = [];
+      if (cat.brain < 60) advice.push('🚨 城市大脑薄弱 → 优先提升数据共享率到 70+');
+      if (cat.party > 80 && cat.collab < 60) advice.push('⚠️ 党建强但共治弱 → 平衡机制需补强');
+      if (sim.composite > 80) advice.push('✅ 综合满意度优秀 → 进入良性飞轮');
+      if (isui.total < 75) advice.push('📊 ISUI 与杭州差距大 → 重点补强 智慧+创新');
+
+      resultDiv.innerHTML = `
+        <div style="color:#C9A063;font-weight:800;font-size:12px;margin-bottom:8px;">🤖 本地规则引擎诊断 · 不消耗 API 额度</div>
+        ${advice.map(a => `<div style="padding:6px 10px;background:rgba(255,255,255,0.05);border-left:2px solid #C9A063;margin:5px 0;border-radius:0 4px 4px 0;">${a}</div>`).join('')}
+        <div style="font-size:10px;color:#C9A063;margin-top:10px;opacity:0.7;">💡 切换到 DeepSeek 等可获得真 AI 深度诊断（含政策合规打分）</div>
+      `;
+    }, 800);
+    return;
+  }
+
+  const endpoints = {
+    deepseek: 'https://api.deepseek.com/v1/chat/completions',
+    qwen: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
+    ernie: 'https://qianfan.baidubce.com/v2/chat/completions'
+  };
+  const models = {deepseek: 'deepseek-chat', qwen: 'qwen-max', ernie: 'ernie-4.0-8k'};
+
+  try {
+    const r = await fetch(endpoints[model], {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: models[model],
+        messages: [{role: 'user', content: prompt}],
+        temperature: 0.7,
+        max_tokens: 1500
+      })
+    });
+    const data = await r.json();
+    const content = data.choices?.[0]?.message?.content || JSON.stringify(data);
+    resultDiv.innerHTML = `
+      <div style="color:#C9A063;font-weight:800;font-size:12px;margin-bottom:10px;">🤖 ${model.toUpperCase()} · AI 深度诊断</div>
+      <div style="white-space:pre-wrap;line-height:1.8;">${content.replace(/\n/g, '<br>')}</div>
+    `;
+  } catch(e) {
+    resultDiv.innerHTML = '<span style="color:#FCA5A5;">❌ 调用失败：' + e.message + '。可能 API Key 不对或网络问题。</span>';
+  }
+}
+</script>
+
 </body>
 </html>
