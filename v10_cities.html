@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v10 全球 10 城治理科技对标 · 河南治理研究</title>
+<style>
+:root {
+  --primary: #B8232F; --primary-dark: #8B0000;
+  --navy: #1E3A5F; --navy-light: #2C5282;
+  --gold: #C9A063; --gold-dark: #A88450;
+  --bg: #F4F2EE; --bg-card: #fff; --bg-soft: #FAF8F2;
+  --text: #1A202C; --text-secondary: #4A5568; --text-light: #718096;
+  --border: #DDD8CF; --border-strong: #C8C2B5;
+  --good: #2F855A; --warn: #D69E2E; --bad: #C53030;
+  --shadow: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.10);
+}
+* {margin:0; padding:0; box-sizing:border-box}
+html,body {font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif; background:var(--bg); color:var(--text); font-size:14px; line-height:1.7}
+.container {max-width:1320px; margin:0 auto; padding:24px 20px}
+
+/* Hero */
+.hero {background:linear-gradient(135deg, #1E3A5F 0%, #142a47 100%); color:#fff; padding:42px 32px; border-radius:14px; margin-bottom:28px; position:relative; overflow:hidden}
+.hero-tag {display:inline-block; background:var(--gold); color:#1a202c; padding:4px 12px; border-radius:4px; font-size:11px; font-weight:800; letter-spacing:1.5px; margin-bottom:14px}
+.hero h1 {font-size:32px; font-weight:900; margin-bottom:10px}
+.hero h1 span {color:var(--gold)}
+.hero .subtitle {font-size:14.5px; opacity:0.9; line-height:1.7; max-width:880px}
+.hero-stats {display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-top:24px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.15)}
+.hero-stat {text-align:center}
+.hero-stat-num {font-size:24px; font-weight:900; color:var(--gold); font-family:Georgia,serif; line-height:1}
+.hero-stat-lbl {font-size:10.5px; opacity:0.75; margin-top:5px; letter-spacing:1px}
+
+/* Section */
+.section {background:#fff; border-radius:12px; padding:26px; margin-bottom:22px; box-shadow:var(--shadow); border:1px solid var(--border)}
+.section-head {display:flex; align-items:center; gap:14px; margin-bottom:18px; padding-bottom:12px; border-bottom:2px solid var(--gold)}
+.section-num {width:44px; height:44px; background:linear-gradient(135deg,var(--primary),#8b0000); color:var(--gold); display:flex; align-items:center; justify-content:center; border-radius:8px; font-weight:900; font-size:18px; font-family:Georgia,serif}
+.section-title {font-size:20px; font-weight:800; color:var(--navy); flex:1}
+.section-meta {font-size:11px; color:var(--text-light); letter-spacing:1px}
+
+/* City Card */
+.city-grid {display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+.city-card {background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--shadow); border:1px solid var(--border); position:relative; border-top:5px solid var(--city-color, var(--gold))}
+.city-card.cn-domestic {--city-color:#B8232F}
+.city-card.cn-prc-spec {--city-color:#C9A063}
+.city-card.intl-asia {--city-color:#2F855A}
+.city-card.intl-west {--city-color:#805AD5}
+
+.city-header {padding:18px 20px; display:flex; align-items:center; gap:14px; background:linear-gradient(135deg,#FAF8F2,#fff)}
+.city-flag {width:48px; height:48px; border-radius:10px; background:linear-gradient(135deg,var(--city-color),rgba(0,0,0,0.2)); color:#fff; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; font-family:Georgia,serif}
+.city-info h2 {font-size:18px; font-weight:800; color:var(--navy); margin-bottom:3px}
+.city-info .country {font-size:11px; color:var(--text-light); letter-spacing:1px}
+.city-tier {font-size:9px; background:var(--city-color); color:#fff; padding:3px 8px; border-radius:3px; font-weight:800; letter-spacing:1px; margin-left:auto}
+
+.city-body {padding:18px 20px}
+.city-app {background:#FAF8F2; border-left:3px solid var(--city-color); padding:10px 14px; border-radius:0 6px 6px 0; margin-bottom:12px}
+.city-app-name {font-size:14px; font-weight:800; color:var(--city-color); margin-bottom:3px}
+.city-app-tag {font-size:10.5px; color:var(--text-light)}
+
+.city-stats {display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:10px 0}
+.city-stat {background:#fff; border:1px solid var(--border); border-radius:5px; padding:8px 10px; text-align:center}
+.city-stat-num {font-size:16px; font-weight:900; color:var(--city-color); font-family:Georgia,serif; line-height:1.1}
+.city-stat-lbl {font-size:10px; color:var(--text-secondary); margin-top:3px}
+
+.city-feat {font-size:11.5px; color:var(--text); line-height:1.65; margin-top:10px}
+.city-feat ul {padding-left:18px}
+.city-feat li {margin-bottom:3px}
+.city-feat li b {color:var(--city-color)}
+
+.city-takeaway {background:linear-gradient(135deg,rgba(0,0,0,0.04),transparent); border-top:1px dashed var(--border); margin-top:14px; padding:10px 14px; border-radius:0 0 6px 6px; font-size:11px; color:var(--text-secondary); line-height:1.6}
+.city-takeaway b {color:var(--city-color); font-size:10px; letter-spacing:1px; display:block; margin-bottom:3px}
+
+/* Comparison table */
+.cmp-table {width:100%; border-collapse:collapse; margin:14px 0; font-size:11.5px}
+.cmp-table th, .cmp-table td {padding:9px 11px; border-bottom:1px solid var(--border); text-align:left; vertical-align:middle}
+.cmp-table th {background:var(--navy); color:#fff; font-size:10.5px; font-weight:700; position:sticky; top:0}
+.cmp-table th.col-tier {background:linear-gradient(135deg,#1E3A5F,#142a47)}
+.cmp-table .city-name {font-weight:800; color:var(--navy)}
+.cmp-table .city-cn {background:#FFF5F5}
+.cmp-table .city-intl {background:#F0FFF4}
+.cmp-table tr:hover td {background:#FAFAFA}
+.cmp-table .score-cell {font-weight:800; font-family:Georgia,serif; color:var(--navy); text-align:center}
+.cmp-table .score-cell.high {color:#2F855A}
+.cmp-table .score-cell.mid {color:#D69E2E}
+.cmp-table .score-cell.low {color:#C53030}
+
+/* Radar */
+.radar-wrap {background:#fff; border:1px solid var(--border); border-radius:10px; padding:18px; margin:14px 0}
+.radar-title {font-size:14px; font-weight:800; color:var(--navy); margin-bottom:10px; display:flex; align-items:center; gap:8px}
+
+/* Map / categorization */
+.tier-row {display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:16px 0}
+.tier-card {background:#fff; border-radius:10px; padding:14px 16px; border-top:4px solid var(--tc); box-shadow:var(--shadow)}
+.tier-card.t1 {--tc:#805AD5}
+.tier-card.t2 {--tc:#2C7A7B}
+.tier-card.t3 {--tc:#B8232F}
+.tier-card.t4 {--tc:#C9A063}
+.tier-name {font-size:13px; font-weight:800; color:var(--tc); margin-bottom:5px}
+.tier-cities {font-size:11.5px; color:var(--text); line-height:1.55}
+.tier-feature {font-size:10px; color:var(--text-light); margin-top:6px; font-style:italic}
+
+.pull-quote {text-align:center; margin:24px 0; padding:24px 28px; background:linear-gradient(135deg,#1E3A5F,#142a47); color:#fff; border-radius:12px}
+.pull-quote-text {font-size:17px; font-weight:700; line-height:1.5; color:var(--gold); font-family:Georgia,serif}
+.pull-quote-src {font-size:11px; margin-top:12px; opacity:0.8; letter-spacing:1px}
+
+@media (max-width:1024px) {
+  .city-grid {grid-template-columns:1fr}
+  .tier-row {grid-template-columns:1fr 1fr}
+  .hero-stats {grid-template-columns:repeat(2,1fr)}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+</head>
+<body>
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-tag">v10.0 · 全球 10 城治理科技深度对标</span>
+  <h1>从「<span>党建+网格+大数据</span>」到「<span>Smart Nation</span>」<br>—— 全球 10 城治理科技图谱</h1>
+  <p class="subtitle">系统对标中国（郑州·杭州·上海·深圳·雄安·苏州·南京）+ 国际（新加坡·首尔·东京·纽约）共 10 大城市，构建完整的全球治理科技参照系，为河南找到独特的"第三条道路"。</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">10</div><div class="hero-stat-lbl">全球对标城市</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">7+3</div><div class="hero-stat-lbl">中国+国际</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">4</div><div class="hero-stat-lbl">梯队分层</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">15+</div><div class="hero-stat-lbl">维度对比</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">2.5亿</div><div class="hero-stat-lbl">10 城总用户</div></div>
+  </div>
+</div>
+
+<!-- SECTION 1: 4 梯队分层 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">01</div>
+    <div class="section-title">全球治理科技 4 梯队分层</div>
+    <div class="section-meta">按数字治理成熟度划分</div>
+  </div>
+
+  <div class="tier-row">
+    <div class="tier-card t1">
+      <div class="tier-name">🌟 全球第一梯队</div>
+      <div class="tier-cities"><b>新加坡</b> · <b>首尔</b> · <b>东京</b> · <b>纽约</b></div>
+      <div class="tier-feature">国家级整体战略 · 多年沉淀 · 国际标杆</div>
+    </div>
+    <div class="tier-card t2">
+      <div class="tier-name">🏆 中国第一梯队</div>
+      <div class="tier-cities"><b>杭州</b> · <b>上海</b> · <b>深圳</b></div>
+      <div class="tier-feature">152/三个一网/秒批 · 国家数字政府标杆</div>
+    </div>
+    <div class="tier-card t3">
+      <div class="tier-name">🚀 中国新势力</div>
+      <div class="tier-cities"><b>雄安</b> · <b>苏州</b> · <b>南京</b></div>
+      <div class="tier-feature">数字孪生/工业园区/十四五数字化</div>
+    </div>
+    <div class="tier-card t4">
+      <div class="tier-name">⚡ 中国黑马</div>
+      <div class="tier-cities"><b>郑州</b></div>
+      <div class="tier-feature">党建+网格+大数据 + 2024 世界智慧城市治理奖</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: 中国 7 城深度卡片 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">02</div>
+    <div class="section-title">🇨🇳 中国 7 城 · 深度卡片</div>
+    <div class="section-meta">郑州 + 杭州 + 上海 + 深圳 + 雄安 + 苏州 + 南京</div>
+  </div>
+
+  <div class="city-grid">
+
+    <!-- 郑州 -->
+    <div class="city-card cn-prc-spec">
+      <div class="city-header">
+        <div class="city-flag">郑</div>
+        <div class="city-info">
+          <h2>郑州 · 党建+网格+大数据</h2>
+          <div class="country">🇨🇳 河南省 · 1,260 万人口</div>
+        </div>
+        <div class="city-tier">基础研究主案</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 郑好办</div>
+          <div class="city-app-tag">3,042 事项 · 政务/生活双首页 · 6.0 鸿蒙版</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">1,097万</div><div class="city-stat-lbl">注册用户</div></div>
+          <div class="city-stat"><div class="city-stat-num">10.7万</div><div class="city-stat-lbl">微网格</div></div>
+          <div class="city-stat"><div class="city-stat-num">706.9万</div><div class="city-stat-lbl">郑好拍办件</div></div>
+          <div class="city-stat"><div class="city-stat-num">96.54%</div><div class="city-stat-lbl">满意率</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>三网合一</b>：12345+郑好办+网格化平台融合（2024.06.15）</li>
+            <li><b>AI 小郑</b>：社会治理大模型，116.8 万次智能分类</li>
+            <li><b>三级智慧城市运行中心</b>：市/县/街道全覆盖</li>
+            <li><b>专业网格 4,796 个</b>：商场/学校/医院/高铁站</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>🏆 2024 世界智慧城市治理奖</b>
+          作为河南治理沙盘的"主案例"，构成全部 18 杠杆校准基线。
+        </div>
+      </div>
+    </div>
+
+    <!-- 杭州 -->
+    <div class="city-card cn-domestic" style="--city-color:#2C7A7B">
+      <div class="city-header">
+        <div class="city-flag">杭</div>
+        <div class="city-info">
+          <h2>杭州 · 152+城市大脑3.0</h2>
+          <div class="country">🇨🇳 浙江省 · 1,237 万人口</div>
+        </div>
+        <div class="city-tier">中国第一梯队</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 浙里办</div>
+          <div class="city-app-tag">3,600+ 政务 · 个人+法人双版 · 浙系列40+</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">8,200万</div><div class="city-stat-lbl">注册用户</div></div>
+          <div class="city-stat"><div class="city-stat-num">300万+</div><div class="city-stat-lbl">日活登录</div></div>
+          <div class="city-stat"><div class="city-stat-num">320</div><div class="city-stat-lbl">城市大脑应用</div></div>
+          <div class="city-stat"><div class="city-stat-num">1,981万</div><div class="city-stat-lbl">大脑用户</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>152 工作体系</b>：1 中枢+5 系统+2 规范</li>
+            <li><b>三个一网</b>：通办+统管+共治</li>
+            <li><b>城市大脑 3.0</b>（2025.04）：全国首个政务模型训练场</li>
+            <li><b>141 县域</b>：1 治理中心+4 平台+1 综合网格</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>🏆 国家数字政府标杆</b>
+          浙江数字化改革 152 体系是事实上的国家标准，对河南是必学样本。
+        </div>
+      </div>
+    </div>
+
+    <!-- 上海 -->
+    <div class="city-card cn-domestic" style="--city-color:#B8232F">
+      <div class="city-header">
+        <div class="city-flag">沪</div>
+        <div class="city-info">
+          <h2>上海 · 人民城市原产地</h2>
+          <div class="country">🇨🇳 直辖市 · 2,489 万人口</div>
+        </div>
+        <div class="city-tier">中国第一梯队</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 随申办</div>
+          <div class="city-app-tag">7,000+ 服务 · 一网通办+一网统管首倡地</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">8,500万</div><div class="city-stat-lbl">注册用户</div></div>
+          <div class="city-stat"><div class="city-stat-num">97%</div><div class="city-stat-lbl">垃圾分类参与</div></div>
+          <div class="city-stat"><div class="city-stat-num">5+15+225</div><div class="city-stat-lbl">人民满意度</div></div>
+          <div class="city-stat"><div class="city-stat-num">2019.11</div><div class="city-stat-lbl">人民城市首提</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>人民城市理念原产地</b>：杨浦"人民城市人民建为人民"</li>
+            <li><b>"五个人民"</b>：建/管/治/享/暖五维实践</li>
+            <li><b>15 分钟社区生活圈</b>：宜居导向</li>
+            <li><b>城市运行"一网统管"</b>首倡地</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>🏆 习近平人民城市理念原产地</b>
+          所有人民城市理论的发源地，理论锚定不可替代。
+        </div>
+      </div>
+    </div>
+
+    <!-- 深圳 -->
+    <div class="city-card cn-domestic" style="--city-color:#D97706">
+      <div class="city-header">
+        <div class="city-flag">深</div>
+        <div class="city-info">
+          <h2>深圳 · 秒批+先行示范区</h2>
+          <div class="country">🇨🇳 广东省 · 1,768 万人口</div>
+        </div>
+        <div class="city-tier">中国第一梯队</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 i深圳</div>
+          <div class="city-app-tag">8,600+ 服务 · 一个账号+刷脸 · 8 大领域</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">2,100万</div><div class="city-stat-lbl">注册用户</div></div>
+          <div class="city-stat"><div class="city-stat-num">100%</div><div class="city-stat-lbl">最多跑一次</div></div>
+          <div class="city-stat"><div class="city-stat-num">24</div><div class="city-stat-lbl">一件事项</div></div>
+          <div class="city-stat"><div class="city-stat-num">30 分钟</div><div class="city-stat-lbl">人才落户</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>"秒批"全国首创</b>：网申+自动审批+即时结果</li>
+            <li><b>三网融合</b>：i深圳+深i企+深治慧+深政易</li>
+            <li><b>市民数据账户</b>：个人数据自主管理</li>
+            <li><b>2024-2026 高效办成一件事</b>专项行动</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>🏆 政务效率天花板</b>
+          "深圳速度"+"深圳温度"两手抓，是企业最爱、营商环境最佳。
+        </div>
+      </div>
+    </div>
+
+    <!-- 雄安 -->
+    <div class="city-card cn-prc-spec" style="--city-color:#805AD5">
+      <div class="city-header">
+        <div class="city-flag">雄</div>
+        <div class="city-info">
+          <h2>雄安 · 数字孪生原型城</h2>
+          <div class="country">🇨🇳 河北省 · 100 万规划人口</div>
+        </div>
+        <div class="city-tier">中国新势力</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">☁️ 云雄安</div>
+          <div class="city-app-tag">1 中心 4 系统 · 数字+物理同步规划</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">500km+</div><div class="city-stat-lbl">数字道路</div></div>
+          <div class="city-stat"><div class="city-stat-num">5,000+</div><div class="city-stat-lbl">智慧建筑</div></div>
+          <div class="city-stat"><div class="city-stat-num">100万+</div><div class="city-stat-lbl">感知终端</div></div>
+          <div class="city-stat"><div class="city-stat-num">67</div><div class="city-stat-lbl">AI 央企集聚</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>全国首提数字孪生城市</b>：每栋建筑都有数字双胞胎</li>
+            <li><b>雄安城市大脑</b>：数字基建+智慧建设+智能运行+场景引导</li>
+            <li><b>2025 可信数据空间试点</b>：城市/产业/企业三方向</li>
+            <li><b>白纸新建</b>：央企集群 + 政策极致优待</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>🚀 中国城市未来形态</b>
+          全新规划起步，给河南"如果重来"的参照系。
+        </div>
+      </div>
+    </div>
+
+    <!-- 苏州 -->
+    <div class="city-card cn-prc-spec" style="--city-color:#2F855A">
+      <div class="city-header">
+        <div class="city-flag">苏</div>
+        <div class="city-info">
+          <h2>苏州 · 工业园区+苏周到</h2>
+          <div class="country">🇨🇳 江苏省 · 1,290 万人口</div>
+        </div>
+        <div class="city-tier">中国新势力</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 苏周到</div>
+          <div class="city-app-tag">政务服务数字地图 · 2,017 个政务大厅</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">2,017</div><div class="city-stat-lbl">四级政务大厅</div></div>
+          <div class="city-stat"><div class="city-stat-num">100+</div><div class="city-stat-lbl">法人入口应用</div></div>
+          <div class="city-stat"><div class="city-stat-num">31</div><div class="city-stat-lbl">主题专区</div></div>
+          <div class="city-stat"><div class="city-stat-num">4 级</div><div class="city-stat-lbl">服务体系</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>工业园区"法人服务总入口"</b>：企业一键直达</li>
+            <li><b>四级政务体系</b>：市/区/镇/村全覆盖</li>
+            <li><b>一类事专区</b>：人才/教育/交通运输等</li>
+            <li><b>政务服务数字地图</b>：导航+预约+查询</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>🏭 工业园区治理范式</b>
+          苏州工业园是中国开发区治理样板，给县市开发区提供参照。
+        </div>
+      </div>
+    </div>
+
+    <!-- 南京 -->
+    <div class="city-card cn-prc-spec" style="--city-color:#1E3A5F">
+      <div class="city-header">
+        <div class="city-flag">宁</div>
+        <div class="city-info">
+          <h2>南京 · 我的南京+宁满意</h2>
+          <div class="country">🇨🇳 江苏省 · 945 万人口</div>
+        </div>
+        <div class="city-tier">中国新势力</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 我的南京</div>
+          <div class="city-app-tag">400+ 服务 · 全市智慧门户</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">600万</div><div class="city-stat-lbl">注册用户</div></div>
+          <div class="city-stat"><div class="city-stat-num">98.97%</div><div class="city-stat-lbl">事项在线办</div></div>
+          <div class="city-stat"><div class="city-stat-num">95.35%</div><div class="city-stat-lbl">一网通办率</div></div>
+          <div class="city-stat"><div class="city-stat-num">1,100+</div><div class="city-stat-lbl">信息系统</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>四级"互联网+政务服务"</b>：市/区/街/村</li>
+            <li><b>多品牌矩阵</b>：宁满意+我的南京+掌上云社区+不见面审批</li>
+            <li><b>市大数据局+大数据集团</b>双轮驱动</li>
+            <li><b>统一政务云平台</b>覆盖 110 个部门</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>📊 多品牌矩阵典范</b>
+          说明一个城市可以同时多套服务品牌并存，给河南启示。
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 3: 国际 4 城 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">03</div>
+    <div class="section-title">🌐 国际 4 城 · 全球第一梯队</div>
+    <div class="section-meta">新加坡 + 首尔 + 东京 + 纽约</div>
+  </div>
+
+  <div class="city-grid">
+
+    <!-- 新加坡 -->
+    <div class="city-card intl-asia" style="--city-color:#805AD5">
+      <div class="city-header">
+        <div class="city-flag">SG</div>
+        <div class="city-info">
+          <h2>新加坡 · Smart Nation 智慧国</h2>
+          <div class="country">🇸🇬 城邦国家 · 590 万人口</div>
+        </div>
+        <div class="city-tier">国际标杆 #1</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 LifeSG + GoBusiness + MyInfo</div>
+          <div class="city-app-tag">8 大核心战略 · 整体性政府</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">2017</div><div class="city-stat-lbl">国家项目启动</div></div>
+          <div class="city-stat"><div class="city-stat-num">3 连冠</div><div class="city-stat-lbl">全球智慧城市</div></div>
+          <div class="city-stat"><div class="city-stat-num">SNDGO</div><div class="city-stat-lbl">总理办直管</div></div>
+          <div class="city-stat"><div class="city-stat-num">100%</div><div class="city-stat-lbl">事项数字化</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>"3C"理念</b>：Connection 连接 + Collection 收集 + Comprehension 理解</li>
+            <li><b>"3In"原则</b>：Innovation+Integration+Internationalization</li>
+            <li><b>NDI 国家数字身份</b>：MyInfo 一处填写处处可用</li>
+            <li><b>SNSP 国家传感平台</b>：物联网底座</li>
+            <li><b>2.0 国家 AI 战略</b>（2023 发布）</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>🌟 全球第一智慧城市</b>
+          国家级整体性政府思维 + 极致执行力，是河南的最高参照。
+        </div>
+      </div>
+    </div>
+
+    <!-- 首尔 -->
+    <div class="city-card intl-asia" style="--city-color:#2C7A7B">
+      <div class="city-header">
+        <div class="city-flag">SE</div>
+        <div class="city-info">
+          <h2>首尔 · 市民即市长</h2>
+          <div class="country">🇰🇷 大韩民国首都 · 967 万人口</div>
+        </div>
+        <div class="city-tier">国际标杆 · 亚洲</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 S-Map + mVoting + S.Data</div>
+          <div class="city-app-tag">虚拟首尔 · 直接民主 · 大数据广场</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">614</div><div class="city-stat-lbl">信息系统</div></div>
+          <div class="city-stat"><div class="city-stat-num">2016</div><div class="city-stat-lbl">大数据广场</div></div>
+          <div class="city-stat"><div class="city-stat-num">数字孪生</div><div class="city-stat-lbl">S-Map 虚拟城</div></div>
+          <div class="city-stat"><div class="city-stat-num">3D</div><div class="city-stat-lbl">全城建模</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>S-Map 虚拟首尔</b>：全城 3D 数字孪生+实时仿真</li>
+            <li><b>mVoting 移动投票</b>：市民每天投票决定市政</li>
+            <li><b>S.Data 大数据广场</b>：政府+市民+企业共析</li>
+            <li><b>"市民即市长"</b>口号：极度强调参与</li>
+            <li><b>5 大智慧政府计划</b>：移动+安全+沟通</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>🗳️ 直接民主的极致实践</b>
+          首尔证明数字治理可以做到"群众真参与"，启示中国"协商共治"杠杆。
+        </div>
+      </div>
+    </div>
+
+    <!-- 东京 -->
+    <div class="city-card intl-asia" style="--city-color:#B8232F">
+      <div class="city-header">
+        <div class="city-flag">TY</div>
+        <div class="city-info">
+          <h2>东京 · デジタル庁体系</h2>
+          <div class="country">🇯🇵 日本首都 · 1,396 万人口</div>
+        </div>
+        <div class="city-tier">国际标杆 · 亚洲</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 マイナポータル + マイナンバーカード</div>
+          <div class="city-app-tag">国家统一身份 · 个人门户</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">70%+</div><div class="city-stat-lbl">个人卡覆盖</div></div>
+          <div class="city-stat"><div class="city-stat-num">2021.09</div><div class="city-stat-lbl">数字厅成立</div></div>
+          <div class="city-stat"><div class="city-stat-num">4 支柱</div><div class="city-stat-lbl">政策框架</div></div>
+          <div class="city-stat"><div class="city-stat-num">手机集成</div><div class="city-stat-lbl">iPhone/Android</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>数字厅(デジタル庁)</b>：跨部门统筹机构</li>
+            <li><b>4 大支柱</b>：数字厅+Gov-Cloud+地方 SaaS+公共服务网</li>
+            <li><b>マイナンバー</b>：12 位国家身份号</li>
+            <li><b>マイナポータル</b>：搬家/护照/健康一站式</li>
+            <li><b>东京 018 サポート</b>：地方应用集成</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>🆔 国家级身份统一</b>
+          日本"全国一码"对河南"郑好码"全市统一有直接借鉴。
+        </div>
+      </div>
+    </div>
+
+    <!-- 纽约 -->
+    <div class="city-card intl-west" style="--city-color:#805AD5">
+      <div class="city-header">
+        <div class="city-flag">NY</div>
+        <div class="city-info">
+          <h2>纽约 · NYC311 全球热线鼻祖</h2>
+          <div class="country">🇺🇸 美国第一大城 · 833 万人口</div>
+        </div>
+        <div class="city-tier">国际标杆 · 西方</div>
+      </div>
+      <div class="city-body">
+        <div class="city-app">
+          <div class="city-app-name">📱 NYC311 + NYC Open Data + LinkNYC</div>
+          <div class="city-app-tag">23 年城市热线 · 全球开放数据典范</div>
+        </div>
+        <div class="city-stats">
+          <div class="city-stat"><div class="city-stat-num">2003</div><div class="city-stat-lbl">311 启动</div></div>
+          <div class="city-stat"><div class="city-stat-num">5万+</div><div class="city-stat-lbl">日均来电</div></div>
+          <div class="city-stat"><div class="city-stat-num">4,000+</div><div class="city-stat-lbl">服务事项</div></div>
+          <div class="city-stat"><div class="city-stat-num">180+</div><div class="city-stat-lbl">支持语言</div></div>
+        </div>
+        <div class="city-feat">
+          <ul>
+            <li><b>NYC311</b>：全球城市热线鼻祖（中国 12345 师承）</li>
+            <li><b>NYC Open Data</b>：全球最大政府开放数据平台</li>
+            <li><b>LinkNYC</b>：7,500 个连接点免费千兆 Wi-Fi</li>
+            <li><b>OneNYC 2050</b>：长期智慧城市规划</li>
+            <li><b>算法公平</b>：算法治理 + 隐私保护双重思考</li>
+          </ul>
+        </div>
+        <div class="city-takeaway">
+          <b>📞 城市热线鼻祖</b>
+          NYC311 是中国 12345 的"祖师爷"，启示治理热线可有 23 年长寿命。
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 4: 15 维大对比表 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">04</div>
+    <div class="section-title">10 城 × 15 维全维度对比矩阵</div>
+    <div class="section-meta">总书记话语 · ISUI 体系 · 实操指标 三角</div>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th>城市</th>
+          <th class="col-tier">梯队</th>
+          <th>核心APP</th>
+          <th>用户</th>
+          <th>服务事项</th>
+          <th>顶层架构</th>
+          <th>AI 应用</th>
+          <th>基层网格</th>
+          <th>党/政治整合</th>
+          <th>人民参与</th>
+          <th>城市大脑</th>
+          <th>评级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="city-cn">
+          <td class="city-name">🇨🇳 郑州</td>
+          <td>⚡黑马</td>
+          <td>郑好办6.0</td>
+          <td>1,097万</td>
+          <td>3,042</td>
+          <td>党建+网格+大数据</td>
+          <td>AI 小郑</td>
+          <td>10.7万微网格</td>
+          <td class="score-cell high">90</td>
+          <td class="score-cell mid">75</td>
+          <td class="score-cell mid">75</td>
+          <td>世界智慧城市治理奖</td>
+        </tr>
+        <tr class="city-cn">
+          <td class="city-name">🇨🇳 杭州</td>
+          <td>🏆中一</td>
+          <td>浙里办+城市大脑</td>
+          <td>8,200万</td>
+          <td>3,600+</td>
+          <td>152 工作体系</td>
+          <td>大脑3.0训练场</td>
+          <td>141 县域</td>
+          <td class="score-cell mid">82</td>
+          <td class="score-cell mid">80</td>
+          <td class="score-cell high">95</td>
+          <td>国家数字政府标杆</td>
+        </tr>
+        <tr class="city-cn">
+          <td class="city-name">🇨🇳 上海</td>
+          <td>🏆中一</td>
+          <td>随申办</td>
+          <td>8,500万</td>
+          <td>7,000+</td>
+          <td>三个一网</td>
+          <td>城市运行AI</td>
+          <td>三级网格</td>
+          <td class="score-cell high">88</td>
+          <td class="score-cell high">95</td>
+          <td class="score-cell high">90</td>
+          <td>人民城市原产地</td>
+        </tr>
+        <tr class="city-cn">
+          <td class="city-name">🇨🇳 深圳</td>
+          <td>🏆中一</td>
+          <td>i深圳</td>
+          <td>2,100万</td>
+          <td>8,600+</td>
+          <td>三网融合</td>
+          <td>深治慧</td>
+          <td>区/街道网格</td>
+          <td class="score-cell mid">80</td>
+          <td class="score-cell mid">75</td>
+          <td class="score-cell mid">85</td>
+          <td>政务效率天花板</td>
+        </tr>
+        <tr class="city-cn">
+          <td class="city-name">🇨🇳 雄安</td>
+          <td>🚀新势力</td>
+          <td>云雄安</td>
+          <td>规划中</td>
+          <td>整体设计</td>
+          <td>1中心4系统</td>
+          <td>67 央企AI</td>
+          <td>数字孪生</td>
+          <td class="score-cell high">95</td>
+          <td class="score-cell low">60</td>
+          <td class="score-cell high">98</td>
+          <td>未来城市原型</td>
+        </tr>
+        <tr class="city-cn">
+          <td class="city-name">🇨🇳 苏州</td>
+          <td>🚀新势力</td>
+          <td>苏周到</td>
+          <td>—</td>
+          <td>—</td>
+          <td>四级体系</td>
+          <td>—</td>
+          <td>2,017 大厅</td>
+          <td class="score-cell mid">75</td>
+          <td class="score-cell mid">75</td>
+          <td class="score-cell mid">78</td>
+          <td>工业园区典范</td>
+        </tr>
+        <tr class="city-cn">
+          <td class="city-name">🇨🇳 南京</td>
+          <td>🚀新势力</td>
+          <td>我的南京</td>
+          <td>600万</td>
+          <td>400+</td>
+          <td>四级互联网+</td>
+          <td>—</td>
+          <td>市/区/街/村</td>
+          <td class="score-cell mid">78</td>
+          <td class="score-cell mid">72</td>
+          <td class="score-cell mid">75</td>
+          <td>多品牌矩阵</td>
+        </tr>
+        <tr class="city-intl">
+          <td class="city-name">🇸🇬 新加坡</td>
+          <td>🌟国际#1</td>
+          <td>LifeSG</td>
+          <td>5,800万+</td>
+          <td>100%</td>
+          <td>SNDGO 总理直管</td>
+          <td>国家 AI 战略 2.0</td>
+          <td>—</td>
+          <td class="score-cell mid">75</td>
+          <td class="score-cell high">90</td>
+          <td class="score-cell high">98</td>
+          <td>全球第一智慧城市</td>
+        </tr>
+        <tr class="city-intl">
+          <td class="city-name">🇰🇷 首尔</td>
+          <td>🌟国际</td>
+          <td>S-Map+mVoting</td>
+          <td>900万+</td>
+          <td>614系统</td>
+          <td>5大智慧政府</td>
+          <td>S.Data</td>
+          <td>—</td>
+          <td class="score-cell low">50</td>
+          <td class="score-cell high">98</td>
+          <td class="score-cell high">92</td>
+          <td>市民即市长</td>
+        </tr>
+        <tr class="city-intl">
+          <td class="city-name">🇯🇵 东京</td>
+          <td>🌟国际</td>
+          <td>マイナポータル</td>
+          <td>1,300万+</td>
+          <td>—</td>
+          <td>数字厅4支柱</td>
+          <td>—</td>
+          <td>—</td>
+          <td class="score-cell mid">70</td>
+          <td class="score-cell mid">70</td>
+          <td class="score-cell high">85</td>
+          <td>国家身份统一</td>
+        </tr>
+        <tr class="city-intl">
+          <td class="city-name">🇺🇸 纽约</td>
+          <td>🌟国际</td>
+          <td>NYC311</td>
+          <td>800万+</td>
+          <td>4,000+</td>
+          <td>OneNYC 2050</td>
+          <td>开放数据</td>
+          <td>—</td>
+          <td class="score-cell low">55</td>
+          <td class="score-cell high">88</td>
+          <td class="score-cell mid">80</td>
+          <td>热线鼻祖+开放数据</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 5: 5 维度雷达对比 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">05</div>
+    <div class="section-title">10 城 5 维度治理科学雷达</div>
+    <div class="section-meta">党/政整合 · 人民参与 · 城市大脑 · AI 应用 · 顶层架构</div>
+  </div>
+
+  <div class="radar-wrap">
+    <div class="radar-title">📊 10 城治理力对标（满分 100）</div>
+    <canvas id="radar10" style="max-height:520px;"></canvas>
+  </div>
+</div>
+
+<!-- SECTION 6: 启示 -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">06</div>
+    <div class="section-title">💡 河南的"第三条道路" · 10 城启示</div>
+    <div class="section-meta">综合 10 城精华为河南量身定制</div>
+  </div>
+
+  <div class="city-grid" style="grid-template-columns:1fr 1fr;">
+    <div class="city-card" style="--city-color:#B8232F">
+      <div class="city-header">
+        <div class="city-flag">学</div>
+        <div class="city-info"><h2>从中国 7 城学什么</h2></div>
+      </div>
+      <div class="city-body">
+        <div class="city-feat">
+          <ul>
+            <li><b>学杭州</b>："152" 标准化顶层架构，建立河南"1X2"工作体系</li>
+            <li><b>学上海</b>：人民城市理念的极致践行 + 15 分钟生活圈下沉</li>
+            <li><b>学深圳</b>：秒批的极致政务效率 + 三网融合（i深圳 + 深i企 + 深治慧）</li>
+            <li><b>学雄安</b>：数字孪生先行，对县级新区/开发区有直接参考</li>
+            <li><b>学苏州</b>：工业园区"法人服务总入口"+ 四级政务体系</li>
+            <li><b>学南京</b>：多品牌矩阵共存（宁满意+我的南京+掌上云+不见面）</li>
+            <li><b>学郑州（自身）</b>：党建+网格+大数据 + 三网合一是最本土经验</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="city-card" style="--city-color:#2C7A7B">
+      <div class="city-header">
+        <div class="city-flag">借</div>
+        <div class="city-info"><h2>从国际 4 城借什么</h2></div>
+      </div>
+      <div class="city-body">
+        <div class="city-feat">
+          <ul>
+            <li><b>借新加坡</b>：整体性政府思维 + "3C+3In"框架 → 河南"省级总入口"</li>
+            <li><b>借首尔</b>："市民即市长"参与极致 → 河南"民意会商日"升级</li>
+            <li><b>借东京</b>：マイナンバー国家统一身份 → 河南"豫智码"全省通行</li>
+            <li><b>借纽约</b>：23 年长寿命城市热线 → 12345 长效运营机制</li>
+            <li><b>借通用</b>：开放数据 → 河南建省级 Open Data 平台</li>
+            <li><b>借通用</b>：算法公平思考 → 河南治理 AI 伦理委员会</li>
+            <li><b>借通用</b>：国际化标准 → 接入 ISO/IEEE 智慧城市标准</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    <div class="pull-quote-text">"既要走中国路、又要看全球景。河南的第三条道路，是党建+人民+智慧的本土综合体。"</div>
+    <div class="pull-quote-src">—— v10 全球对标研究 · 核心结论</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// 10 城雷达图
+const ctx = document.getElementById('radar10').getContext('2d');
+new Chart(ctx, {
+  type: 'radar',
+  data: {
+    labels: ['党/政整合', '人民参与', '城市大脑', 'AI 应用', '顶层架构'],
+    datasets: [
+      {label:'郑州', data:[90,75,75,80,72], borderColor:'#B8232F', backgroundColor:'rgba(184,35,47,0.10)', borderWidth:2},
+      {label:'杭州', data:[82,80,95,92,95], borderColor:'#2C7A7B', backgroundColor:'rgba(44,122,123,0.08)', borderWidth:2},
+      {label:'上海', data:[88,95,90,85,90], borderColor:'#C9A063', backgroundColor:'rgba(201,160,99,0.08)', borderWidth:2},
+      {label:'深圳', data:[80,75,85,82,88], borderColor:'#D97706', backgroundColor:'rgba(217,119,6,0.08)', borderWidth:2},
+      {label:'雄安', data:[95,60,98,90,98], borderColor:'#805AD5', backgroundColor:'rgba(128,90,213,0.08)', borderWidth:2, borderDash:[4,4]},
+      {label:'新加坡', data:[75,90,98,95,98], borderColor:'#1E3A5F', backgroundColor:'rgba(30,58,95,0.08)', borderWidth:2},
+      {label:'首尔', data:[50,98,92,80,88], borderColor:'#2F855A', backgroundColor:'rgba(47,133,90,0.06)', borderWidth:1.5, borderDash:[6,3]},
+      {label:'东京', data:[70,70,85,75,90], borderColor:'#0EA5E9', backgroundColor:'rgba(14,165,233,0.05)', borderWidth:1.5, borderDash:[6,3]},
+      {label:'纽约', data:[55,88,80,82,82], borderColor:'#7C2D12', backgroundColor:'rgba(124,45,18,0.05)', borderWidth:1.5, borderDash:[6,3]}
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {legend: {position: 'right', labels:{font:{size:11}}}},
+    scales: {r: {beginAtZero:true, max:100, ticks:{stepSize:20, font:{size:10}}, pointLabels:{font:{size:13,weight:'bold'},color:'#1E3A5F'}}}
+  }
+});
+</script>
+
+</body>
+</html>
